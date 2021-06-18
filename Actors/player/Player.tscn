@@ -1,0 +1,42 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Actors/player/camera_rig/Camera_Rig.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Actors/player/Player.gd" type="Script" id=2]
+[ext_resource path="res://Actors/player/materials/default_material.tres" type="Material" id=3]
+
+[sub_resource type="CapsuleMesh" id=1]
+mid_height = 4.0
+
+[sub_resource type="CapsuleMesh" id=4]
+radius = 0.05
+mid_height = 0.5
+
+[sub_resource type="CapsuleShape" id=3]
+height = 4.0
+
+[node name="Player" type="KinematicBody"]
+script = ExtResource( 2 )
+
+[node name="Body" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 3, 0 )
+mesh = SubResource( 1 )
+material/0 = ExtResource( 3 )
+
+[node name="Nose" type="MeshInstance" parent="Body"]
+transform = Transform( 1, -0.000274136, -0.000274136, -0.000274136, 3.14393e-08, -1, 0.000274136, 1, -4.37114e-08, 0, 1.114, 2 )
+mesh = SubResource( 4 )
+material/0 = ExtResource( 3 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 3, 0 )
+shape = SubResource( 3 )
+
+[node name="RayCast" type="RayCast" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 7.10543e-15 )
+enabled = true
+cast_to = Vector3( 0, 0, -8 )
+
+[node name="Camera_Rig" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0 )
+
+[connection signal="camera_angle_changed" from="Camera_Rig" to="." method="_on_Camera_Rig_camera_angle_changed"]
