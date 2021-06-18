@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Actors/player/objects/bone_spear/Bone.mesh" type="ArrayMesh" id=1]
+[ext_resource path="res://Actors/player/objects/bone_spear/Bone_Spear_Material.material" type="Material" id=2]
+[ext_resource path="res://Actors/player/objects/bone_spear/bone_spear.gd" type="Script" id=3]
+
+[node name="Bone_Spear" type="MeshInstance"]
+transform = Transform( 0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0 )
+mesh = ExtResource( 1 )
+material/0 = ExtResource( 2 )
+script = ExtResource( 3 )
+
+[node name="RayCast" type="RayCast" parent="."]
+enabled = true
+cast_to = Vector3( 0, 10.99, 0 )

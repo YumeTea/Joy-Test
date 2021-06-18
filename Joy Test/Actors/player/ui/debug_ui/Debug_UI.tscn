@@ -1,0 +1,96 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Actors/player/ui/debug_ui/debug_theme.tres" type="Theme" id=1]
+[ext_resource path="res://Actors/player/ui/debug_ui/debug_ui.gd" type="Script" id=2]
+[ext_resource path="res://Actors/player/ui/debug_ui/fps_counter.gd" type="Script" id=3]
+[ext_resource path="res://Actors/player/ui/debug_ui/action_state_values.gd" type="Script" id=4]
+[ext_resource path="res://Actors/player/ui/debug_ui/move_state_values.gd" type="Script" id=5]
+
+[node name="Debug_UI" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FPS Counter" type="VBoxContainer" parent="."]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -72.0
+margin_top = -27.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FPS Readout" type="Label" parent="FPS Counter"]
+margin_right = 72.0
+margin_bottom = 19.0
+theme = ExtResource( 1 )
+text = "FPS: 120"
+script = ExtResource( 3 )
+
+[node name="Debug_Values" type="Control" parent="."]
+margin_left = 16.0
+margin_top = 16.0
+margin_right = 56.0
+margin_bottom = 56.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Move_State_Stack" type="VBoxContainer" parent="Debug_Values"]
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Stack_Name" type="Label" parent="Debug_Values/Move_State_Stack"]
+margin_right = 126.0
+margin_bottom = 19.0
+theme = ExtResource( 1 )
+text = "Move State Stack"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Stack_Values" type="Label" parent="Debug_Values/Move_State_Stack"]
+margin_top = 23.0
+margin_right = 126.0
+margin_bottom = 42.0
+theme = ExtResource( 1 )
+text = "Test_State"
+align = 1
+script = ExtResource( 5 )
+
+[node name="Action_State_Stack" type="VBoxContainer" parent="Debug_Values"]
+margin_left = 144.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Stack_Name" type="Label" parent="Debug_Values/Action_State_Stack"]
+margin_right = 132.0
+margin_bottom = 19.0
+theme = ExtResource( 1 )
+text = "Action State Stack"
+align = 1
+
+[node name="Stack_Values" type="Label" parent="Debug_Values/Action_State_Stack"]
+margin_top = 23.0
+margin_right = 132.0
+margin_bottom = 42.0
+theme = ExtResource( 1 )
+text = "None"
+align = 1
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="state_machine_action_stack_changed" from="." to="Debug_Values/Action_State_Stack/Stack_Values" method="_on_Debug_UI_state_machine_action_stack_changed"]
+[connection signal="state_machine_move_stack_changed" from="." to="Debug_Values/Move_State_Stack/Stack_Values" method="_on_Debug_UI_state_machine_move_stack_changed"]
