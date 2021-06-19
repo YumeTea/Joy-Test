@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Actors/player/ui/debug_ui/debug_theme.tres" type="Theme" id=1]
 [ext_resource path="res://Actors/player/ui/debug_ui/debug_ui.gd" type="Script" id=2]
 [ext_resource path="res://Actors/player/ui/debug_ui/fps_counter.gd" type="Script" id=3]
-[ext_resource path="res://Actors/player/ui/debug_ui/action_state_values.gd" type="Script" id=4]
+[ext_resource path="res://Actors/player/ui/debug_ui/action_l_state_values.gd" type="Script" id=4]
 [ext_resource path="res://Actors/player/ui/debug_ui/move_state_values.gd" type="Script" id=5]
+[ext_resource path="res://Actors/player/ui/debug_ui/action_r_state_values.gd" type="Script" id=6]
 
 [node name="Debug_UI" type="Control"]
 anchor_right = 1.0
@@ -42,47 +43,57 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Move_State_Stack" type="VBoxContainer" parent="Debug_Values"]
-alignment = 1
+[node name="State_Stacks" type="HBoxContainer" parent="Debug_Values"]
+margin_right = 40.0
+margin_bottom = 40.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Stack_Name" type="Label" parent="Debug_Values/Move_State_Stack"]
-margin_right = 126.0
+[node name="Move_State_Stack" type="VBoxContainer" parent="Debug_Values/State_Stacks"]
+margin_right = 142.0
+margin_bottom = 42.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Stack_Name" type="Label" parent="Debug_Values/State_Stacks/Move_State_Stack"]
+margin_right = 142.0
 margin_bottom = 19.0
 theme = ExtResource( 1 )
-text = "Move State Stack"
+text = "  Move State Stack  "
 align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Stack_Values" type="Label" parent="Debug_Values/Move_State_Stack"]
+[node name="Stack_Values" type="Label" parent="Debug_Values/State_Stacks/Move_State_Stack"]
 margin_top = 23.0
-margin_right = 126.0
+margin_right = 142.0
 margin_bottom = 42.0
 theme = ExtResource( 1 )
 text = "Test_State"
 align = 1
 script = ExtResource( 5 )
 
-[node name="Action_State_Stack" type="VBoxContainer" parent="Debug_Values"]
-margin_left = 144.0
+[node name="Action_L_State_Stack2" type="VBoxContainer" parent="Debug_Values/State_Stacks"]
+margin_left = 146.0
+margin_right = 307.0
+margin_bottom = 42.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Stack_Name" type="Label" parent="Debug_Values/Action_State_Stack"]
-margin_right = 132.0
+[node name="Stack_Name" type="Label" parent="Debug_Values/State_Stacks/Action_L_State_Stack2"]
+margin_right = 161.0
 margin_bottom = 19.0
 theme = ExtResource( 1 )
-text = "Action State Stack"
+text = "  Action L State Stack  "
 align = 1
 
-[node name="Stack_Values" type="Label" parent="Debug_Values/Action_State_Stack"]
+[node name="Stack_Values" type="Label" parent="Debug_Values/State_Stacks/Action_L_State_Stack2"]
 margin_top = 23.0
-margin_right = 132.0
+margin_right = 161.0
 margin_bottom = 42.0
 theme = ExtResource( 1 )
 text = "None"
@@ -92,5 +103,33 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[connection signal="state_machine_action_stack_changed" from="." to="Debug_Values/Action_State_Stack/Stack_Values" method="_on_Debug_UI_state_machine_action_stack_changed"]
-[connection signal="state_machine_move_stack_changed" from="." to="Debug_Values/Move_State_Stack/Stack_Values" method="_on_Debug_UI_state_machine_move_stack_changed"]
+[node name="Action_R_State_Stack" type="VBoxContainer" parent="Debug_Values/State_Stacks"]
+margin_left = 311.0
+margin_right = 473.0
+margin_bottom = 42.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Stack_Name" type="Label" parent="Debug_Values/State_Stacks/Action_R_State_Stack"]
+margin_right = 162.0
+margin_bottom = 19.0
+theme = ExtResource( 1 )
+text = "  Action R State Stack  "
+align = 1
+
+[node name="Stack_Values" type="Label" parent="Debug_Values/State_Stacks/Action_R_State_Stack"]
+margin_top = 23.0
+margin_right = 162.0
+margin_bottom = 42.0
+theme = ExtResource( 1 )
+text = "None"
+align = 1
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="state_machine_action_l_stack_changed" from="." to="Debug_Values/State_Stacks/Action_L_State_Stack2/Stack_Values" method="_on_Debug_UI_state_machine_action_l_stack_changed"]
+[connection signal="state_machine_action_r_stack_changed" from="." to="Debug_Values/State_Stacks/Action_R_State_Stack/Stack_Values" method="_on_Debug_UI_state_machine_action_r_stack_changed"]
+[connection signal="state_machine_move_stack_changed" from="." to="Debug_Values/State_Stacks/Move_State_Stack/Stack_Values" method="_on_Debug_UI_state_machine_move_stack_changed"]

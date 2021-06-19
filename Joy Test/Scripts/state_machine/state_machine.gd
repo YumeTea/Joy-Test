@@ -10,22 +10,43 @@ var _active = false setget set_active
 
 
 func _ready():
-	for child in get_children():
-		if child is Node:
-			child.connect("state_switch", self, "_change_state")
-			for child_lower in child.get_children():
-				child_lower.connect("state_switch", self, "_change_state")
+	connect_state_signals()
 	initialize(START_STATE)
 
 
-func initialize(start_state): #called in ready, state_machine is only active if called by a script
+#Finds the lowest tier nodes of the state machine and connects to their state switch signals
+func connect_state_signals():
+	for child in get_children():
+		if child is Node:
+			if child.get_children().size() == 0:
+				child.connect("state_switch", self, "_change_state")
+			else:
+				for child_lower in child.get_children():
+					if child_lower is Node:
+						if child_lower.get_children().size() == 0:
+							child_lower.connect("state_switch", self, "_change_state")
+						else:
+							for child_lower_2 in child_lower.get_children():
+								if child_lower_2 is Node:
+									if child_lower_2.get_children().size() == 0:
+										child_lower_2.connect("state_switch", self, "_change_state")
+									else:
+										for child_lower_3 in child_lower_2.get_children():
+											if child_lower_3 is Node:
+												if child_lower_3.get_children().size() == 0:
+													child_lower_3.connect("state_switch", self, "_change_state")
+
+
+#Called in ready, state_machine is only active if called by a script
+func initialize(start_state):
 	set_active(true)
 	states_stack.push_front(get_node(start_state))
 	current_state = states_stack[0]
 	current_state.enter()
 
 
-func set_active(value): #sets state machine active in initialize method
+#Sets state machine active in initialize method
+func set_active(value):
 	_active = value
 	set_physics_process(value)
 	set_process_input(value)
@@ -59,6 +80,9 @@ func _change_state(state_name): #changes state, with handling for replacing, sta
 		states_stack[0] = states_map[state_name] #place new state at top of state stack array
 	
 	current_state = states_stack[0]
+	
+	#Transfer initialized variables(should be stored earlier in child script)
+	current_state.initialize_values(self.initialized_values) 
 	
 	#New State Initialization
 	current_state.enter() #always reinitialize a new state
