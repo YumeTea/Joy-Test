@@ -3,12 +3,12 @@ extends "res://Actors/player/state_machine_player/shared/move/motion.gd"
 
 #Initializes state, changes animation, etc
 func enter():
-	return
+	.exit()
 
 
 #Cleans up state, reinitializes values like timers
 func exit():
-	return
+	.exit()
 
 
 #Creates output based on the input event passed in

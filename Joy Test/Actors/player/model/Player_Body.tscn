@@ -22,34 +22,36 @@ params_diffuse_mode = 4
 params_specular_mode = 3
 albedo_color = Color( 0, 0, 0, 1 )
 
-[node name="Body" type="MeshInstance"]
+[node name="Body" type="Spatial"]
+
+[node name="Body" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 3, 0 )
 mesh = SubResource( 1 )
 material/0 = ExtResource( 11 )
 
-[node name="Nose" type="MeshInstance" parent="."]
+[node name="Nose" type="MeshInstance" parent="Body"]
 transform = Transform( 1, -0.000274136, -0.000274136, -0.000274136, 3.14393e-08, -1, 0.000274136, 1, -4.37114e-08, -2.669e-05, 1.114, 2.09736 )
 mesh = SubResource( 2 )
 material/0 = ExtResource( 11 )
 
-[node name="Nose2" type="MeshInstance" parent="."]
+[node name="Nose2" type="MeshInstance" parent="Body"]
 transform = Transform( 1, 0, 0, 0, 0.82935, -0.55873, 0, 0.55873, 0.82935, 0, 0.946414, 2.14362 )
 visible = false
 mesh = SubResource( 3 )
 material/0 = ExtResource( 11 )
 
-[node name="Eyes" type="Spatial" parent="."]
+[node name="Eyes" type="Spatial" parent="Body"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.687e-09, 2.37847 )
 
-[node name="Eye1" type="MeshInstance" parent="Eyes"]
+[node name="Eye1" type="MeshInstance" parent="Body/Eyes"]
 transform = Transform( 1, 0, 0, 0, 0.936354, -0.351057, 0, 0.351057, 0.936354, -0.294244, 0.870133, 0 )
 mesh = SubResource( 4 )
 material/0 = SubResource( 5 )
 
-[node name="Eye2" type="MeshInstance" parent="Eyes"]
+[node name="Eye2" type="MeshInstance" parent="Body/Eyes"]
 transform = Transform( 1, 0, 0, 0, 0.936354, -0.351057, 0, 0.351057, 0.936354, 0.294, 0.909786, 0 )
 mesh = SubResource( 4 )
 material/0 = SubResource( 5 )
 
-[node name="Flower" parent="." instance=ExtResource( 1 )]
+[node name="Flower" parent="Body" instance=ExtResource( 1 )]
 transform = Transform( 0.659751, 0.638637, -0.39607, -0.741076, 0.4655, -0.483854, -0.124637, 0.612741, 0.780393, 0.578585, 0.408814, 2.69609 )

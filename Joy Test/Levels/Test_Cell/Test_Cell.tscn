@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Levels/Test_Cell/level_geometry/Test_Cell_Geometry.tscn" type="PackedScene" id=1]
 [ext_resource path="res://default_env.tres" type="Environment" id=2]
 [ext_resource path="res://Levels/Test_Cell/objects/ramp/Ramp.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Levels/Test_Cell/objects/wall/Wall.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Levels/Test_Cell/objects/target/Target.tscn" type="PackedScene" id=5]
 
 [node name="Level" type="Spatial"]
 
@@ -19,6 +20,15 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 8, 24 )
 
 [node name="Wall2" parent="Objects" instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 8, 24 )
+
+[node name="Target" parent="Objects" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 64 )
+
+[node name="Target2" parent="Objects" instance=ExtResource( 5 )]
+transform = Transform( 0.353553, 0, -0.353553, 0, 0.5, 0, 0.353553, 0, 0.353553, -7, 0, 61 )
+
+[node name="Target3" parent="Objects" instance=ExtResource( 5 )]
+transform = Transform( 1.41421, 0, -1.41421, 0, 2, 0, 1.41421, 0, 1.41421, 7, 0, 61 )
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( 0.707107, -0.541675, 0.454519, 0, 0.642788, 0.766044, -0.707107, -0.541675, 0.454519, 0, 45, 0 )

@@ -8,6 +8,13 @@ func initialize_values(init_values_dic):
 
 #Initializes state, changes animation, etc
 func enter():
+	#This should be its own function
+	var pivot_translation = Pivot_Points.get_node("Default").get_translation()
+	Pivot.set_translation(pivot_translation)
+	
+	var camera_translation = Camera_Points.get_node("Default").get_translation()
+	Camera_Pos.set_translation(camera_translation)
+	
 	.enter()
 
 
@@ -23,7 +30,8 @@ func handle_input(_event):
 
 #Acts as the _process method would
 func update(delta):
-	input_r = get_camera_input()
+	input_stick_r = get_joystick_input_r()
+	camera_input = get_camera_input(input_stick_r)
 	
 	.update(delta)
 	
@@ -35,10 +43,10 @@ func _on_animation_finished(_anim_name):
 	return
 
 
-func get_camera_input():
+func get_camera_input(input_stick_r):
 	var input : Vector2
 	
-	input = get_joystick_input_r()
+	input = input_stick_r
 	
 	return input
 

@@ -14,37 +14,42 @@ func initialize_values(init_values_dic):
 
 #Initializes state, changes animation, etc
 func enter():
+	set_aiming(true)
 	.enter()
 
 
 #Cleans up state, reinitializes values like timers
 func exit():
+	set_aiming(false)
 	.exit()
 
 
 #Creates output based on the input event passed in
 func handle_input(event):
-#	if Input.is_action_just_pressed("jump"):
-#		emit_signal("state_switch", "jump")
-	pass
+	if Input.is_action_just_released("aim_r"):
+		if Timer_Move.is_stopped() and is_aiming:
+			Timer_Move.start(1)
+	elif Input.is_action_just_pressed("aim_r"):
+		if !Timer_Move.is_stopped():
+			Timer_Move.stop()
 
 
 #Acts as the _process method would
 func update(delta):
+	if is_aiming == false:
+		emit_signal("state_switch", "walk")
+	
 	velocity = calc_walk_velocity(velocity, delta)
 	
 	.update(delta)
 	
 	if velocity.length() < walk_speed_thresh_lower and get_joystick_input_l().length() == 0.0:
-		emit_signal("state_switch", "idle")
+		emit_signal("state_switch", "idle_aim")
 		return
 	
 	###SIMULATED BUFFERING###
 	if Input.is_action_pressed("jump"):
-		emit_signal("state_switch", "jump")
-		return
-	if Input.is_action_pressed("aim_r"):
-		emit_signal("state_switch", "walk_aim")
+		emit_signal("state_switch", "jump_aim")
 		return
 
 
@@ -53,6 +58,8 @@ func _on_animation_finished(_anim_name):
 
 
 ###WALK FUNCTIONS###
+#Try to keep this function generalized to work for any walk state
+#Could be moved to main motion script if left generalized
 func calc_walk_velocity(current_velocity, delta):
 	var input : Vector2
 	var input_direction : Vector2
@@ -102,14 +109,12 @@ func interp_walk_velocity(input_direction, current_velocity, delta):
 
 
 func rotate_to_direction(direction): #Direction should be normalized
-	if direction.length() > 0:
-		var angle = rad2deg(Vector2(0, 1).angle_to(-direction)) #calc degree of player rotation on y axis
-		
-		var rot_final = Body.get_rotation_degrees()
-		rot_final.y = -angle
-		
-		Body.set_rotation_degrees(rot_final)
-	else:
-		return
+	var angle = rad2deg(camera_angles.y)
+	
+	var rot_final = Body.get_rotation_degrees()
+	rot_final.y = angle
+	
+	Body.set_rotation_degrees(rot_final)
+
 
 

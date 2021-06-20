@@ -6,12 +6,15 @@ signal action_r_state_stack_changed(state_stack)
 
 var initialized_values = {
 	"camera_angles": Vector3(),
+	
+	"is_aiming": false,
 }
 
 func _ready():
 	states_map = {
 		"none": $Shared/Action_R/None,
 		"jab": $Shared/Action_R/Jab,
+		"jab_aim": $Shared/Action_R/Jab_Aim
 	#	"death": $Death,
 	#	"void": $Void
 	}
@@ -25,9 +28,6 @@ func _ready():
 func _change_state(state_name): #state_machine.gd does the generalized work
 	if not _active:
 		return
-	
-	#Store variables that are set to be initialized between states
-	current_state.store_initialized_values(self.initialized_values)
 	
 	##Special State Handling
 #	if state_name in ["void"]:

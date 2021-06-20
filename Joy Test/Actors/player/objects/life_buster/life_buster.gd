@@ -1,12 +1,9 @@
 extends KinematicBody
 
 
-onready var timer = get_node("Timer")
-onready var rand_num = rand()
-
 #Projectile Variables
 var damage_dealt = 64
-var speed = 60
+var speed = 120
 var turn_radius = deg2rad(3)
 var bob_speed = 6
 var despawn_time = 15 #in seconds
@@ -28,7 +25,17 @@ var glow_oscillation
 var time
 var time_init
 var time_offset = 0.0006599
-var range_default = 0.8
+var range_default = 1.4
+
+#Node Storage
+onready var timer = get_node("Timer")
+
+#Random Number Draw
+onready var rand_num = rand()
+
+#Impact Scene
+var impact_scene = preload("res://Actors/player/objects/life_buster/impact/Life_Buster_Impact.tscn")
+
 
 
 func _ready():
@@ -67,11 +74,14 @@ func projectile_path(delta, _time):
 		velocity = move_and_collide(velocity, false, false)
 
 
-func impact(collision_object):
-	var collider = collision_object.collider
-#	for actor in get_tree().get_nodes_in_group("vulnerable"):
-#		if actor == collider:
-#			collider.take_damage(damage_dealt)
+func impact(collision):
+	var col_pt = collision.get_position()
+	var impact = impact_scene.instance()
+	
+	get_tree().current_scene.add_child(impact)
+	
+	impact.global_transform.origin = col_pt
+	
 	queue_free()
 
 

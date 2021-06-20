@@ -1,4 +1,4 @@
-extends "res://Actors/player/state_machine_player/shared/action_l/action_l.gd"
+extends "res://Actors/player/state_machine_player/shared/action_r/action_r.gd"
 
 
 func initialize_values(init_values_dic):
@@ -18,18 +18,16 @@ func exit():
 
 #Creates output based on the input event passed in
 func handle_input(event):
-	if Input.is_action_just_pressed("attack_left"):
-		if !is_aiming:
-			emit_signal("state_switch", "cast")
-		elif is_aiming:
-			emit_signal("state_switch", "cast_aim")
-	
+	if Input.is_action_just_pressed("attack_right"):
+		emit_signal("state_switch", "jab")
+	if Input.is_action_pressed("aim_r"):
+		emit_signal("state_switch", "jab_aim")
 	.handle_input(event)
 
 
 #Acts as the _process method would
-func update(delta):
-	.update(delta)
+func update(_delta):
+	return
 
 
 func _on_animation_finished(_anim_name):

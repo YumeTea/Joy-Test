@@ -14,8 +14,6 @@ func _ready():
 	#	"death": $Death,
 	#	"void": $Void
 	}
-	#Send out dictionary of initialized values to all states at start
-#	emit_signal("initialized_values_dic_set", initialized_values)
 	
 	emit_signal("camera_state_changed", states_stack[0])
 	emit_signal("camera_state_stack_changed", states_stack)
@@ -24,9 +22,6 @@ func _ready():
 func _change_state(state_name): #state_machine.gd does the generalized work
 	if not _active:
 		return
-	
-	#Store variables that are set to be initialized between states
-	current_state.store_initialized_values(self.initialized_values)
 	
 	##Special State Handling
 #	if state_name in ["void"]:

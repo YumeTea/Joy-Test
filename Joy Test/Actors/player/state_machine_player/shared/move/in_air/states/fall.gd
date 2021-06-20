@@ -1,4 +1,5 @@
-extends "res://Actors/player/state_machine_player/shared/action_r/action_r.gd"
+extends "res://Actors/player/state_machine_player/shared/move/in_air/in_air.gd"
+
 
 
 func initialize_values(init_values_dic):
@@ -8,25 +9,31 @@ func initialize_values(init_values_dic):
 
 #Initializes state, changes animation, etc
 func enter():
-	connect_local_signals()
+	.enter()
 
 
 #Cleans up state, reinitializes values like timers
 func exit():
-	disconnect_local_signals()
+	.exit()
 
 
 #Creates output based on the input event passed in
-func handle_input(event):
-	if Input.is_action_just_pressed("attack_right"):
-		emit_signal("state_switch", "jab")
+func handle_input(_event):
+	return
 
 
 #Acts as the _process method would
-func update(_delta):
-	return
+func update(delta):
+	.update(delta)
+	
+	if Input.is_action_pressed("aim_r"):
+		emit_signal("state_switch", "fall_aim")
+		return
 
 
 func _on_animation_finished(_anim_name):
 	return
+
+
+
 

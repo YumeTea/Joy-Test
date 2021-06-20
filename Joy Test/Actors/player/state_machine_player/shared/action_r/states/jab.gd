@@ -4,7 +4,7 @@ extends "res://Actors/player/state_machine_player/shared/action_r/action_r.gd"
 var jab_strength = 64
 
 #Node Storage
-var needle_arm_node : Node
+var Needle_Arm : Node
 
 
 func initialize_values(init_values_dic):
@@ -14,21 +14,24 @@ func initialize_values(init_values_dic):
 
 #Initializes state, changes animation, etc
 func enter():
-	needle_arm_node = owner.get_node("Body").get_node("Needle_Arm")
-	needle_arm_node.connect("raycast_collided", self, "_on_jab_collision")
-	connect_local_signals()
+	Needle_Arm = owner.get_node("Body").get_node("Needle_Arm")
+	Needle_Arm.connect("raycast_collided", self, "_on_jab_collision")
+	
 	Anim_Player.play("jab_test")
+	
+	.enter()
 
 
 #Cleans up state, reinitializes values like timers
 func exit():
-	needle_arm_node.disconnect("raycast_collided", self, "_on_jab_collision")
-	disconnect_local_signals()
+	Needle_Arm.disconnect("raycast_collided", self, "_on_jab_collision")
+	
+	.exit()
 
 
 #Creates output based on the input event passed in
-func handle_input(_event):
-	return
+func handle_input(event):
+	.handle_input(event)
 
 
 #Acts as the _process method would
@@ -45,9 +48,6 @@ func _on_jab_collision(collision):
 	var velocity = add_recoil_velocity(collision["col_normal"])
 	
 	emit_signal("velocity_change", velocity)
-	
-#	owner.move_and_slide_with_snap(velocity, Vector3(0,0,0), Vector3(0, 1, 0), true, 4, deg2rad(50))
-	
 
 
 func add_recoil_velocity(recoil_vector):

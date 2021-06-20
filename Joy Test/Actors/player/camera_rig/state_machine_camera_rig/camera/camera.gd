@@ -11,17 +11,24 @@ var joystick_r_deadzone_inner = 0.1
 var joystick_r_deadzone_outer = 0.9
 
 #Gyro
-var gyro_sensitivity = 0.1
+var gyro_sensitivity = 0.06
 
 ##Input Variables
-var input_r : Vector2
+var input_stick_r : Vector2
+var input_gyro_r : Vector2
+var camera_input : Vector2
 
 ##Camera View Variables
-var camera_sensitivity = 1.8
+var camera_sensitivity = 1.4
 var camera_angle : Vector3
 
 ##Node Storage
 onready var Pivot = owner.get_node("Pivot")
+onready var Camera_Pos = owner.get_node("Pivot/Camera_Pos")
+onready var Camera_UI = owner.get_node("UI/Camera_UI")
+#Debug Node Storage??
+onready var Pivot_Points = owner.get_node("Pivot_Points")
+onready var Camera_Points = owner.get_node("Pivot/Camera_Points")
 
 
 #Initializes state, changes animation, etc
@@ -41,14 +48,18 @@ func handle_input(_event):
 
 #Acts as the _process method would
 func update(delta):
-	move_camera(input_r)
+	rotate_camera_pivot(camera_input)
+	
+	#Clear gyro input at the end of frame
+	clear_gyro_input()
 
 
 func _on_animation_finished(_anim_name):
 	return
 
 
-func move_camera(input):
+###CAMERA TRANSFORMATION FUNCTIONS###
+func rotate_camera_pivot(input):
 	var angle_change : Vector3
 	var rot : Vector3
 	
@@ -74,6 +85,33 @@ func camera_angle_update():
 	emit_signal("camera_angle_changed", camera_angle)
 
 
+###UI FUNCTIONS###
+func set_camera_ui(value):
+	var anim_player = Camera_UI.get_node("AnimationPlayer")
+	var crosshair_fade_anim = "crosshair_fade"
+	
+	if value == true:
+		if anim_player.is_playing():
+			if anim_player.get_current_animation() == crosshair_fade_anim:
+				anim_player.play(crosshair_fade_anim, -1, 1.0)
+		else:
+			anim_player.play(crosshair_fade_anim, -1, 1.0, false)
+	elif value == false:
+		if anim_player.is_playing():
+			if anim_player.get_current_animation() == crosshair_fade_anim:
+				anim_player.play(crosshair_fade_anim, -1, -1.0)
+		else:
+			anim_player.play(crosshair_fade_anim, -1, -1.0, true)
+
+
+###STATE MACHINE FUNCTIONS###
+#Stores values of the current state in the top level state machine's dict, for transfer to another state
+#Called from main state machine
+func store_initialized_values(init_values_dic):
+	for value in init_values_dic:
+		init_values_dic[value] = self[value]
+
+
 ###INPUT FUNCTIONS###
 func get_joystick_input_l():
 	var input_x = Input.get_joy_axis(0, 0)
@@ -90,15 +128,10 @@ func get_joystick_input_r():
 	input.y = Input.get_joy_axis(0, 3)
 	
 	#Deadzone control
-	if abs(input.x) < joystick_r_deadzone_inner:
-		input.x = 0
-	if abs(input.x) > joystick_r_deadzone_outer:
-		input.x = 1.0 * sign(input.x)
-	
-	if abs(input.y) < joystick_r_deadzone_inner:
-		input.y = 0
-	if abs(input.y) > joystick_r_deadzone_outer:
-		input.y = 1.0 * sign(input.y)
+	if input.length() > joystick_l_deadzone_outer:
+		input = input.normalized()
+	elif input.length() < joystick_l_deadzone_inner:
+		input = Vector2(0,0)
 	
 	return(input)
 
@@ -113,3 +146,12 @@ func get_gyro_input_r(event):
 	var input_gyro = event.get_relative() * gyro_sensitivity
 	
 	return(input_gyro)
+
+
+func clear_gyro_input():
+	input_gyro_r = Vector2(0,0)
+
+
+
+
+

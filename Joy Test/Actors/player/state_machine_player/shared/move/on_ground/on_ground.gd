@@ -9,7 +9,7 @@ func enter():
 
 #Cleans up state, reinitializes values like timers
 func exit():
-	return
+	.exit()
 
 
 #Creates output based on the input event passed in

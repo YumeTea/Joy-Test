@@ -6,11 +6,15 @@ var gyro_sensitivity = 0.1
 
 #Camera View Variables
 var camera_angles : Vector3
+var camera_look_at_point : Vector3 #stores point that camera raycast is hitting
 
 #Node Storage
 onready var world = get_tree().current_scene
 onready var Body = owner.get_node("Body")
 onready var Anim_Player = owner.get_node("AnimationPlayer")
+
+#Player Flags
+var is_aiming : bool
 
 
 #Initializes state, changes animation, etc
@@ -39,6 +43,11 @@ func update(_delta):
 
 func _on_animation_finished(_anim_name):
 	return
+
+
+###PLAYER FLAG FUNCTIONS###
+func set_aiming(value : bool):
+	is_aiming = value
 
 
 ###INPUT FUNCTIONS###
