@@ -11,12 +11,7 @@ func initialize_values(init_values_dic):
 
 #Initializes state, changes animation, etc
 func enter():
-	#This should be its own function
-	var pivot_translation = Pivot_Points.get_node("Aim").get_translation()
-	Pivot.set_translation(pivot_translation)
-	
-	var camera_translation = Camera_Points.get_node("Aim").get_translation()
-	Camera_Pos.set_translation(camera_translation)
+	set_camera_offset("Aim")
 	
 	set_camera_ui(true)
 	.enter()
@@ -32,19 +27,27 @@ func exit():
 func handle_input(event):
 	if event is InputEventMouseMotion:
 		input_gyro_r = get_gyro_input_r(event)
+	
+	.handle_input(event)
 
 
 #Acts as the _process method would
 func update(delta):
-	input_stick_r = get_joystick_input_r()
-	
-	if input_stick_r.length() > 0 or input_gyro_r.length() > 0:
-		camera_input = get_camera_input(input_stick_r, input_gyro_r)
-		
-		.update(delta)
-	
+	#Exit aim state handling
 	if Input.is_action_just_pressed("cancel"):
 		emit_signal("state_switch", "default")
+	if !is_aiming:
+		if Input.is_action_just_pressed("attack_left") or Input.is_action_just_pressed("attack_right"):
+			emit_signal("state_switch", "default")
+	
+	input_stick_r = get_joystick_input_r()
+	
+	if Input.is_action_pressed("aim_r"):
+		camera_input = get_camera_input(input_stick_r, input_gyro_r)
+	else:
+		camera_input = get_camera_input(input_stick_r, Vector2(0,0))
+		
+	.update(delta)
 
 
 func _on_animation_finished(_anim_name):

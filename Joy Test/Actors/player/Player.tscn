@@ -18,8 +18,8 @@
 [ext_resource path="res://Actors/player/state_machine_player/shared/action_r/action_r.gd" type="Script" id=16]
 [ext_resource path="res://Actors/player/state_machine_player/shared/move/motion.gd" type="Script" id=17]
 [ext_resource path="res://Actors/player/state_machine_player/shared/shared.gd" type="Script" id=18]
-[ext_resource path="res://Actors/player/state_machine_player/shared/action_l/none.gd" type="Script" id=19]
-[ext_resource path="res://Actors/player/state_machine_player/shared/action_l/cast.gd" type="Script" id=20]
+[ext_resource path="res://Actors/player/state_machine_player/shared/action_l/states/none.gd" type="Script" id=19]
+[ext_resource path="res://Actors/player/state_machine_player/shared/action_l/states/cast.gd" type="Script" id=20]
 [ext_resource path="res://Actors/player/state_machine_player/state_machine_action_l.gd" type="Script" id=21]
 [ext_resource path="res://Actors/player/state_machine_player/shared/action_l/action_l.gd" type="Script" id=22]
 [ext_resource path="res://Actors/player/objects/sigil/Spell_Arm.tscn" type="PackedScene" id=23]
@@ -29,7 +29,7 @@
 [ext_resource path="res://Actors/player/state_machine_player/shared/move/in_air/states/fall.gd" type="Script" id=27]
 [ext_resource path="res://Actors/player/state_machine_player/shared/move/in_air/states/fall_aim.gd" type="Script" id=28]
 [ext_resource path="res://Actors/player/state_machine_player/shared/action_r/states/jab_aim.gd" type="Script" id=29]
-[ext_resource path="res://Actors/player/cast_aim.gd" type="Script" id=30]
+[ext_resource path="res://Actors/player/state_machine_player/shared/action_l/states/cast_aim.gd" type="Script" id=30]
 
 [sub_resource type="CapsuleShape" id=1]
 height = 4.0
@@ -39,7 +39,7 @@ resource_name = "cast_life_buster"
 step = 0.0166667
 
 [sub_resource type="Animation" id=3]
-length = 0.15
+length = 1.0
 step = 0.0166667
 tracks/0/type = "value"
 tracks/0/path = NodePath("Body/Needle_Arm/Mesh:scale")
@@ -48,10 +48,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.05, 0.15 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.05, 0.15, 0.2, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector3( 0.2, 0.2, 0.2 ), Vector3( 0.2, 1.5, 0.2 ), Vector3( 0.2, 0.2, 0.2 ) ]
+"values": [ Vector3( 0.2, 0.2, 0.2 ), Vector3( 0.2, 1.5, 0.2 ), Vector3( 0.2, 0.2, 0.2 ), Vector3( 0.2, 0.08, 0.2 ), Vector3( 0.2, 0.2, 0.2 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Body/Needle_Arm/RayCast:cast_to")
@@ -60,10 +60,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.05, 0.15 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.05, 0.15, 0.2, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector3( 0, 10.99, 0 ), Vector3( 0, 84, 0 ), Vector3( 0, 10.99, 0 ) ]
+"values": [ Vector3( 0, 10.99, 0 ), Vector3( 0, 84, 0 ), Vector3( 0, 10.99, 0 ), Vector3( 0.08, 0.08, 0.08 ), Vector3( 0, 10.99, 0 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("Body/Needle_Arm/RayCast:enabled")
@@ -77,8 +77,21 @@ tracks/2/keys = {
 "update": 1,
 "values": [ true, false ]
 }
+tracks/3/type = "value"
+tracks/3/path = NodePath("Body/Needle_Arm:rotation_degrees")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.2, 0.4, 0.6, 0.8, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( -6.10664e-13, 0, 0 ), Vector3( 0, 0, 180 ), Vector3( 0, 0, 360 ), Vector3( 0, 0, 540 ), Vector3( 0, 0, 720 ) ]
+}
 
 [node name="Player" type="KinematicBody"]
+collision_layer = 2
 script = ExtResource( 2 )
 
 [node name="Body" parent="." instance=ExtResource( 3 )]
@@ -86,11 +99,14 @@ script = ExtResource( 2 )
 [node name="Needle_Arm" parent="Body" instance=ExtResource( 13 )]
 transform = Transform( 1, 0, 0, 0, 1, 1.06581e-14, 0, -1.06581e-14, 1, 1.25, 4, 0 )
 
+[node name="Mesh" parent="Body/Needle_Arm" index="0"]
+transform = Transform( 0.2, 0, 0, 0, -8.74228e-09, 0.2, 0, -0.2, -8.74228e-09, 0, 0, 0 )
+
 [node name="Spell_Arm" parent="Body" instance=ExtResource( 23 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.25, 4, -1.125 )
 
 [node name="Projectile_Pos" type="Position3D" parent="Body/Spell_Arm"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
+transform = Transform( 1, 0, 0, 0, 1, -1.06581e-14, 0, 1.06581e-14, 1, 0, 0, 0 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 3, 0 )
@@ -145,6 +161,9 @@ script = ExtResource( 28 )
 script = ExtResource( 14 )
 
 [node name="Timer_Move" type="Timer" parent="State_Machines/State_Machine_Move"]
+one_shot = true
+
+[node name="Timer_Aim" type="Timer" parent="State_Machines/State_Machine_Move"]
 one_shot = true
 
 [node name="State_Machine_Action_L" type="Node" parent="State_Machines"]

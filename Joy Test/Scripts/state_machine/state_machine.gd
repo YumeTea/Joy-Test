@@ -23,17 +23,17 @@ func connect_state_signals():
 				child.connect("state_switch", self, "_change_state")
 			else:
 				for child_lower in child.get_children():
-					if child_lower is Node:
+					if child_lower is Node and !(child_lower is Timer):
 						if child_lower.get_children().size() == 0:
 							child_lower.connect("state_switch", self, "_change_state")
 						else:
 							for child_lower_2 in child_lower.get_children():
-								if child_lower_2 is Node:
+								if child_lower_2 is Node and !(child_lower_2 is Timer):
 									if child_lower_2.get_children().size() == 0:
 										child_lower_2.connect("state_switch", self, "_change_state")
 									else:
 										for child_lower_3 in child_lower_2.get_children():
-											if child_lower_3 is Node:
+											if child_lower_3 is Node and !(child_lower_3 is Timer):
 												if child_lower_3.get_children().size() == 0:
 													child_lower_3.connect("state_switch", self, "_change_state")
 

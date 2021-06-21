@@ -22,11 +22,8 @@ func _process(delta):
 func update_camera_raycast():
 	RayCast_Camera.force_raycast_update()
 	
-	if RayCast_Camera.is_colliding():
-		emit_signal("camera_raycast_collision_changed", RayCast_Camera.get_collision_point())
-	else:
-		var point = RayCast_Camera.to_global(RayCast_Camera.get_cast_to())
-		emit_signal("camera_raycast_collision_changed", point)
+	var point = RayCast_Camera.to_global(RayCast_Camera.get_cast_to())
+	emit_signal("camera_raycast_collision_changed", point)
 
 
 ###SIGNAL FUNCTIONS###

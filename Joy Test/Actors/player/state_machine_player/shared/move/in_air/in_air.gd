@@ -15,8 +15,8 @@ func exit():
 
 
 #Creates output based on the input event passed in
-func handle_input(_event):
-	return
+func handle_input(event):
+	.handle_input(event)
 
 
 #Acts as the _process method would

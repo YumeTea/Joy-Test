@@ -1,7 +1,8 @@
 extends "res://Actors/player/state_machine_player/shared/action_r/action_r.gd"
 
+
 #Jab Variables
-var jab_strength = 64
+var jab_strength = 56
 
 #Node Storage
 var Needle_Arm : Node
@@ -14,6 +15,8 @@ func initialize_values(init_values_dic):
 
 #Initializes state, changes animation, etc
 func enter():
+	set_hit(false)
+	
 	Needle_Arm = owner.get_node("Body").get_node("Needle_Arm")
 	Needle_Arm.connect("raycast_collided", self, "_on_jab_collision")
 	
@@ -45,9 +48,12 @@ func _on_animation_finished(anim_name):
 
 
 func _on_jab_collision(collision):
-	var velocity = add_recoil_velocity(collision["col_normal"])
+	if !has_hit:
+		var velocity = add_recoil_velocity(collision["col_normal"])
+		
+		emit_signal("velocity_change", velocity)
 	
-	emit_signal("velocity_change", velocity)
+	set_hit(true)
 
 
 func add_recoil_velocity(recoil_vector):

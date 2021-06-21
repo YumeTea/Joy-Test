@@ -25,11 +25,15 @@ func exit():
 func handle_input(event):
 #	if Input.is_action_just_pressed("jump"):
 #			emit_signal("state_switch", "jump")
-	pass
+	.handle_input(event)
 
 
 #Acts as the _process method would
 func update(delta):
+	if Input.is_action_just_pressed("aim_r"):
+		emit_signal("state_switch", "idle_aim")
+		return
+	
 	velocity = calc_idle_velocity(velocity, delta)
 	.update(delta)
 	
@@ -40,9 +44,7 @@ func update(delta):
 	if Input.is_action_pressed("jump"):
 		emit_signal("state_switch", "jump")
 		return
-	if Input.is_action_pressed("aim_r"):
-		emit_signal("state_switch", "idle_aim")
-		return
+	#######################################
 
 
 func _on_animation_finished(_anim_name):

@@ -20,17 +20,11 @@ func enter():
 
 #Cleans up state, reinitializes values like timers
 func exit():
-	set_aiming(false)
 	.exit()
 
 #Creates output based on the input event passed in
 func handle_input(event):
-	if Input.is_action_just_released("aim_r"):
-		if Timer_Move.is_stopped() and is_aiming:
-			Timer_Move.start(1)
-	elif Input.is_action_just_pressed("aim_r"):
-		if !Timer_Move.is_stopped():
-			Timer_Move.stop()
+	.handle_input(event)
 
 
 #Acts as the _process method would

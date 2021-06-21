@@ -11,6 +11,9 @@ var camera_look_at_point : Vector3 #stores point that camera raycast is hitting
 #Node Storage
 onready var world = get_tree().current_scene
 onready var Body = owner.get_node("Body")
+
+onready var Timer_Aim = owner.get_node("State_Machines/State_Machine_Move/Timer_Aim")
+
 onready var Anim_Player = owner.get_node("AnimationPlayer")
 
 #Player Flags
@@ -28,12 +31,22 @@ func exit():
 
 
 #Creates output based on the input event passed in
-func handle_input(_event):
-	return
-
-
-func handle_ai_input():
-	return
+func handle_input(event):
+	#Aim state exit handling
+	if is_aiming:
+		if Input.is_action_just_pressed("cancel"):
+			set_aiming(false)
+			Timer_Aim.stop()
+		elif Input.is_action_just_released("aim_r"):
+			if Timer_Aim.is_stopped():
+				Timer_Aim.start(1)
+		elif Input.is_action_just_pressed("aim_r"):
+			if !Timer_Aim.is_stopped():
+				Timer_Aim.stop()
+	elif !is_aiming:
+		if Input.is_action_just_pressed("aim_r"):
+			set_aiming(true)
+	
 
 
 #Acts as the _process method would

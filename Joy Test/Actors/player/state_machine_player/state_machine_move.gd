@@ -6,12 +6,15 @@ signal move_state_stack_changed(state_stack)
 
 
 var initialized_values = {
+	#Shared Flags
+	"is_aiming": false,
+	
 	#Motion
 	"velocity": Vector3(),
 	"camera_angles": Vector3(),
+	"camera_look_at_point": Vector3(),
 	
-#	#In_Air
-#	"has_jumped": true,
+	
 }
 
 

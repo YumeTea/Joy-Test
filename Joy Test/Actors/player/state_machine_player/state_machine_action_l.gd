@@ -5,9 +5,17 @@ signal action_l_state_changed(action_state)
 signal action_l_state_stack_changed(state_stack)
 
 var initialized_values = {
+	#Shared Values
 	"camera_angles": Vector3(),
+	"camera_look_at_point": Vector3(),
 	
+	#Shared Flags
 	"is_aiming": false,
+	
+	#Action L Specific Values
+	"is_casting": false,
+	"cast_ready": false,
+	"anim_current_instance": Node,
 }
 
 func _ready():

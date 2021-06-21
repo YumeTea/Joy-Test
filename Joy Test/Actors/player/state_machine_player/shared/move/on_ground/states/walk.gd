@@ -26,11 +26,15 @@ func exit():
 func handle_input(event):
 #	if Input.is_action_just_pressed("jump"):
 #		emit_signal("state_switch", "jump")
-	pass
+	.handle_input(event)
 
 
 #Acts as the _process method would
 func update(delta):
+	if Input.is_action_just_pressed("aim_r"):
+		emit_signal("state_switch", "walk_aim")
+		return
+	
 	velocity = calc_walk_velocity(velocity, delta)
 	
 	.update(delta)
@@ -43,7 +47,8 @@ func update(delta):
 	if Input.is_action_pressed("jump"):
 		emit_signal("state_switch", "jump")
 		return
-	if Input.is_action_pressed("aim_r"):
+	#####################################
+	if Input.is_action_just_pressed("aim_r"):
 		emit_signal("state_switch", "walk_aim")
 		return
 
@@ -73,6 +78,7 @@ func calc_walk_velocity(current_velocity, delta):
 	return(velocity)
 
 
+#Do not change y velocity here, this is only horizontal walk velocity
 func interp_walk_velocity(input_direction, current_velocity, delta):
 	var temp_vel = Vector3(0,0,0)
 	var target_vel = Vector3(0,0,0)
@@ -95,7 +101,8 @@ func interp_walk_velocity(input_direction, current_velocity, delta):
 	
 	#Check new velocity
 	if new_vel.length() < walk_speed_thresh_lower:
-		new_vel = Vector3(0,0,0)
+		new_vel.x = 0
+		new_vel.z = 0
 	
 	
 	return new_vel

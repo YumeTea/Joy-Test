@@ -5,6 +5,7 @@ signal camera_state_changed(action_state)
 signal camera_state_stack_changed(state_stack)
 
 var initialized_values = {
+	"is_aiming": false,
 }
 
 func _ready():

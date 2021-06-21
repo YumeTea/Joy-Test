@@ -18,8 +18,7 @@ shader_param/time2 = null
 
 [node name="Life_Buster" type="KinematicBody"]
 input_ray_pickable = false
-collision_layer = 0
-collision_mask = 5
+collision_layer = 2
 script = ExtResource( 2 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]

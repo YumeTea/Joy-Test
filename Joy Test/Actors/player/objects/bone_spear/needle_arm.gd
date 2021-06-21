@@ -6,20 +6,14 @@ signal raycast_collided()
 var cast_to_max = 55
 var weak_bound = 0.75 #percent of max jab length past which a hit is weak
 
-var colliding = false
-
 onready var Raycast = self.get_node("RayCast")
 
 
 func _process(delta):
-	if Raycast.is_colliding() and colliding == false:
-		colliding = true
-		Raycast.force_raycast_update() #Player has moved already, but raycast has not updated
+	if Raycast.is_colliding():
+#		Raycast.force_raycast_update() #Player has moved already, but raycast has not updated
 		var collision = get_collision_values(Raycast)
 		emit_signal("raycast_collided", collision)
-		
-	if !Raycast.is_colliding() and colliding == true:
-		colliding = false
 
 
 func get_collision_values(raycast_node):

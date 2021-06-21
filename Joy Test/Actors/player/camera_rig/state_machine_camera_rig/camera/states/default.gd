@@ -8,12 +8,7 @@ func initialize_values(init_values_dic):
 
 #Initializes state, changes animation, etc
 func enter():
-	#This should be its own function
-	var pivot_translation = Pivot_Points.get_node("Default").get_translation()
-	Pivot.set_translation(pivot_translation)
-	
-	var camera_translation = Camera_Points.get_node("Default").get_translation()
-	Camera_Pos.set_translation(camera_translation)
+	set_camera_offset("Default")
 	
 	.enter()
 
@@ -24,19 +19,19 @@ func exit():
 
 
 #Creates output based on the input event passed in
-func handle_input(_event):
-	return
+func handle_input(event):
+	.handle_input(event)
 
 
 #Acts as the _process method would
 func update(delta):
+	if Input.is_action_just_pressed("aim_r"):
+		emit_signal("state_switch", "aim")
+	
 	input_stick_r = get_joystick_input_r()
 	camera_input = get_camera_input(input_stick_r)
 	
 	.update(delta)
-	
-	if Input.is_action_pressed("aim_r"):
-		emit_signal("state_switch", "aim")
 
 
 func _on_animation_finished(_anim_name):

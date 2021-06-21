@@ -29,25 +29,51 @@ func exit():
 
 
 #Creates output based on the input event passed in
-func handle_input(_event):
-	return
+func handle_input(event):
+	.handle_input(event)
 
 
 #Acts as the _process method would
 func update(delta):
 	#Add external velocities (from outside this state machine)
-	velocity += velocity_ext
-	velocity_ext = Vector3(0,0,0)
+	if velocity_ext != Vector3(0,0,0):
+		velocity = add_velocity_ext(velocity, velocity_ext)
 	
 	#Add gravity
 	velocity.y += (gravity * weight * delta)
 	
 	#Move player
 	velocity = owner.move_and_slide_with_snap(velocity, snap_vector, Vector3(0, 1, 0), true, 4, deg2rad(50))
+	
+	.update(delta)
 
 
 func _on_animation_finished(_anim_name):
 	return
+
+
+###MOTION FUNCTIONS###
+#Used for adding jab recoil velocity
+func add_velocity_ext(velocity, velocity_ext):
+	var v_dot_ext : float
+	var v_ext : Vector3
+	var v_current : Vector3
+	var v_new : Vector3
+	
+	v_ext = velocity_ext.normalized()
+	v_current = velocity.normalized()
+	
+	v_dot_ext = max(0, v_ext.dot(v_current))
+	
+	v_new = velocity_ext + (velocity * v_dot_ext)
+	
+	clear_velocity_ext()
+	
+	return v_new
+
+
+func clear_velocity_ext():
+	velocity_ext = Vector3(0,0,0)
 
 
 #Stores values of the current state in the top level state machine's dict, for transfer to another state
@@ -63,6 +89,8 @@ func connect_local_signals():
 	owner.get_node("State_Machines/State_Machine_Action_R").connect("action_r_state_changed", self, "_on_State_Machine_Action_R_state_changed")
 	owner.get_node("State_Machines/State_Machine_Action_R/Shared/Action_R/Jab").connect("velocity_change", self, "_on_Jab_velocity_change")
 	owner.get_node("State_Machines/State_Machine_Action_R/Shared/Action_R/Jab_Aim").connect("velocity_change", self, "_on_Jab_velocity_change")
+	
+	owner.get_node("State_Machines/State_Machine_Move/Timer_Aim").connect("timeout", self, "_on_Timer_Aim_timeout")
 	owner.get_node("State_Machines/State_Machine_Move/Timer_Move").connect("timeout", self, "_on_Timer_Move_timeout")
 
 
@@ -72,6 +100,8 @@ func disconnect_local_signals():
 	owner.get_node("State_Machines/State_Machine_Action_R").disconnect("action_r_state_changed", self, "_on_State_Machine_Action_R_state_changed")
 	owner.get_node("State_Machines/State_Machine_Action_R/Shared/Action_R/Jab").disconnect("velocity_change", self, "_on_Jab_velocity_change")
 	owner.get_node("State_Machines/State_Machine_Action_R/Shared/Action_R/Jab_Aim").disconnect("velocity_change", self, "_on_Jab_velocity_change")
+	
+	owner.get_node("State_Machines/State_Machine_Move/Timer_Aim").disconnect("timeout", self, "_on_Timer_Aim_timeout")
 	owner.get_node("State_Machines/State_Machine_Move/Timer_Move").disconnect("timeout", self, "_on_Timer_Move_timeout")
 
 
@@ -88,8 +118,12 @@ func _on_State_Machine_Action_R_state_changed(action_r_state):
 	pass
 
 
-func _on_Timer_Move_timeout():
+func _on_Timer_Aim_timeout():
 	set_aiming(false)
+
+
+func _on_Timer_Move_timeout():
+	pass
 
 
 func _on_Jab_velocity_change(velocity):

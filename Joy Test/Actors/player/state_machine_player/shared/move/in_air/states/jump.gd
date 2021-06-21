@@ -24,17 +24,17 @@ func exit():
 
 
 #Creates output based on the input event passed in
-func handle_input(_event):
-	return
+func handle_input(event):
+	.handle_input(event)
 
 
 #Acts as the _process method would
 func update(delta):
-	.update(delta)
-	
-	if Input.is_action_pressed("aim_r"):
+	if Input.is_action_just_pressed("aim_r"):
 		emit_signal("state_switch", "fall_aim")
 		return
+	
+	.update(delta)
 
 
 func _on_animation_finished(_anim_name):

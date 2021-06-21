@@ -22,10 +22,16 @@ var camera_input : Vector2
 var camera_sensitivity = 1.4
 var camera_angle : Vector3
 
+#Camera Bools
+var is_aiming : bool
+
 ##Node Storage
+onready var Camera_Rig = owner
 onready var Pivot = owner.get_node("Pivot")
 onready var Camera_Pos = owner.get_node("Pivot/Camera_Pos")
+onready var Timer_Aim = owner.get_node("State_Machine_Camera/Camera/Timer_Aim")
 onready var Camera_UI = owner.get_node("UI/Camera_UI")
+onready var Tween_Camera = owner.get_node("Tween_Camera")
 #Debug Node Storage??
 onready var Pivot_Points = owner.get_node("Pivot_Points")
 onready var Camera_Points = owner.get_node("Pivot/Camera_Points")
@@ -34,21 +40,35 @@ onready var Camera_Points = owner.get_node("Pivot/Camera_Points")
 #Initializes state, changes animation, etc
 func enter():
 	camera_angle_update()
+	connect_local_signals()
 
 
 #Cleans up state, reinitializes values like timers
 func exit():
-	return
+	disconnect_local_signals()
 
 
 #Creates output based on the input event passed in
 func handle_input(_event):
-	return
+	#Aim state exit handling
+	if is_aiming:
+		if Input.is_action_just_pressed("cancel"):
+			set_aiming(false)
+			Timer_Aim.stop()
+		elif Input.is_action_just_released("aim_r"):
+			if Timer_Aim.is_stopped():
+				Timer_Aim.start(1)
+		elif Input.is_action_just_pressed("aim_r"):
+			if !Timer_Aim.is_stopped():
+				Timer_Aim.stop()
+	elif !is_aiming:
+		if Input.is_action_just_pressed("aim_r"):
+			set_aiming(true)
 
 
 #Acts as the _process method would
 func update(delta):
-	rotate_camera_pivot(camera_input)
+	rotate_camera(camera_input)
 	
 	#Clear gyro input at the end of frame
 	clear_gyro_input()
@@ -59,30 +79,53 @@ func _on_animation_finished(_anim_name):
 
 
 ###CAMERA TRANSFORMATION FUNCTIONS###
-func rotate_camera_pivot(input):
+func rotate_camera(input):
 	var angle_change : Vector3
-	var rot : Vector3
+	var rot_rig : Vector3
+	var rot_pivot
 	
 	angle_change = Vector3(-input.y, -input.x, 0) * camera_sensitivity
 	
-	rot = Pivot.get_rotation_degrees()
-	rot.x += angle_change.x
-	rot.y += angle_change.y
+	rot_rig = Camera_Rig.get_rotation_degrees()
+	rot_pivot = Pivot.get_rotation_degrees()
+	rot_pivot.x += angle_change.x
+	rot_rig.y += angle_change.y
 	
-	Pivot.set_rotation_degrees(rot)
+	Camera_Rig.set_rotation_degrees(rot_rig)
+	Pivot.set_rotation_degrees(rot_pivot)
 	
 	camera_angle_update()
 
 
 func camera_angle_update():
+	var degrees_rig : Vector3
+	var degrees_pivot : Vector3
 	var camera_angle : Vector3
 	
-	camera_angle = Pivot.get_rotation_degrees()
-	camera_angle.x = deg2rad(camera_angle.x)
-	camera_angle.y = deg2rad(camera_angle.y)
-	camera_angle.z = deg2rad(camera_angle.z)
+	degrees_rig = Camera_Rig.get_rotation_degrees()
+	degrees_pivot = Pivot.get_rotation_degrees()
+	camera_angle.x = deg2rad(degrees_pivot.x)
+	camera_angle.y = deg2rad(degrees_rig.y)
+	camera_angle.z = deg2rad(degrees_pivot.z)
 	
 	emit_signal("camera_angle_changed", camera_angle)
+
+
+func set_camera_offset(pos_node_name):
+	#This should be its own function
+	var pivot_translation_current = Pivot.get_translation()
+	var pivot_translation_final = Pivot_Points.get_node(pos_node_name).get_translation()
+#	Pivot.set_translation(pivot_translation)
+	
+	Tween_Camera.interpolate_property(Pivot, "translation", pivot_translation_current, pivot_translation_final,  0.5, 5, 1, 0)
+	
+	var camera_translation_current = Camera_Pos.get_translation()
+	var camera_translation_final = Camera_Points.get_node(pos_node_name).get_translation()
+#	Camera_Pos.set_translation(camera_translation)
+	
+	Tween_Camera.interpolate_property(Camera_Pos, "translation", camera_translation_current, camera_translation_final,  0.5, 5, 1, 0)
+	
+	Tween_Camera.start()
 
 
 ###UI FUNCTIONS###
@@ -102,14 +145,6 @@ func set_camera_ui(value):
 				anim_player.play(crosshair_fade_anim, -1, -1.0)
 		else:
 			anim_player.play(crosshair_fade_anim, -1, -1.0, true)
-
-
-###STATE MACHINE FUNCTIONS###
-#Stores values of the current state in the top level state machine's dict, for transfer to another state
-#Called from main state machine
-func store_initialized_values(init_values_dic):
-	for value in init_values_dic:
-		init_values_dic[value] = self[value]
 
 
 ###INPUT FUNCTIONS###
@@ -150,6 +185,32 @@ func get_gyro_input_r(event):
 
 func clear_gyro_input():
 	input_gyro_r = Vector2(0,0)
+
+
+###CAMERA FLAG FUNCTIONS###
+func set_aiming(value):
+	is_aiming = value
+
+
+###STATE MACHINE FUNCTIONS###
+#Stores values of the current state in the top level state machine's dict, for transfer to another state
+#Called from main state machine
+func store_initialized_values(init_values_dic):
+	for value in init_values_dic:
+		init_values_dic[value] = self[value]
+
+
+###LOCAL SIGNAL COMMS###
+func connect_local_signals():
+	owner.get_node("State_Machine_Camera/Camera/Timer_Aim").connect("timeout", self, "_on_Timer_Aim_timeout")
+
+
+func disconnect_local_signals():
+	owner.get_node("State_Machine_Camera/Camera/Timer_Aim").disconnect("timeout", self, "_on_Timer_Aim_timeout")
+
+
+func _on_Timer_Aim_timeout():
+	set_aiming(false)
 
 
 

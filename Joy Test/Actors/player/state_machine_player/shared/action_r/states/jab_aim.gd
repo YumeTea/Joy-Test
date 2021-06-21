@@ -1,12 +1,8 @@
 extends "res://Actors/player/state_machine_player/shared/action_r/action_r.gd"
 
 
-#Jab bools
-var is_active : bool
-var has_hit : bool
-
 #Jab Variables
-var jab_strength = 64
+var jab_strength = 56
 
 var arm_transform_default : Transform
 
@@ -21,14 +17,16 @@ func initialize_values(init_values_dic):
 
 #Initializes state, changes animation, etc
 func enter():
-	is_active = false
-	has_hit = false
+	set_hit(false)
 	
 	Needle_Arm = owner.get_node("Body").get_node("Needle_Arm")
 	
 	arm_transform_default = Needle_Arm.get_transform()
 	
 	Needle_Arm.connect("raycast_collided", self, "_on_jab_collision")
+	aim_arm_transform(camera_look_at_point)
+	Anim_Player.play("jab_test")
+	
 	.enter()
 
 
@@ -42,12 +40,6 @@ func exit():
 
 #Creates output based on the input event passed in
 func handle_input(event):
-	if Input.is_action_just_released("aim_r") and !is_active:
-		set_active(true)
-		aim_arm_transform(camera_look_at_point)
-		
-		Anim_Player.play("jab_test")
-	
 	.handle_input(event)
 
 
@@ -69,17 +61,17 @@ func reset_arm_transform(transform):
 	Needle_Arm.set_transform(transform)
 
 
-func set_active(value):
-	is_active = value
+#func set_active(value):
+#	is_active = value
 
 
 func _on_jab_collision(collision):
-	if is_active and !has_hit:
+	if !has_hit:
 		var velocity = add_recoil_velocity(collision["col_normal"])
 		
 		emit_signal("velocity_change", velocity)
-		
-		has_hit = true
+	
+	set_hit(true)
 
 
 func add_recoil_velocity(recoil_vector):

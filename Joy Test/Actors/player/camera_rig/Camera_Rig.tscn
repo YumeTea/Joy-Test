@@ -21,7 +21,7 @@ far = 1024.0
 
 [node name="RayCast_Camera" type="RayCast" parent="Pivot/Camera_Pos/Camera"]
 enabled = true
-cast_to = Vector3( 0, 0, -64 )
+cast_to = Vector3( 0, 0, -256 )
 
 [node name="Camera_Points" type="Spatial" parent="Pivot"]
 
@@ -29,7 +29,7 @@ cast_to = Vector3( 0, 0, -64 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 12 )
 
 [node name="Aim" type="Position3D" parent="Pivot/Camera_Points"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10 )
 
 [node name="Pivot_Points" type="Spatial" parent="."]
 script = ExtResource( 7 )
@@ -37,7 +37,7 @@ script = ExtResource( 7 )
 [node name="Default" type="Position3D" parent="Pivot_Points"]
 
 [node name="Aim" type="Position3D" parent="Pivot_Points"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, -1.4 )
 
 [node name="State_Machine_Camera" type="Node" parent="."]
 script = ExtResource( 5 )
@@ -52,9 +52,13 @@ script = ExtResource( 3 )
 [node name="Aim" type="Node" parent="State_Machine_Camera/Camera"]
 script = ExtResource( 4 )
 
+[node name="Timer_Aim" type="Timer" parent="State_Machine_Camera/Camera"]
+
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="Camera_UI" parent="UI" instance=ExtResource( 6 )]
+
+[node name="Tween_Camera" type="Tween" parent="."]
 
 [connection signal="camera_angle_changed" from="." to="Pivot_Points" method="_on_Camera_Rig_camera_angle_changed"]
 [connection signal="camera_state_stack_changed" from="State_Machine_Camera" to="." method="_on_State_Machine_Camera_camera_state_stack_changed"]

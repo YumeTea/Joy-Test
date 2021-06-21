@@ -1,7 +1,33 @@
 extends Spatial
 
+
+#signal animation_finished(anim_name)
+
+
 onready var Anim_Player = $AnimationPlayer
 
 func _ready():
-	Anim_Player.play("Cast_Life_Buster")
+	Anim_Player.play("Casting")
+
+
+#func animation_finished(anim_name):
+#	emit_signal("animation_finished", anim_name)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

@@ -15,6 +15,7 @@ shader_param/time = null
 shader_param/time2 = null
 
 [node name="Life_Buster_Anim" type="Spatial"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 script = ExtResource( 1 )
 
 [node name="Timer" type="Timer" parent="."]
@@ -33,6 +34,6 @@ omni_attenuation = 0.000622343
 omni_shadow_mode = 0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/Cast_Life_Buster = ExtResource( 2 )
+anims/Casting = ExtResource( 2 )
 
 [editable path="Magic_Ring"]

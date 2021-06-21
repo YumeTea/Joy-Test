@@ -6,6 +6,7 @@ signal action_r_state_stack_changed(state_stack)
 
 var initialized_values = {
 	"camera_angles": Vector3(),
+	"camera_look_at_point": Vector3(),
 	
 	"is_aiming": false,
 }
