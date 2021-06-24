@@ -6,6 +6,8 @@ signal camera_raycast_collision_changed(collision_point)
 signal state_machine_camera_state_stack_changed(state_stack)
 
 
+var look_at_point : Vector3
+
 #Node Storage
 onready var RayCast_Camera = get_node("Pivot/Camera_Pos/Camera/RayCast_Camera")
 
@@ -22,8 +24,14 @@ func _process(delta):
 func update_camera_raycast():
 	RayCast_Camera.force_raycast_update()
 	
-	var point = RayCast_Camera.to_global(RayCast_Camera.get_cast_to())
-	emit_signal("camera_raycast_collision_changed", point)
+	if RayCast_Camera.is_colliding():
+		look_at_point = RayCast_Camera.get_collision_point()
+	else:
+		look_at_point = RayCast_Camera.to_global(RayCast_Camera.get_cast_to())
+	
+	emit_signal("camera_raycast_collision_changed", look_at_point)
+	
+	$Debug_Look_At_Point.global_transform.origin = look_at_point
 
 
 ###SIGNAL FUNCTIONS###

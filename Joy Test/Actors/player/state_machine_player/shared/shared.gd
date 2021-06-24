@@ -9,6 +9,8 @@ var camera_angles : Vector3
 var camera_look_at_point : Vector3 #stores point that camera raycast is hitting
 
 #Node Storage
+var attached_obj : Node
+
 onready var world = get_tree().current_scene
 onready var Body = owner.get_node("Body")
 

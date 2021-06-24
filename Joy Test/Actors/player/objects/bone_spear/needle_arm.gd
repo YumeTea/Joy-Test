@@ -18,10 +18,48 @@ func _process(delta):
 
 func get_collision_values(raycast_node):
 	var collision = {
+		"collider": Node,
+		"col_material" : "",
 		"col_type" : "",
 		"col_normal": Vector3(),
+		"recoil_vel": Vector3(),
 	}
-	#Calc collision length and get type of collision
+	
+	###COLLIDER
+	collision["collider"] = raycast_node.get_collider()
+	
+	###COL_MATERIAL
+	collision["col_material"] = get_collision_material(raycast_node)
+	
+	###COL_TYPE
+	collision["col_type"] = get_collision_type(raycast_node)
+	
+	###COL_NORMAL
+	collision["col_normal"] = get_collision_normal(raycast_node)
+	
+	###RECOIL_VEL
+	collision["recoil_vel"] = Vector3(0,0,0) #this is set by receivers
+	
+	return collision
+
+
+func get_collision_material(raycast_node):
+	var collision_object : Node
+	var collision_material : String
+	
+	collision_object = raycast_node.get_collider()
+	
+	for group in collision_object.get_groups():
+		if group in GlobalValues.collision_material_groups:
+			collision_material = group
+		else:
+			collision_material = "none"
+	
+	return collision_material
+
+
+func get_collision_type(raycast_node):
+	var col_type : String
 	var col_length : float
 	
 	var origin_pt = raycast_node.get_global_transform().origin
@@ -32,21 +70,22 @@ func get_collision_values(raycast_node):
 	var percent = col_length / cast_to_max
 	
 	if percent > weak_bound:
-		collision["col_type"] = "weak"
+		col_type = "weak"
 	else:
-		collision["col_type"] = "strong"
+		col_type  = "strong"
 	
-	#Calc collision normal
+	return col_type
+
+
+func get_collision_normal(raycast_node):
 	var col_normal : Vector3
+	
+	var origin_pt = raycast_node.get_global_transform().origin
+	var col_pt = raycast_node.get_collision_point()
 	
 	col_normal = (origin_pt - col_pt).normalized() #Currently set collision normal in opposite direction of player
 	
-	collision["col_normal"] = col_normal
-	
-	return collision
-
-
-
+	return col_normal
 
 
 

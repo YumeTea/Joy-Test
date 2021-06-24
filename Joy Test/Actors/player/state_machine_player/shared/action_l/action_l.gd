@@ -12,6 +12,7 @@ onready var Timer_Action_L = owner.get_node("State_Machines/State_Machine_Action
 
 #Action L Flags
 var is_casting : bool
+var is_charging : bool
 var cast_ready : bool
 
 #Animation Variables
@@ -52,6 +53,10 @@ func store_initialized_values(init_values_dic):
 #ACTION FLAG FUNCTIONS
 func set_casting(value):
 	is_casting = value
+
+
+func set_charging(value):
+	is_charging = value
 
 
 func set_cast_ready(value):

@@ -1,6 +1,7 @@
 extends Node
 
 'there is some situation where the aim state is exited when attacking even if holding aim_r'
+'jab_aim aim is off'
 
 'Figure out why in editor signal connections dont work for states'
 'Aim states may be running 1 frame longer than intended'

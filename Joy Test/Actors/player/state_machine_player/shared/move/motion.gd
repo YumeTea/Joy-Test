@@ -87,8 +87,8 @@ func connect_local_signals():
 	owner.get_node("Camera_Rig").connect("camera_angle_changed", self, "_on_Camera_Rig_camera_angle_changed")
 	owner.get_node("State_Machines/State_Machine_Action_L").connect("action_l_state_changed", self, "_on_State_Machine_Action_L_state_changed")
 	owner.get_node("State_Machines/State_Machine_Action_R").connect("action_r_state_changed", self, "_on_State_Machine_Action_R_state_changed")
-	owner.get_node("State_Machines/State_Machine_Action_R/Shared/Action_R/Jab").connect("velocity_change", self, "_on_Jab_velocity_change")
-	owner.get_node("State_Machines/State_Machine_Action_R/Shared/Action_R/Jab_Aim").connect("velocity_change", self, "_on_Jab_velocity_change")
+	owner.get_node("State_Machines/State_Machine_Action_R/Shared/Action_R/Jab").connect("jab_collision", self, "_on_jab_collision")
+	owner.get_node("State_Machines/State_Machine_Action_R/Shared/Action_R/Jab_Aim").connect("jab_collision", self, "_on_jab_collision")
 	
 	owner.get_node("State_Machines/State_Machine_Move/Timer_Aim").connect("timeout", self, "_on_Timer_Aim_timeout")
 	owner.get_node("State_Machines/State_Machine_Move/Timer_Move").connect("timeout", self, "_on_Timer_Move_timeout")
@@ -98,8 +98,8 @@ func disconnect_local_signals():
 	owner.get_node("Camera_Rig").disconnect("camera_angle_changed", self, "_on_Camera_Rig_camera_angle_changed")
 	owner.get_node("State_Machines/State_Machine_Action_L").disconnect("action_l_state_changed", self, "_on_State_Machine_Action_L_state_changed")
 	owner.get_node("State_Machines/State_Machine_Action_R").disconnect("action_r_state_changed", self, "_on_State_Machine_Action_R_state_changed")
-	owner.get_node("State_Machines/State_Machine_Action_R/Shared/Action_R/Jab").disconnect("velocity_change", self, "_on_Jab_velocity_change")
-	owner.get_node("State_Machines/State_Machine_Action_R/Shared/Action_R/Jab_Aim").disconnect("velocity_change", self, "_on_Jab_velocity_change")
+	owner.get_node("State_Machines/State_Machine_Action_R/Shared/Action_R/Jab").disconnect("jab_collision", self, "_on_jab_collision")
+	owner.get_node("State_Machines/State_Machine_Action_R/Shared/Action_R/Jab_Aim").disconnect("jab_collision", self, "_on_jab_collision")
 	
 	owner.get_node("State_Machines/State_Machine_Move/Timer_Aim").disconnect("timeout", self, "_on_Timer_Aim_timeout")
 	owner.get_node("State_Machines/State_Machine_Move/Timer_Move").disconnect("timeout", self, "_on_Timer_Move_timeout")
@@ -111,10 +111,6 @@ func _on_State_Machine_Action_L_state_changed(action_l_state):
 
 
 func _on_State_Machine_Action_R_state_changed(action_r_state):
-#	if action_r_state.get_name() == "Jab":
-#		action_r_state.connect("velocity_change", self, "_on_Jab_velocity_change")
-#	else:
-#		action_r_state.disconnect("velocity_change", self, "_on_Jab_velocity_change")
 	pass
 
 
@@ -126,8 +122,17 @@ func _on_Timer_Move_timeout():
 	pass
 
 
-func _on_Jab_velocity_change(velocity):
-	velocity_ext += velocity
+func _on_jab_collision(collision):
+	var col_material = collision["col_material"]
+	
+	##SOLID COLLISION
+	if col_material in GlobalValues.collision_materials_solid:
+		velocity_ext += collision["recoil_vel"]
+	
+	##SOFT COLLISION
+	elif col_material in GlobalValues.collision_materials_soft:
+		attached_obj = collision["collider"]
+		emit_signal("state_switch", "wall_stick")
 
 
 func _on_Camera_Rig_camera_angle_changed(angles):

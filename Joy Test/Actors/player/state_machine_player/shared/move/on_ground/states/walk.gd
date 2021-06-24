@@ -24,8 +24,6 @@ func exit():
 
 #Creates output based on the input event passed in
 func handle_input(event):
-#	if Input.is_action_just_pressed("jump"):
-#		emit_signal("state_switch", "jump")
 	.handle_input(event)
 
 

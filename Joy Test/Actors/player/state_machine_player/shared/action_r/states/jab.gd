@@ -49,17 +49,34 @@ func _on_animation_finished(anim_name):
 
 func _on_jab_collision(collision):
 	if !has_hit:
-		var velocity = add_recoil_velocity(collision["col_normal"])
+		var collision_material = collision["col_material"]
 		
-		emit_signal("velocity_change", velocity)
+		if collision_material in GlobalValues.collision_materials_solid:
+			var velocity = add_recoil_velocity(collision)
+			
+			collision["recoil_vel"] = velocity
+			
+			emit_signal("jab_collision", collision)
+		elif collision_material in GlobalValues.collision_materials_soft:
+			Anim_Player.stop()
+			emit_signal("jab_collision", collision)
+			emit_signal("state_switch", "jab_stick")
 	
 	set_hit(true)
 
 
-func add_recoil_velocity(recoil_vector):
+func add_recoil_velocity(collision):
 	var recoil_velocity = Vector3(0,0,0)
+	var recoil_vector = collision["col_normal"]
+	var collision_type = collision["col_type"]
 	
-	recoil_velocity += recoil_vector * jab_strength
+	if collision_type == "strong":
+		recoil_velocity += recoil_vector * jab_strength
+	elif collision_type == "weak":
+		recoil_velocity += recoil_vector * jab_strength #should be weaker in the future
+	else:
+		print("invalid collision type sent to jab state")
+		assert(1 == 2)
 	
 	return recoil_velocity
 

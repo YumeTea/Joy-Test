@@ -6,6 +6,10 @@ signal move_state_stack_changed(state_stack)
 
 
 var initialized_values = {
+	###SHARED
+	#Shared Nodes
+	"attached_obj": Node,
+	
 	#Shared Flags
 	"is_aiming": false,
 	
@@ -28,6 +32,8 @@ func _ready():
 		"jump_aim": $Shared/Motion/In_Air/Jump_Aim,
 		"fall": $Shared/Motion/In_Air/Fall,
 		"fall_aim": $Shared/Motion/In_Air/Fall_Aim,
+		
+		"wall_stick": $Shared/Motion/In_Air/Wall_Stick
 	#	"death": $Death,
 	#	"void": $Void
 	}

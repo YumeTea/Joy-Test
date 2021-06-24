@@ -56,7 +56,7 @@ func update(_delta):
 
 func _on_animation_finished(anim_name):
 	if anim_name == "Casting":
-		if is_casting:
+		if is_charging:
 			set_cast_ready(true) #reached end of animation
 		else:
 			cast_abort() #reached beginning of animation
@@ -66,16 +66,20 @@ func cast():
 	end_casting_anim()
 	cast_projectile()
 	set_casting(false)
+	set_charging(false)
 	emit_signal("state_switch", "none")
 
 
 func cast_abort():
 	end_casting_anim()
 	set_casting(false)
+	set_charging(false)
 	emit_signal("state_switch", "none")
 
 
 func start_casting_anim(anim_scene):
+	set_charging(true)
+	
 	var anim = anim_scene.instance()
 	owner.get_node("Body/Spell_Arm/Projectile_Pos").add_child(anim)
 	anim_current_instance = owner.get_node("Body/Spell_Arm/Projectile_Pos" + "/" + anim.get_name())
@@ -87,12 +91,12 @@ func end_casting_anim():
 
 func reverse_casting_anim():
 	anim_current_instance.get_node("AnimationPlayer").play("Casting", -1, -1.0, false)
-	set_casting(false)
+	set_charging(false)
 
 
 func continue_casting_anim():
 	anim_current_instance.get_node("AnimationPlayer").play("Casting", -1, 1.0, false)
-	set_casting(true)
+	set_charging(true)
 
 
 func cast_projectile():
@@ -109,9 +113,6 @@ func cast_projectile():
 	#Set projectile starting position, direction, and target. Add to scene tree
 	projectile.start(position_init, direction_init)
 	world.add_child(projectile) #Set projectile's parent as Projectiles node
-
-
-
 
 
 

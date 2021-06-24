@@ -14,6 +14,7 @@ var initialized_values = {
 	
 	#Action L Specific Values
 	"is_casting": false,
+	"is_charging": false,
 	"cast_ready": false,
 	"anim_current_instance": Node,
 }

@@ -1,7 +1,7 @@
 extends "res://Actors/player/state_machine_player/shared/shared.gd"
 
 
-signal velocity_change(velocity)
+signal jab_collision(collision)
 
 
 #Initialized values storage
