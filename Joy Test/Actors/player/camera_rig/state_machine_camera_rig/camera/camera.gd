@@ -84,29 +84,29 @@ func rotate_camera(input):
 	var rot_rig : Vector3
 	var rot_pivot
 	
-	angle_change = Vector3(-input.y, -input.x, 0) * camera_sensitivity
+	angle_change = Vector3(deg2rad(-input.y), deg2rad(-input.x), 0) * camera_sensitivity
 	
-	rot_rig = Camera_Rig.get_rotation_degrees()
-	rot_pivot = Pivot.get_rotation_degrees()
+	rot_rig = Camera_Rig.get_rotation()
+	rot_pivot = Pivot.get_rotation()
 	rot_pivot.x += angle_change.x
 	rot_rig.y += angle_change.y
 	
-	Camera_Rig.set_rotation_degrees(rot_rig)
-	Pivot.set_rotation_degrees(rot_pivot)
+	Camera_Rig.set_rotation(rot_rig)
+	Pivot.set_rotation(rot_pivot)
 	
 	camera_angle_update()
 
 
 func camera_angle_update():
-	var degrees_rig : Vector3
-	var degrees_pivot : Vector3
+	var rot_rig : Vector3
+	var rot_pivot : Vector3
 	var camera_angle : Vector3
 	
-	degrees_rig = Camera_Rig.get_rotation_degrees()
-	degrees_pivot = Pivot.get_rotation_degrees()
-	camera_angle.x = deg2rad(degrees_pivot.x)
-	camera_angle.y = deg2rad(degrees_rig.y)
-	camera_angle.z = deg2rad(degrees_pivot.z)
+	rot_rig = Camera_Rig.get_rotation()
+	rot_pivot = Pivot.get_rotation()
+	camera_angle.x = rot_pivot.x
+	camera_angle.y = rot_rig.y
+	camera_angle.z = rot_pivot.z
 	
 	emit_signal("camera_angle_changed", camera_angle)
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://Actors/player/camera_rig/Camera_Rig.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Actors/player/Player.gd" type="Script" id=2]
@@ -31,16 +31,13 @@
 [ext_resource path="res://Actors/player/state_machine_player/shared/action_r/states/jab_aim.gd" type="Script" id=29]
 [ext_resource path="res://Actors/player/state_machine_player/shared/action_l/states/cast_aim.gd" type="Script" id=30]
 [ext_resource path="res://Actors/player/state_machine_player/shared/move/in_air/states/wall_stick.gd" type="Script" id=31]
-[ext_resource path="res://Actors/player/jab_stick.gd" type="Script" id=32]
+[ext_resource path="res://Actors/player/state_machine_player/shared/action_r/states/jab_stick.gd" type="Script" id=32]
 
 [sub_resource type="CapsuleShape" id=1]
 height = 4.0
 
 [sub_resource type="Animation" id=2]
-resource_name = "cast_life_buster"
-step = 0.0166667
-
-[sub_resource type="Animation" id=3]
+length = 0.733335
 step = 0.0166667
 tracks/0/type = "value"
 tracks/0/path = NodePath("Body/Needle_Arm/Mesh:scale")
@@ -49,7 +46,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.05, 0.15, 0.2, 1 ),
+"times": PoolRealArray( 0, 0.05, 0.15, 0.2, 0.733333 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Vector3( 0.2, 0.2, 0.2 ), Vector3( 0.2, 2.2, 0.2 ), Vector3( 0.2, 0.2, 0.2 ), Vector3( 0.2, 0.08, 0.2 ), Vector3( 0.2, 0.2, 0.2 ) ]
@@ -61,7 +58,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.05, 0.15, 0.2, 1 ),
+"times": PoolRealArray( 0, 0.05, 0.15, 0.2, 0.733333 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Vector3( 0, 10.99, 0 ), Vector3( 0, 121, 0 ), Vector3( 0, 10.99, 0 ), Vector3( 0.08, 0.08, 0.08 ), Vector3( 0, 10.99, 0 ) ]
@@ -85,11 +82,22 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0.2, 0.4, 0.6, 0.8, 1 ),
+"times": PoolRealArray( 0.2, 0.333333, 0.466667, 0.6, 0.733333 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Vector3( 0, 0, 720 ), Vector3( 0, 0, 540 ), Vector3( 0, 0, 360 ), Vector3( 0, 0, 180 ), Vector3( 0, 0, 0 ) ]
 }
+
+[sub_resource type="SphereMesh" id=3]
+radius = 0.05
+height = 0.1
+
+[sub_resource type="SpatialMaterial" id=4]
+emission_enabled = true
+emission = Color( 0, 1, 0.917647, 1 )
+emission_energy = 1.0
+emission_operator = 0
+emission_on_uv2 = false
 
 [node name="Player" type="KinematicBody"]
 collision_layer = 2
@@ -99,9 +107,6 @@ script = ExtResource( 2 )
 
 [node name="Needle_Arm" parent="Body" instance=ExtResource( 13 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 4, 0 )
-
-[node name="Mesh" parent="Body/Needle_Arm" index="0"]
-transform = Transform( 0.2, 0, 0, 0, -8.74228e-09, 0.2, 0, -0.2, -8.74228e-09, 0, 0, 0 )
 
 [node name="Spell_Arm" parent="Body" instance=ExtResource( 23 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.25, 4, -1.125 )
@@ -221,8 +226,12 @@ one_shot = true
 [node name="Debug_UI" parent="UI" instance=ExtResource( 9 )]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/cast_life_buster = SubResource( 2 )
-anims/jab_test = SubResource( 3 )
+anims/jab_test = SubResource( 2 )
+
+[node name="Debug_Point" type="MeshInstance" parent="."]
+visible = false
+mesh = SubResource( 3 )
+material/0 = SubResource( 4 )
 
 [connection signal="state_machine_camera_state_stack_changed" from="Camera_Rig" to="UI/Debug_UI" method="_on_Camera_Rig_state_machine_camera_state_stack_changed"]
 [connection signal="move_state_stack_changed" from="State_Machines/State_Machine_Move" to="UI/Debug_UI" method="_on_State_Machine_Move_move_state_stack_changed"]

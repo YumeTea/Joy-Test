@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Levels/Test_Cell/level_geometry/Test_Cell_Geometry.tscn" type="PackedScene" id=1]
 [ext_resource path="res://default_env.tres" type="Environment" id=2]
@@ -9,7 +9,10 @@
 [ext_resource path="res://Levels/Test_Cell/objects/slope/Slope.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Levels/Test_Cell/objects/surface_test/Surface_Test.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Levels/Test_Cell/objects/gate/Gate.tscn" type="PackedScene" id=9]
-[ext_resource path="res://Levels/Test_Cell/objects/gate/Gate_Mobile.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Levels/Test_Cell/objects/gate/Gate_Strafe.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Levels/Test_Cell/objects/gate/Gate_Rotate.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Levels/Test_Cell/objects/gate/Gate_Spin.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Levels/Test_Cell/objects/gate/Gate_Rotate_Full.tscn" type="PackedScene" id=13]
 
 [node name="Level" type="Spatial"]
 
@@ -53,11 +56,25 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 0, -10.5 )
 [node name="surface_test_2" parent="Objects" instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 31.9952, 0.0593491, -24.0593 )
 
-[node name="gate" parent="Objects" instance=ExtResource( 9 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 60, 0, -24 )
+[node name="Jab Objects" type="Spatial" parent="Objects"]
 
-[node name="gate2" parent="Objects" instance=ExtResource( 10 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 60, 0, 24 )
+[node name="gate_rotate_full" parent="Objects/Jab Objects" instance=ExtResource( 13 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 164, 24, 0 )
+
+[node name="gate_spin" parent="Objects/Jab Objects" instance=ExtResource( 12 )]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 128, 4, 25 )
+
+[node name="gate_rotate2" parent="Objects/Jab Objects" instance=ExtResource( 11 )]
+transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 128, 48, -24 )
+
+[node name="gate_rotate" parent="Objects/Jab Objects" instance=ExtResource( 11 )]
+transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 96, 24, -24 )
+
+[node name="gate_strafe" parent="Objects/Jab Objects" instance=ExtResource( 10 )]
+transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 60, 24, 24 )
+
+[node name="gate" parent="Objects/Jab Objects" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 60, 0, -24 )
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( 0.707107, -0.541675, 0.454519, 0, 0.642788, 0.766044, -0.707107, -0.541675, 0.454519, 0, 45, 0 )

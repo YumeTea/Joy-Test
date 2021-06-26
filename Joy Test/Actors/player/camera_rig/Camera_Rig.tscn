@@ -50,7 +50,7 @@ script = ExtResource( 7 )
 [node name="Default" type="Position3D" parent="Pivot_Points"]
 
 [node name="Aim" type="Position3D" parent="Pivot_Points"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -1.4 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, -1 )
 
 [node name="State_Machine_Camera" type="Node" parent="."]
 script = ExtResource( 5 )
@@ -74,6 +74,7 @@ script = ExtResource( 4 )
 [node name="Tween_Camera" type="Tween" parent="."]
 
 [node name="Debug_Look_At_Point" type="MeshInstance" parent="."]
+visible = false
 mesh = SubResource( 2 )
 material/0 = null
 

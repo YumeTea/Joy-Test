@@ -5,9 +5,17 @@ signal action_r_state_changed(action_state)
 signal action_r_state_stack_changed(state_stack)
 
 var initialized_values = {
+	###SHARED
 	"camera_angles": Vector3(),
 	"camera_look_at_point": Vector3(),
 	
+	"attached_obj": Node,
+	
+	###ACTION R SPECIFIC
+	#Variables
+	"stick_point": Vector3(),
+	
+	#Flags
 	"is_aiming": false,
 }
 

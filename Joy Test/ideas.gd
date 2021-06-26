@@ -1,7 +1,6 @@
 extends Node
 
 'there is some situation where the aim state is exited when attacking even if holding aim_r'
-'jab_aim aim is off'
 
 'Figure out why in editor signal connections dont work for states'
 'Aim states may be running 1 frame longer than intended'
@@ -10,7 +9,7 @@ extends Node
 'Is there a better way to preserve variables between states?'
 
 
-'Buffer jab_aim input? or some other solution'
+'What inputs should be buffered?'
 
 
 func ideas_aiming():

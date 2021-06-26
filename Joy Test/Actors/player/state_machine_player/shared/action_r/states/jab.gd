@@ -59,6 +59,10 @@ func _on_jab_collision(collision):
 			emit_signal("jab_collision", collision)
 		elif collision_material in GlobalValues.collision_materials_soft:
 			Anim_Player.stop()
+			
+			stick_point = attached_obj.to_local(collision["col_point"])
+			stick_point = collision["col_point"]
+			
 			emit_signal("jab_collision", collision)
 			emit_signal("state_switch", "jab_stick")
 	

@@ -31,7 +31,8 @@ func update_camera_raycast():
 	
 	emit_signal("camera_raycast_collision_changed", look_at_point)
 	
-	$Debug_Look_At_Point.global_transform.origin = look_at_point
+	#Debug
+#	$Debug_Look_At_Point.global_transform.origin = look_at_point
 
 
 ###SIGNAL FUNCTIONS###

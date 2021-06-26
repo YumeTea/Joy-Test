@@ -1,6 +1,9 @@
 extends "res://Actors/player/state_machine_player/shared/action_r/action_r.gd"
 
+var rot_origin : Vector3
 
+var rot_attached_current : Vector3
+var rot_attached_prev : Vector3
 
 var attached_facing_point : Vector3
 
@@ -18,6 +21,10 @@ func enter():
 	Needle_Arm = owner.get_node("Body").get_node("Needle_Arm")
 	
 	attached_facing_point = get_attached_facing_point(attached_obj)
+	
+	rot_origin = Body.get_global_transform().basis.get_rotation_quat().get_euler()
+	rot_attached_current = attached_obj.get_global_transform().basis.get_rotation_quat().get_euler()
+	rot_attached_prev = attached_obj.get_global_transform().basis.get_rotation_quat().get_euler()
 	
 	.enter()
 
@@ -75,20 +82,16 @@ func reset_arm_rotation():
 
 
 func rotate_player():
-	var look_at_point : Vector3
-	var transform : Transform
-	var rot : Vector3
+	var rot_change : Vector3
 	
+	rot_attached_current = attached_obj.get_global_transform().basis.get_rotation_quat().get_euler()
 	
-	look_at_point = attached_obj.to_global(attached_facing_point)
-	look_at_point = Body.to_local(look_at_point)
-	look_at_point = Vector3(look_at_point.x, 0, look_at_point.z).normalized()
-	look_at_point = Body.to_global(look_at_point)
+	rot_change = calc_rotation_change(rot_attached_current, rot_attached_prev)
+	print(rad2deg(rot_change.y))
 	
-	transform = Body.get_global_transform()
-	transform = transform.looking_at(look_at_point, Vector3(0,1,0))
+	rot_attached_prev = rot_attached_current
 	
-	Body.set_global_transform(transform)
+	Body.rotate_y(rot_change.y)
 
 
 func get_attached_facing_point(attached_obj):
@@ -100,4 +103,73 @@ func get_attached_facing_point(attached_obj):
 	attached_facing_point = attached_obj.to_local(Body.get_global_transform().origin + facing_dir)
 	
 	return attached_facing_point
+
+
+#func calc_rotation_change(rot_current, rot_prev):
+#	var rot_change : Vector3
+#	var vec1 : Vector2
+#	var vec2 : Vector2
+#
+#	rot_change = rot_current - rot_prev
+#
+#	#X
+#
+#	#Y
+#	vec1 = Vector2(1,0).rotated(rot_prev.y)
+#	vec2 = Vector2(1,0).rotated(rot_current.y)
+#
+#	rot_change.y = vec1.angle_to(vec2)
+#
+#
+#
+#
+#
+#	#Z
+#
+#	return rot_change
+
+
+func calc_rotation_change(rot_current, rot_prev):
+	var rot_change : Vector3
+	
+	rot_change = rot_current - rot_prev
+	
+	#X
+	if rot_change.x > PI / 2:
+		rot_change.x -= PI
+		if rot_change.x > PI / 2:
+			rot_change.x -= PI
+	elif rot_change.x < -PI / 2:
+		rot_change.x += PI
+		if rot_change.x < -PI / 2:
+			rot_change.x += PI
+	#Y
+	if rot_change.y > PI / 2:
+		rot_change.y -= PI
+		if rot_change.y > PI / 2:
+			rot_change.y -= PI
+	elif rot_change.y < -PI / 2:
+		rot_change.y += PI
+		if rot_change.y < -PI / 2:
+			rot_change.y += PI
+	#Z
+	if rot_change.z > PI / 2:
+		rot_change.z -= PI
+		if rot_change.z > PI / 2:
+			rot_change.z -= PI
+	elif rot_change.z < -PI / 2:
+		rot_change.z += PI
+		if rot_change.z < -PI / 2:
+			rot_change.z += PI
+	
+	return rot_change
+
+
+
+
+
+
+
+
+
 

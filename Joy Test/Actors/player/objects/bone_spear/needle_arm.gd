@@ -21,6 +21,7 @@ func get_collision_values(raycast_node):
 		"collider": Node,
 		"col_material" : "",
 		"col_type" : "",
+		"col_point" : Vector3(),
 		"col_normal": Vector3(),
 		"recoil_vel": Vector3(),
 	}
@@ -33,6 +34,9 @@ func get_collision_values(raycast_node):
 	
 	###COL_TYPE
 	collision["col_type"] = get_collision_type(raycast_node)
+	
+	###COL_POINT
+	collision["col_point"] = raycast_node.get_collision_point()
 	
 	###COL_NORMAL
 	collision["col_normal"] = get_collision_normal(raycast_node)

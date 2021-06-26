@@ -7,6 +7,9 @@ signal jab_collision(collision)
 #Initialized values storage
 var initialized_values : Dictionary
 
+#Jab Variables
+var stick_point : Vector3
+
 #Node Storage
 onready var Timer_Action_R = owner.get_node("State_Machines/State_Machine_Action_R/Timer_Action_R")
 

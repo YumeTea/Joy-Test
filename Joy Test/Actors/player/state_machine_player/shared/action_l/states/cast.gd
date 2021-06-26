@@ -104,7 +104,7 @@ func cast_projectile():
 	var projectile_current = current_spell #determined by ??? in future
 	var projectile = projectile_current.instance()
 	#Sets facing angle to character model direction
-	var facing_direction = Vector3(0,0,-1).rotated(Vector3(0,1,0), deg2rad(Body.get_rotation_degrees().y))
+	var facing_direction = Vector3(0,0,-1).rotated(Vector3(0,1,0), Body.get_rotation().y)
 #	var camera_direction = Vector3(0,0,-1).rotated(Vector3(0,1,0), camera_angles.y)
 	
 	#Initialize and spawn projectile

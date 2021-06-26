@@ -108,12 +108,12 @@ func interp_walk_velocity(input_direction, current_velocity, delta):
 
 func rotate_to_direction(direction): #Direction should be normalized
 	if direction.length() > 0:
-		var angle = rad2deg(Vector2(0, 1).angle_to(-direction)) #calc degree of player rotation on y axis
+		var angle = Vector2(0, 1).angle_to(-direction) #calc degree of player rotation on y axis
 		
-		var rot_final = Body.get_rotation_degrees()
+		var rot_final = Body.get_rotation()
 		rot_final.y = -angle
 		
-		Body.set_rotation_degrees(rot_final)
+		Body.set_rotation(rot_final)
 	else:
 		return
 

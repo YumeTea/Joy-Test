@@ -57,10 +57,10 @@ func add_jump_velocity(velocity):
 
 
 func rotate_to_direction(direction): #Direction should be normalized
-	var angle = rad2deg(camera_angles.y)
+	var angle = camera_angles.y
 	
-	var rot_final = Body.get_rotation_degrees()
+	var rot_final = Body.get_rotation()
 	rot_final.y = angle
 	
-	Body.set_rotation_degrees(rot_final)
+	Body.set_rotation(rot_final)
 

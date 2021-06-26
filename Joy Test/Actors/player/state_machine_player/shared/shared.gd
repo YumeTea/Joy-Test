@@ -18,6 +18,9 @@ onready var Timer_Aim = owner.get_node("State_Machines/State_Machine_Move/Timer_
 
 onready var Anim_Player = owner.get_node("AnimationPlayer")
 
+#Debug Nodes
+onready var Debug_Point = owner.get_node("Debug_Point")
+
 #Player Flags
 var is_aiming : bool
 
@@ -88,3 +91,12 @@ func get_gyro_input_r(event):
 	var input_gyro = event.get_relative() * gyro_sensitivity
 	
 	return(input_gyro)
+
+
+func get_facing_direction_horizontal(node : Node):
+	var facing_direction : Vector3
+	
+	facing_direction = Vector3(0,0,-1).rotated(Vector3(0,1,0), node.get_global_transform().basis.get_rotation_quat().get_euler().y)
+	
+	return facing_direction
+
