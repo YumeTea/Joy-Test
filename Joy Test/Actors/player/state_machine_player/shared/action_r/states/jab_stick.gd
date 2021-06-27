@@ -1,8 +1,6 @@
 extends "res://Actors/player/state_machine_player/shared/action_r/action_r.gd"
 
 
-var attached_facing_dir : Vector3
-
 #Node Storage
 var Needle_Arm : Node
 
@@ -45,6 +43,7 @@ func update(delta):
 	.update(delta)
 	
 	if owner.get_slide_count() > 0:
+		attached_obj = null
 		continue_jab_anim()
 
 

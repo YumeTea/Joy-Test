@@ -14,6 +14,7 @@ var initialized_values = {
 	###ACTION R SPECIFIC
 	#Variables
 	"stick_point": Vector3(),
+	"attached_facing_dir": Vector3(),
 	
 	#Flags
 	"is_aiming": false,
@@ -25,11 +26,10 @@ func _ready():
 		"jab": $Shared/Action_R/Jab,
 		"jab_aim": $Shared/Action_R/Jab_Aim,
 		"jab_stick": $Shared/Action_R/Jab_Stick,
+		"jab_stick_jump": $Shared/Action_R/Jab_Stick_Jump,
 	#	"death": $Death,
 	#	"void": $Void
 	}
-	#Send out dictionary of initialized values to all states at start
-#	emit_signal("initialized_values_dic_set", initialized_values)
 	
 	emit_signal("action_r_state_changed", states_stack[0])
 	emit_signal("action_r_state_stack_changed", states_stack)

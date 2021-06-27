@@ -30,7 +30,7 @@ func handle_input(event):
 
 #Acts as the _process method would
 func update(delta):
-	if Input.is_action_just_pressed("aim_r"):
+	if is_aiming:
 		emit_signal("state_switch", "idle_aim")
 		return
 	

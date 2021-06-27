@@ -27,8 +27,6 @@ func _ready():
 	#	"death": $Death,
 	#	"void": $Void
 	}
-	#Send out dictionary of initialized values to all states at start
-#	emit_signal("initialized_values_dic_set", initialized_values)
 	
 	emit_signal("action_l_state_changed", states_stack[0])
 	emit_signal("action_l_state_stack_changed", states_stack)

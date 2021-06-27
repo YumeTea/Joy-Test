@@ -1,9 +1,6 @@
 extends "res://Actors/player/state_machine_player/shared/action_r/action_r.gd"
 
 
-
-var attached_facing_point : Vector3
-
 #Node Storage
 var Needle_Arm : Node
 
@@ -17,8 +14,6 @@ func initialize_values(init_values_dic):
 func enter():
 	Needle_Arm = owner.get_node("Body").get_node("Needle_Arm")
 	
-	attached_facing_point = get_attached_facing_point(attached_obj)
-	
 	.enter()
 
 
@@ -29,11 +24,6 @@ func exit():
 
 #Creates output based on the input event passed in
 func handle_input(event):
-	if Input.is_action_just_pressed("attack_right"):
-		attached_obj = null #Clear attached object after letting go
-		continue_jab_anim()
-		
-	
 	.handle_input(event)
 
 
@@ -46,6 +36,7 @@ func update(delta):
 	.update(delta)
 	
 	if owner.get_slide_count() > 0:
+		attached_obj = null
 		continue_jab_anim()
 
 
@@ -75,29 +66,34 @@ func reset_arm_rotation():
 
 
 func rotate_player():
+	var look_at_dir : Vector3
 	var look_at_point : Vector3
-	var transform : Transform
-	var rot : Vector3
 	
+	look_at_dir = attached_obj.to_global(attached_facing_dir) - attached_obj.get_global_transform().origin
+	look_at_dir.y = 0
+	look_at_dir = look_at_dir.normalized()
 	
-	look_at_point = attached_obj.to_global(attached_facing_point)
-	look_at_point = Body.to_local(look_at_point)
-	look_at_point = Vector3(look_at_point.x, 0, look_at_point.z).normalized()
-	look_at_point = Body.to_global(look_at_point)
+	look_at_point = Body.get_global_transform().origin + look_at_dir
 	
-	transform = Body.get_global_transform()
-	transform = transform.looking_at(look_at_point, Vector3(0,1,0))
-	
-	Body.set_global_transform(transform)
+	Body.look_at(look_at_point, Vector3(0,1,0))
 
 
-func get_attached_facing_point(attached_obj):
+func get_attached_facing_dir(attached_obj):
 	var facing_dir : Vector3
-	var attached_facing_point : Vector3
+	var attached_facing_dir : Vector3
 	
-	facing_dir = get_facing_direction_2d(Body)
+	facing_dir = get_facing_direction_horizontal(Body)
 	
-	attached_facing_point = attached_obj.to_local(Body.get_global_transform().origin + facing_dir)
+	attached_facing_dir = attached_obj.to_local(attached_obj.get_global_transform().origin + facing_dir)
 	
-	return attached_facing_point
+	return attached_facing_dir
+
+
+
+
+
+
+
+
+
 

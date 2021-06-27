@@ -132,7 +132,7 @@ func _on_jab_collision(collision):
 	##SOFT COLLISION
 	elif col_material in GlobalValues.collision_materials_soft:
 		attached_obj = collision["collider"]
-		emit_signal("state_switch", "wall_stick")
+		emit_signal("state_switch", "stick_wall")
 
 
 func _on_Camera_Rig_camera_angle_changed(angles):

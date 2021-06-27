@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://Actors/player/camera_rig/Camera_Rig.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Actors/player/Player.gd" type="Script" id=2]
@@ -32,6 +32,8 @@
 [ext_resource path="res://Actors/player/state_machine_player/shared/action_l/states/cast_aim.gd" type="Script" id=30]
 [ext_resource path="res://Actors/player/state_machine_player/shared/move/in_air/states/wall_stick.gd" type="Script" id=31]
 [ext_resource path="res://Actors/player/state_machine_player/shared/action_r/states/jab_stick.gd" type="Script" id=32]
+[ext_resource path="res://Actors/player/jab_stick_jump.gd" type="Script" id=33]
+[ext_resource path="res://Actors/player/state_machine_player/shared/move/in_air/states/stick_jump.gd" type="Script" id=34]
 
 [sub_resource type="CapsuleShape" id=1]
 height = 4.0
@@ -163,8 +165,11 @@ script = ExtResource( 27 )
 [node name="Fall_Aim" type="Node" parent="State_Machines/State_Machine_Move/Shared/Motion/In_Air"]
 script = ExtResource( 28 )
 
-[node name="Wall_Stick" type="Node" parent="State_Machines/State_Machine_Move/Shared/Motion/In_Air"]
+[node name="Stick_Wall" type="Node" parent="State_Machines/State_Machine_Move/Shared/Motion/In_Air"]
 script = ExtResource( 31 )
+
+[node name="Stick_Jump" type="Node" parent="State_Machines/State_Machine_Move/Shared/Motion/In_Air"]
+script = ExtResource( 34 )
 
 [node name="In_Water" type="Node" parent="State_Machines/State_Machine_Move/Shared/Motion"]
 script = ExtResource( 14 )
@@ -217,6 +222,9 @@ script = ExtResource( 29 )
 
 [node name="Jab_Stick" type="Node" parent="State_Machines/State_Machine_Action_R/Shared/Action_R"]
 script = ExtResource( 32 )
+
+[node name="Jab_Stick_Jump" type="Node" parent="State_Machines/State_Machine_Action_R/Shared/Action_R"]
+script = ExtResource( 33 )
 
 [node name="Timer_Action_R" type="Timer" parent="State_Machines/State_Machine_Action_R"]
 one_shot = true

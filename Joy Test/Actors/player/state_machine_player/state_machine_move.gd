@@ -33,13 +33,13 @@ func _ready():
 		"fall": $Shared/Motion/In_Air/Fall,
 		"fall_aim": $Shared/Motion/In_Air/Fall_Aim,
 		
-		"wall_stick": $Shared/Motion/In_Air/Wall_Stick
+		"stick_wall": $Shared/Motion/In_Air/Stick_Wall,
+		"stick_jump": $Shared/Motion/In_Air/Stick_Jump,
 	#	"death": $Death,
 	#	"void": $Void
 	}
 	
 	stack_states = [
-#		"jump", "jump_aim"
 	]
 	
 	emit_signal("move_state_changed", states_stack[0].name)

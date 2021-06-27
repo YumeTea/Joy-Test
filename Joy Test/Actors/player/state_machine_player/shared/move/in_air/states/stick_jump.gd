@@ -1,5 +1,7 @@
 extends "res://Actors/player/state_machine_player/shared/move/in_air/in_air.gd"
 
+'need to prevent player from climbing higher using this state'
+'player should fail to jump if they collide with the level before jumping'
 
 #Jump Variables
 var jump_velocity = 24
@@ -12,8 +14,7 @@ func initialize_values(init_values_dic):
 
 #Initializes state, changes animation, etc
 func enter():
-	has_jumped = false
-	velocity = add_jump_velocity(velocity)
+#	has_jumped = false
 	
 	.enter()
 
@@ -30,10 +31,6 @@ func handle_input(event):
 
 #Acts as the _process method would
 func update(delta):
-	if is_aiming:
-		emit_signal("state_switch", "fall_aim")
-		return
-	
 	.update(delta)
 
 
