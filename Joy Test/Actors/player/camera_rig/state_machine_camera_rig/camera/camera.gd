@@ -3,16 +3,6 @@ extends "res://Scripts/state_machine/state_default.gd"
 signal camera_angle_changed(camera_angles)
 
 
-##Controller Variables
-#Joystick
-var joystick_l_deadzone_inner = 0.1
-var joystick_l_deadzone_outer = 0.9
-var joystick_r_deadzone_inner = 0.1
-var joystick_r_deadzone_outer = 0.9
-
-#Gyro
-var gyro_sensitivity = 0.06
-
 ##Input Variables
 var input_stick_r : Vector2
 var input_gyro_r : Vector2
@@ -163,10 +153,21 @@ func get_joystick_input_r():
 	input.y = Input.get_joy_axis(0, 3)
 	
 	#Deadzone control
-	if input.length() > joystick_l_deadzone_outer:
+	if input.length() > ControllerValues.joystick_l_deadzone_outer:
 		input = input.normalized()
-	elif input.length() < joystick_l_deadzone_inner:
+	elif input.length() < ControllerValues.joystick_l_deadzone_inner:
 		input = Vector2(0,0)
+	else:
+		var deadzone_interp : float
+		var input_value : float
+		var deadzone_range : float
+		
+		input_value = (ControllerValues.joystick_l_deadzone_outer - input.length())
+		deadzone_range = (ControllerValues.joystick_l_deadzone_outer - ControllerValues.joystick_l_deadzone_inner)
+		
+		deadzone_interp = 1 - (input_value /  deadzone_range)
+		
+		input = Vector2(0,0).linear_interpolate(input.normalized(), deadzone_interp)
 	
 	return(input)
 
@@ -178,7 +179,7 @@ func get_joystick_input_r():
 
 #Takes from betterjoy gyrotomouse
 func get_gyro_input_r(event):
-	var input_gyro = event.get_relative() * gyro_sensitivity
+	var input_gyro = event.get_relative() * ControllerValues.gyro_sensitivity
 	
 	return(input_gyro)
 

@@ -63,7 +63,8 @@ func calc_walk_velocity(current_velocity, delta):
 	input = get_joystick_input_l()
 	
 	#Get direction
-	input_direction = input.normalized().rotated(-camera_angles.y)
+#	input_direction = input.normalized().rotated(-camera_angles.y)
+	input_direction = input.rotated(-camera_angles.y)
 	
 	#Rotate player
 	rotate_to_direction(input_direction)

@@ -1,9 +1,6 @@
 extends "res://Scripts/state_machine/state_default.gd"
 
 
-#Input Variables
-var gyro_sensitivity = 0.1
-
 #Camera View Variables
 var camera_angles : Vector3
 var camera_look_at_point : Vector3 #stores point that camera raycast is hitting
@@ -70,15 +67,55 @@ func set_aiming(value : bool):
 
 ###INPUT FUNCTIONS###
 func get_joystick_input_l():
-	var input_x = Input.get_joy_axis(0, 0)
-	var input_y = Input.get_joy_axis(0, 1)
+	var input : Vector2
 	
-	return Vector2(input_x, input_y)
-
+	input.x = Input.get_joy_axis(0, 0)
+	input.y = Input.get_joy_axis(0, 1)
+	
+	#Deadzone control
+	if input.length() > ControllerValues.joystick_r_deadzone_outer:
+		input = input.normalized()
+	elif input.length() < ControllerValues.joystick_r_deadzone_inner:
+		input = Vector2(0,0)
+	else:
+		var deadzone_interp : float
+		var input_value : float
+		var deadzone_range : float
+		
+		input_value = (ControllerValues.joystick_r_deadzone_outer - input.length())
+		deadzone_range = (ControllerValues.joystick_r_deadzone_outer - ControllerValues.joystick_r_deadzone_inner)
+		
+		deadzone_interp = 1 - (input_value /  deadzone_range)
+		
+		input = Vector2(0,0).linear_interpolate(input.normalized(), deadzone_interp)
+	
+	return(input)
 
 
 func get_joystick_input_r():
-	pass
+	var input : Vector2
+	
+	input.x = Input.get_joy_axis(0, 2)
+	input.y = Input.get_joy_axis(0, 3)
+	
+	#Deadzone control
+	if input.length() > ControllerValues.joystick_l_deadzone_outer:
+		input = input.normalized()
+	elif input.length() < ControllerValues.joystick_l_deadzone_inner:
+		input = Vector2(0,0)
+	else:
+		var deadzone_interp : float
+		var input_value : float
+		var deadzone_range : float
+		
+		input_value = (ControllerValues.joystick_l_deadzone_outer - input.length())
+		deadzone_range = (ControllerValues.joystick_l_deadzone_outer - ControllerValues.joystick_l_deadzone_inner)
+		
+		deadzone_interp = 1 - (input_value /  deadzone_range)
+		
+		input = Vector2(0,0).linear_interpolate(input.normalized(), deadzone_interp)
+	
+	return(input)
 
 
 #Currently unsupported
@@ -88,7 +125,7 @@ func get_joystick_input_r():
 
 #Takes from betterjoy gyrotomouse
 func get_gyro_input_r(event):
-	var input_gyro = event.get_relative() * gyro_sensitivity
+	var input_gyro = event.get_relative() * ControllerValues.gyro_sensitivity
 	
 	return(input_gyro)
 

@@ -17,6 +17,7 @@ run/main_scene="res://Levels/main/Main.tscn"
 
 Global="*res://Scripts/autoload/Global.gd"
 GlobalValues="*res://Scripts/autoload/GlobalValues.gd"
+ControllerValues="*res://Scripts/autoload/ControllerValues.gd"
 
 [display]
 
