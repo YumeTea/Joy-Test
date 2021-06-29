@@ -11,6 +11,8 @@ func initialize_values(init_values_dic):
 func enter():
 	set_aiming(true)
 	
+	AnimStateMachineMotion.start("none") #TEMPORARY UNTIL FURTHER ANIMS ARE MADE
+	
 	.enter()
 
 

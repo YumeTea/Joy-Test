@@ -60,9 +60,8 @@ func _on_animation_finished(anim_name):
 	if anim_name == "stick_jump":
 		continue_jab_anim(anim_pause_position)
 	if anim_name == "jab_test":
+		AnimStateMachineActionR.start("none") #TEMPORARY UNTIL FURTHER ANIMS ARE MADE
 		set_jab_done(true)
-#		reset_arm_rotation()
-#		emit_signal("state_switch", "none")
 
 
 func jump():
@@ -71,8 +70,8 @@ func jump():
 
 
 func continue_jab_anim(anim_position):
-	Anim_Player.play("jab_test")
-	Anim_Player.seek(anim_pause_position)
+	AnimStateMachineActionR.start("jab_test")
+	AnimTree.set("parameters/SeekActionR/seek_position", anim_pause_position)
 
 
 func rotate_arm():

@@ -39,9 +39,6 @@ func handle_input(event):
 
 #Acts as the _process method would
 func update(delta):
-#	print(Anim_Player.get_current_animation())
-	
-	
 	if attached_obj != null:
 		rotate_player()
 		rotate_arm()
@@ -61,8 +58,8 @@ func _on_animation_finished(anim_name):
 
 
 func continue_jab_anim(anim_pause_position):
-	Anim_Player.play("jab_test")
-	Anim_Player.seek(anim_pause_position, true)
+	AnimStateMachineActionR.start("jab_test")
+	AnimTree.set("parameters/SeekActionR/seek_position", anim_pause_position)
 
 
 func rotate_arm():

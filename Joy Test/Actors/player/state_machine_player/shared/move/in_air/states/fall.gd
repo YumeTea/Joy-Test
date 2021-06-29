@@ -9,6 +9,8 @@ func initialize_values(init_values_dic):
 
 #Initializes state, changes animation, etc
 func enter():
+	AnimStateMachineMotion.start("none") #TEMPORARY UNTIL FURTHER ANIMS ARE MADE
+	
 	.enter()
 
 

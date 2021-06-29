@@ -17,6 +17,8 @@ var snap_vector_default = Vector3(0, -0.5, 0)
 #Node Storage
 onready var Timer_Move = owner.get_node("State_Machines/State_Machine_Move/Timer_Move")
 
+onready var AnimStateMachineMotion = owner.get_node("AnimationTree").get("parameters/StateMachineMotion/playback")
+
 
 #Initializes state, changes animation, etc
 func enter():

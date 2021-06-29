@@ -27,7 +27,7 @@ func enter():
 	
 	Needle_Arm.connect("raycast_collided", self, "_on_jab_collision")
 	aim_arm_transform(camera_look_at_point)
-	Anim_Player.play("jab_test")
+	AnimStateMachineActionR.start("jab_test")
 	
 	.enter()
 
@@ -99,8 +99,8 @@ func _on_jab_collision(collision):
 			
 			emit_signal("jab_collision", collision)
 		elif collision_material in GlobalValues.collision_materials_soft:
-			anim_pause_position = Anim_Player.get_current_animation_position()
-			Anim_Player.stop()
+			anim_pause_position = AnimStateMachineActionR.get_current_play_position()
+			AnimStateMachineActionR.stop()
 			
 			attached_obj = collision["collider"]
 			stick_point = attached_obj.to_local(collision["col_point"])

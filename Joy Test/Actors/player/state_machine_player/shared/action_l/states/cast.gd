@@ -1,6 +1,9 @@
 extends "res://Actors/player/state_machine_player/shared/action_l/action_l.gd"
 
 
+'use seek node in anim tree to handle reversing charging anim'
+
+
 var life_buster_anim_scene = preload("res://Actors/player/objects/life_buster/anim/Life_Buster_Anim.tscn")
 var current_spell_anim = life_buster_anim_scene
 

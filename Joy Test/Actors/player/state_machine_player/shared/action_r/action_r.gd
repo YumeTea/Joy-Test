@@ -18,6 +18,9 @@ var anim_pause_position : float
 onready var State_Machine_Action_R = owner.get_node("State_Machines/State_Machine_Action_R")
 onready var Timer_Action_R = owner.get_node("State_Machines/State_Machine_Action_R/Timer_Action_R")
 
+onready var AnimStateMachineActionR = owner.get_node("AnimationTree").get("parameters/StateMachineActionR/playback")
+onready var AnimSeekActionR = owner.get_node("AnimationTree").get("parameters/SeekActionR/seek_position")
+
 #Action R Bools
 var hit_active : bool
 var has_hit : bool

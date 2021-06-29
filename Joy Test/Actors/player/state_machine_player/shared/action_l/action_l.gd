@@ -8,7 +8,11 @@ signal velocity_change(velocity)
 var initialized_values : Dictionary
 
 #Node Storage
+onready var State_Machine_Action_L = owner.get_node("State_Machines/State_Machine_Action_L")
 onready var Timer_Action_L = owner.get_node("State_Machines/State_Machine_Action_L/Timer_Action_L")
+
+onready var AnimStateMachineActionL = owner.get_node("AnimationTree").get("parameters/StateMachineActionL/playback")
+onready var AnimSeekActionL = owner.get_node("AnimationTree").get("parameters/SeekActionL/seek_position")
 
 #Action L Flags
 var is_casting : bool

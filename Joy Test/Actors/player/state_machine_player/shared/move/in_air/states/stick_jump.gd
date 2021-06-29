@@ -17,7 +17,7 @@ func initialize_values(init_values_dic):
 func enter():
 	set_jumped(false)
 	
-	Anim_Player.play("stick_jump")
+	AnimStateMachineMotion.start("stick_jump")
 	
 	.enter()
 
