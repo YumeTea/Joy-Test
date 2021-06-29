@@ -12,12 +12,16 @@ var initialized_values = {
 	"attached_obj": Node,
 	
 	###ACTION R SPECIFIC
-	#Variables
+	#Jab Variables
 	"stick_point": Vector3(),
 	"attached_facing_dir": Vector3(),
 	
+	#Anim Variables
+	"anim_pause_position": 0.0,
+	
 	#Flags
 	"is_aiming": false,
+	"hit_active": false,
 }
 
 func _ready():

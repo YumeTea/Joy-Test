@@ -92,6 +92,8 @@ func connect_local_signals():
 	
 	owner.get_node("State_Machines/State_Machine_Move/Timer_Aim").connect("timeout", self, "_on_Timer_Aim_timeout")
 	owner.get_node("State_Machines/State_Machine_Move/Timer_Move").connect("timeout", self, "_on_Timer_Move_timeout")
+	
+	owner.get_node("AnimationPlayer").connect("animation_finished", self, "_on_animation_finished")
 
 
 func disconnect_local_signals():
@@ -103,6 +105,8 @@ func disconnect_local_signals():
 	
 	owner.get_node("State_Machines/State_Machine_Move/Timer_Aim").disconnect("timeout", self, "_on_Timer_Aim_timeout")
 	owner.get_node("State_Machines/State_Machine_Move/Timer_Move").disconnect("timeout", self, "_on_Timer_Move_timeout")
+	
+	owner.get_node("AnimationPlayer").disconnect("animation_finished", self, "_on_animation_finished")
 
 
 ###LOCAL SIGNAL COMMS###

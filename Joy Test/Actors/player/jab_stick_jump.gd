@@ -1,5 +1,10 @@
 extends "res://Actors/player/state_machine_player/shared/action_r/action_r.gd"
 
+'currently set up for single animation player'
+
+var jump_position : Vector3
+var has_jumped : bool
+var jab_done : bool
 
 #Node Storage
 var Needle_Arm : Node
@@ -12,6 +17,10 @@ func initialize_values(init_values_dic):
 
 #Initializes state, changes animation, etc
 func enter():
+	jump_position = owner.get_global_transform().origin
+	set_jumped(false)
+	set_jab_done(false)
+	
 	Needle_Arm = owner.get_node("Body").get_node("Needle_Arm")
 	
 	.enter()
@@ -35,19 +44,35 @@ func update(delta):
 	
 	.update(delta)
 	
-	if owner.get_slide_count() > 0:
+	#Let go if player collides with object before jumping
+	if owner.get_slide_count() > 0 and attached_obj != null:
 		attached_obj = null
-		continue_jab_anim()
+		continue_jab_anim(anim_pause_position)
+	
+	#Only end jab state when player has fallen beneath initial height or is_on_floor
+	if has_jumped:
+		if owner.get_global_transform().origin.y <= jump_position.y or owner.is_on_floor():
+			reset_arm_rotation()
+			emit_signal("state_switch", "none")
 
 
 func _on_animation_finished(anim_name):
+	if anim_name == "stick_jump":
+		continue_jab_anim(anim_pause_position)
 	if anim_name == "jab_test":
-		reset_arm_rotation()
-		emit_signal("state_switch", "none")
+		set_jab_done(true)
+#		reset_arm_rotation()
+#		emit_signal("state_switch", "none")
 
 
-func continue_jab_anim():
-	Anim_Player.play()
+func jump():
+	set_jumped(true)
+	attached_obj = null
+
+
+func continue_jab_anim(anim_position):
+	Anim_Player.play("jab_test")
+	Anim_Player.seek(anim_pause_position)
 
 
 func rotate_arm():
@@ -89,11 +114,11 @@ func get_attached_facing_dir(attached_obj):
 	return attached_facing_dir
 
 
+func set_jumped(value):
+	has_jumped = value
 
 
-
-
-
-
+func set_jab_done(value):
+	jab_done = value
 
 

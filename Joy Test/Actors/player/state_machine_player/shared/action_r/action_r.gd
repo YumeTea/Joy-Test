@@ -11,10 +11,15 @@ var initialized_values : Dictionary
 var stick_point : Vector3
 var attached_facing_dir : Vector3
 
+#Animation Variables
+var anim_pause_position : float
+
 #Node Storage
+onready var State_Machine_Action_R = owner.get_node("State_Machines/State_Machine_Action_R")
 onready var Timer_Action_R = owner.get_node("State_Machines/State_Machine_Action_R/Timer_Action_R")
 
 #Action R Bools
+var hit_active : bool
 var has_hit : bool
 
 
@@ -48,8 +53,13 @@ func _on_animation_finished(_anim_name):
 
 
 ###ACTION FLAG FUNCTIONS###
+func set_hit_active(value):
+	var current_state = State_Machine_Action_R.current_state
+	current_state.hit_active = value
+
 func set_hit(value):
-	has_hit = value
+	var current_state = State_Machine_Action_R.current_state
+	current_state.has_hit = value
 
 
 ###STATE INITIALIZATION FUNCTIONS###

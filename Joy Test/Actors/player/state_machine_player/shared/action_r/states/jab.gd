@@ -15,6 +15,7 @@ func initialize_values(init_values_dic):
 
 #Initializes state, changes animation, etc
 func enter():
+	set_hit_active(false) #is also set by animation
 	set_hit(false)
 	
 	Needle_Arm = owner.get_node("Body").get_node("Needle_Arm")
@@ -48,7 +49,7 @@ func _on_animation_finished(anim_name):
 
 
 func _on_jab_collision(collision):
-	if !has_hit:
+	if hit_active and !has_hit:
 		var collision_material = collision["col_material"]
 		
 		if collision_material in GlobalValues.collision_materials_solid:
@@ -58,6 +59,7 @@ func _on_jab_collision(collision):
 			
 			emit_signal("jab_collision", collision)
 		elif collision_material in GlobalValues.collision_materials_soft:
+			anim_pause_position = Anim_Player.get_current_animation_position()
 			Anim_Player.stop()
 			
 			attached_obj = collision["collider"]
@@ -66,6 +68,7 @@ func _on_jab_collision(collision):
 			emit_signal("jab_collision", collision)
 			emit_signal("state_switch", "jab_stick")
 	
+	set_hit_active(false)
 	set_hit(true)
 
 

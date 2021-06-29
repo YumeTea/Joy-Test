@@ -24,7 +24,9 @@ func exit():
 
 #Creates output based on the input event passed in
 func handle_input(event):
-	if Input.is_action_just_pressed("attack_right"):
+	if Input.is_action_just_pressed("jump"):
+		emit_signal("state_switch", "stick_jump")
+	elif Input.is_action_just_pressed("attack_right"):
 		exit_stick_state()
 	
 	.handle_input(event)

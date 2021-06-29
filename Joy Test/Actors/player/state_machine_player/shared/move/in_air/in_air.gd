@@ -23,7 +23,7 @@ func handle_input(event):
 func update(delta):
 	.update(delta)
 	
-	if owner.is_on_floor() and has_jumped:
+	if owner.is_on_floor() and has_jumped: #check has_jumped to allow jump squat to play out
 		if !is_aiming:
 			emit_signal("state_switch", "idle")
 		elif is_aiming:
@@ -32,4 +32,8 @@ func update(delta):
 
 func _on_animation_finished(_anim_name):
 	return
+
+
+func set_jumped(value):
+	has_jumped = value
 

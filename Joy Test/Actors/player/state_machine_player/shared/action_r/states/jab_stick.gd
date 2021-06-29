@@ -26,9 +26,12 @@ func exit():
 
 #Creates output based on the input event passed in
 func handle_input(event):
-	if Input.is_action_just_pressed("attack_right"):
-		attached_obj = null #Clear attached object after letting go
-		continue_jab_anim()
+	if attached_obj != null:
+		if Input.is_action_just_pressed("jump"):
+			emit_signal("state_switch", "jab_stick_jump")
+		elif Input.is_action_just_pressed("attack_right"):
+			attached_obj = null #Clear attached object after letting go
+			continue_jab_anim(anim_pause_position)
 		
 	
 	.handle_input(event)
@@ -36,15 +39,19 @@ func handle_input(event):
 
 #Acts as the _process method would
 func update(delta):
+#	print(Anim_Player.get_current_animation())
+	
+	
 	if attached_obj != null:
 		rotate_player()
 		rotate_arm()
 	
 	.update(delta)
 	
-	if owner.get_slide_count() > 0:
+	#Let go if player collides with object
+	if owner.get_slide_count() > 0 and attached_obj != null:
 		attached_obj = null
-		continue_jab_anim()
+		continue_jab_anim(anim_pause_position)
 
 
 func _on_animation_finished(anim_name):
@@ -53,8 +60,9 @@ func _on_animation_finished(anim_name):
 		emit_signal("state_switch", "none")
 
 
-func continue_jab_anim():
-	Anim_Player.play()
+func continue_jab_anim(anim_pause_position):
+	Anim_Player.play("jab_test")
+	Anim_Player.seek(anim_pause_position, true)
 
 
 func rotate_arm():

@@ -12,7 +12,7 @@ func initialize_values(init_values_dic):
 
 #Initializes state, changes animation, etc
 func enter():
-	has_jumped = false
+	set_jumped(false)
 	velocity = add_jump_velocity(velocity)
 	
 	.enter()
@@ -49,7 +49,7 @@ func calc_air_speed(velocity):
 func add_jump_velocity(velocity):
 	velocity.y = jump_velocity
 	snap_vector = Vector3(0,0,0) #disable snap vector so player can leave floor
-	has_jumped = true
+	set_jumped(true)
 	
 	return velocity
 
