@@ -1,9 +1,6 @@
 extends "res://Actors/player/state_machine_player/shared/action_r/action_r.gd"
 
 
-'arm controller aim is wrong on entering and exiting this state'
-
-
 #Pose Variables
 onready var RightArmController = owner.get_node("Body/Armature/Skeleton/RightArmController")
 onready var RightArmController_idx = Skel.find_bone("RightArmController")
@@ -56,6 +53,7 @@ func update(delta):
 func _on_animation_finished(anim_name):
 	if anim_name == "jab_test":
 		AnimStateMachineActionR.start("none")
+		reset_arm_rotation()
 		emit_signal("state_switch", "none")
 
 
@@ -91,25 +89,36 @@ func rotate_player():
 
 func rotate_arm():
 	var look_at_point : Vector3
-	var controller_pose : Transform
-	var pose_new : Transform
+	var pose : Transform
 	
-	#Get current pose transform
-	controller_pose = Skel.get_bone_pose(RightArmController_idx)
+	#Set arm custom pose back to default
+	reset_arm_rotation()
 	
 	look_at_point = attached_obj.to_global(stick_point)
-	look_at_point = RightArmController.to_local(look_at_point)
-	#Rotate look at point by opposite of controller bone's pose
-	var rot = controller_pose.basis.get_rotation_quat().get_euler()
-	look_at_point = look_at_point.rotated(Vector3(1,0,0), rot.x)
-	look_at_point = look_at_point.rotated(Vector3(0,1,0), rot.y)
-	look_at_point = look_at_point.rotated(Vector3(0,0,1), rot.z)
 	
-	#Set controller pose looking at look at point in bone's local space
-	pose_new = controller_pose.looking_at(look_at_point, Vector3(0,1,0))
+	#Create custom pose
+	pose.origin = RightArmController.get_global_transform().origin
+	pose.basis.x = Vector3(1,0,0)
+	pose.basis.y = Vector3(0,1,0)
+	pose.basis.z = Vector3(0,0,1)
 	
-	#Apply pose
-	Skel.set_bone_pose(RightArmController_idx, pose_new)
+	pose = pose.looking_at(look_at_point, Vector3(0,1,0))
+	
+	pose.origin = Vector3(0,0,0)
+	pose = pose.rotated(Vector3(0,1,0), get_facing_direction_horizontal(Body).angle_to(Vector3(0,0,-1)))
+	
+	Skel.set_bone_custom_pose(RightArmController_idx, pose)
+
+
+func reset_arm_rotation():
+	var transform : Transform
+	
+	transform.origin = Vector3(0,0,0)
+	transform.basis.x = Vector3(1,0,0)
+	transform.basis.y = Vector3(0,1,0)
+	transform.basis.z = Vector3(0,0,1)
+	
+	Skel.set_bone_custom_pose(RightArmController_idx, transform)
 
 
 func get_attached_facing_dir(attached_obj):
