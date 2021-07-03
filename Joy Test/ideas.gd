@@ -1,27 +1,12 @@
 extends Node
 
-'there is some situation where the aim state is exited when attacking even if holding aim_r'
+
 
 'Figure out why in editor signal connections dont work for states'
 'Aim states may be running 1 frame longer than intended'
-'Input deadzones need to interpolate between deadzone bounds'
-'Should store and retrieve certain controller values globally (gyro_sensitivity)'
-'Is there a better way to preserve variables between states?'
 
 
 'What inputs should be buffered?'
-
-
-func ideas_aiming():
-	'aim_r activates aim mode and holding aim_r while in aim mode allows for gyro control of the camera'
-	'letting go of aim_r in aim mode only stops gyro input'
-	'holding aim_r again in aim mode resumes gyro input'
-	'this allows easy turn around during aim mode'
-	
-	'aim mode must be cancelled with the cancel input'
-	
-	
-	pass
 
 
 func ideas_targetting():
@@ -30,7 +15,9 @@ func ideas_targetting():
 
 
 
-
+###QUIRKS###
+'anims meant to play once currently need code to play the none animation when they are done'
+'i.e. anims in animtree will infinitely play their last frame unless the playback is stopped'
 
 
 

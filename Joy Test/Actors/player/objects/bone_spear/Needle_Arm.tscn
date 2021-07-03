@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Actors/player/objects/bone_spear/Bone.mesh" type="ArrayMesh" id=1]
 [ext_resource path="res://Actors/player/objects/bone_spear/Needle_Arm_Material.material" type="Material" id=2]
-[ext_resource path="res://Actors/player/objects/bone_spear/needle_arm.gd" type="Script" id=3]
+[ext_resource path="res://Actors/player/objects/bone_spear/needle_arm_raycast.gd" type="Script" id=3]
 
 [node name="Needle_Arm" type="Spatial"]
 script = ExtResource( 3 )

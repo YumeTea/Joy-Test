@@ -10,11 +10,12 @@ var attached_obj : Node
 
 onready var world = get_tree().current_scene
 onready var Body = owner.get_node("Body")
+onready var Skel = owner.get_node("Body/Armature/Skeleton")
 
 onready var Timer_Aim = owner.get_node("State_Machines/State_Machine_Move/Timer_Aim")
 
 onready var AnimTree = owner.get_node("AnimationTree")
-#onready var Anim_Player = owner.get_node("AnimationPlayer")
+onready var Anim_Player = owner.get_node("AnimationPlayer")
 
 #Debug Nodes
 onready var Debug_Point = owner.get_node("Debug_Point")

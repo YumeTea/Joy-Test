@@ -8,8 +8,12 @@ var arm_transform_default : Transform
 var aim_interp_radius_inner = 7
 var aim_interp_radius_outer = 12
 
+#Pose Variables
+onready var RightArmController_idx = Skel.find_bone("RightArmController")
+
 #Node Storage
-var Needle_Arm : Node
+onready var RightArmController = owner.get_node("Body/Armature/Skeleton/RightArmController")
+var Needle_Arm_Raycast : Node
 
 
 func initialize_values(init_values_dic):
@@ -22,11 +26,11 @@ func enter():
 	set_hit_active(false) #is also set by animation
 	set_hit(false)
 	
-	Needle_Arm = owner.get_node("Body").get_node("Needle_Arm")
+	Needle_Arm_Raycast = owner.get_node("Body/Armature/Skeleton/RightArmController/RayCast")
+	Needle_Arm_Raycast.connect("raycast_collided", self, "_on_jab_collision")
 	
-	
-	Needle_Arm.connect("raycast_collided", self, "_on_jab_collision")
 	aim_arm_transform(camera_look_at_point)
+	
 	AnimStateMachineActionR.start("jab_test")
 	
 	.enter()
@@ -34,7 +38,10 @@ func enter():
 
 #Cleans up state, reinitializes values like timers
 func exit():
-	Needle_Arm.disconnect("raycast_collided", self, "_on_jab_collision")
+	reset_arm_rotation()
+	
+	Needle_Arm_Raycast.disconnect("raycast_collided", self, "_on_jab_collision")
+	
 	.exit()
 
 
@@ -50,21 +57,31 @@ func update(_delta):
 
 func _on_animation_finished(anim_name):
 	if anim_name == "jab_test":
-		reset_arm_rotation()
+		AnimStateMachineActionR.start("none")
+#		reset_arm_rotation()
 		emit_signal("state_switch", "none")
 
 
+#Must use rest pose because anim pose transforms happen after this runs
 func aim_arm_transform(look_at_point):
 	var jab_point : Vector3
 	var look_vec : Vector3
 	var interp_point : Vector3
 	var interp_factor : float
-	
-	jab_point = look_at_point
+
+	var controller_pose_custom : Transform
+	var controller_pose : Transform
+	var pose_new : Transform
+
+	#Set arm custom pose back to default
+	reset_arm_rotation()
+
+	jab_point = look_at_point #This point is global
+	#Get look direction vector and center it at jab controller point
 	look_vec = Vector3(0,0,-1).rotated(Vector3(1,0,0), camera_angles.x)
-	interp_point = Needle_Arm.to_global(look_vec)
+	interp_point = RightArmController.to_global(look_vec)
 	
-	#Interpolation factor
+	#Interpolation factor for look at point
 	var radius = (jab_point - Body.get_global_transform().origin).length()
 	
 	if radius > aim_interp_radius_outer:
@@ -77,7 +94,32 @@ func aim_arm_transform(look_at_point):
 	#Interpolation
 	jab_point = jab_point.linear_interpolate(interp_point, interp_factor)
 	
-	Needle_Arm.look_at(jab_point, Vector3(0,1,0))
+	
+	#Get current pose transform
+	controller_pose_custom = Skel.get_bone_custom_pose(RightArmController_idx)
+	controller_pose = Skel.get_bone_pose(RightArmController_idx)
+	
+	
+	jab_point = RightArmController.to_local(jab_point)
+	#Rotate look at point by opposite of controller bone's pose
+	var rot = controller_pose.basis.get_rotation_quat().get_euler()
+	jab_point = jab_point.rotated(Vector3(1,0,0), rot.x)
+	jab_point = jab_point.rotated(Vector3(0,1,0), rot.y)
+	jab_point = jab_point.rotated(Vector3(0,0,1), rot.z)
+	
+	#Set controller pose looking at look at point in bone's local space
+	pose_new = controller_pose_custom.looking_at(jab_point, Vector3(0,1,0))
+	
+	#Rotate controller default custom pose by difference in new and old controller pose
+	rot = pose_new.basis.get_rotation_quat().get_euler() - controller_pose.basis.get_rotation_quat().get_euler()
+	pose_new = controller_pose_custom
+	pose_new = pose_new.rotated(Vector3(1,0,0), rot.x)
+	pose_new = pose_new.rotated(Vector3(0,1,0), rot.y)
+	pose_new = pose_new.rotated(Vector3(0,0,1), rot.z)
+	
+	#Apply pose
+	Skel.set_bone_custom_pose(RightArmController_idx, pose_new)
+	
 	
 	#Debug
 #	print(interp_factor)
@@ -85,7 +127,14 @@ func aim_arm_transform(look_at_point):
 
 
 func reset_arm_rotation():
-	Needle_Arm.set_rotation(Vector3(0,0,0))
+	var transform : Transform
+	
+	transform.origin = Vector3(0,0,0)
+	transform.basis.x = Vector3(1,0,0)
+	transform.basis.y = Vector3(0,1,0)
+	transform.basis.z = Vector3(0,0,1)
+	
+	Skel.set_bone_custom_pose(RightArmController_idx, transform)
 
 
 func _on_jab_collision(collision):

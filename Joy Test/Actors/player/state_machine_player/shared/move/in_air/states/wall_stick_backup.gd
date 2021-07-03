@@ -1,11 +1,7 @@
 extends "res://Actors/player/state_machine_player/shared/move/in_air/in_air.gd"
 
 
-#Player attachment variables
-var attached_arm_pos : Vector3
-
-#Node Storage
-onready var RightArmController = owner.get_node("Body/Armature/Skeleton/RightArmController")
+var attached_pos : Vector3
 
 
 func initialize_values(init_values_dic):
@@ -16,7 +12,7 @@ func initialize_values(init_values_dic):
 #Initializes state, changes animation, etc
 func enter():
 	velocity = Vector3(0,0,0)
-	attached_arm_pos = attached_obj.to_local(RightArmController.get_global_transform().origin)
+	attached_pos = attached_obj.to_local(owner.get_global_transform().origin)
 	
 	.enter()
 
@@ -54,15 +50,15 @@ func _on_animation_finished(_anim_name):
 
 
 func calc_stick_velocity(delta):
-	var arm_pos_current : Vector3 #position relative to attached object origin
-	var arm_pos_next : Vector3
+	var pos_current : Vector3 #position relative to attached object origin
+	var pos_next : Vector3
 	var velocity : Vector3
 	
-	arm_pos_current = RightArmController.get_global_transform().origin
-	arm_pos_next = attached_obj.to_global(attached_arm_pos)
+	pos_current = owner.get_global_transform().origin
+	pos_next = attached_obj.to_global(attached_pos)
 	
 	
-	velocity = (arm_pos_next - arm_pos_current) / delta
+	velocity = (pos_next - pos_current) / delta
 	
 	return velocity
 

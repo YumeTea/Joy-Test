@@ -1,0 +1,414 @@
+[gd_scene load_steps=66 format=2]
+
+[ext_resource path="res://Actors/player/model/anim/anim_pill/playerstick_jump.anim" type="Animation" id=1]
+[ext_resource path="res://Actors/player/state_machine_player/shared/action_r/states/jab.gd" type="Script" id=2]
+[ext_resource path="res://Actors/player/state_machine_player/shared/move/in_air/states/jump.gd" type="Script" id=3]
+[ext_resource path="res://Actors/player/state_machine_player/state_machine_action_r.gd" type="Script" id=4]
+[ext_resource path="res://Actors/player/state_machine_player/shared/move/on_ground/states/walk.gd" type="Script" id=5]
+[ext_resource path="res://Actors/player/state_machine_player/shared/move/in_air/in_air.gd" type="Script" id=6]
+[ext_resource path="res://Actors/player/state_machine_player/shared/move/on_ground/on_ground.gd" type="Script" id=7]
+[ext_resource path="res://Actors/player/state_machine_player/shared/move/on_ground/states/walk_aim.gd" type="Script" id=8]
+[ext_resource path="res://Actors/player/state_machine_player/shared/move/in_air/states/jump_aim.gd" type="Script" id=9]
+[ext_resource path="res://Actors/player/state_machine_player/shared/move/in_air/states/fall_aim.gd" type="Script" id=10]
+[ext_resource path="res://Actors/player/state_machine_player/shared/action_l/states/cast_aim.gd" type="Script" id=11]
+[ext_resource path="res://Actors/player/state_machine_player/state_machine_move.gd" type="Script" id=12]
+[ext_resource path="res://Actors/player/state_machine_player/shared/move/on_ground/states/idle.gd" type="Script" id=13]
+[ext_resource path="res://Actors/player/state_machine_player/state_machine_action_l.gd" type="Script" id=14]
+[ext_resource path="res://Actors/player/state_machine_player/shared/move/in_air/states/fall.gd" type="Script" id=15]
+[ext_resource path="res://Actors/player/state_machine_player/shared/action_l/states/none.gd" type="Script" id=16]
+[ext_resource path="res://Actors/player/state_machine_player/shared/action_r/states/jab_aim.gd" type="Script" id=17]
+[ext_resource path="res://Actors/player/state_machine_player/shared/action_r/states/none.gd" type="Script" id=18]
+[ext_resource path="res://Actors/player/state_machine_player/shared/action_r/action_r.gd" type="Script" id=19]
+[ext_resource path="res://Actors/player/state_machine_player/shared/move/on_ground/states/idle_aim.gd" type="Script" id=20]
+[ext_resource path="res://Actors/player/state_machine_player/shared/move/motion.gd" type="Script" id=21]
+[ext_resource path="res://Actors/player/state_machine_player/shared/move/in_water/in_water.gd" type="Script" id=22]
+[ext_resource path="res://Actors/player/jab_stick_jump.gd" type="Script" id=23]
+[ext_resource path="res://Actors/player/state_machine_player/shared/move/in_air/states/wall_stick.gd" type="Script" id=24]
+[ext_resource path="res://Actors/player/model/anim/animationplayer.gd" type="Script" id=25]
+[ext_resource path="res://Actors/player/state_machine_player/shared/action_r/states/jab_stick.gd" type="Script" id=26]
+[ext_resource path="res://Actors/player/state_machine_player/shared/move/in_air/states/stick_jump.gd" type="Script" id=27]
+[ext_resource path="res://Actors/player/camera_rig/Camera_Rig.tscn" type="PackedScene" id=28]
+[ext_resource path="res://Actors/player/model/Player_Body.tscn" type="PackedScene" id=29]
+[ext_resource path="res://Actors/player/objects/sigil/Spell_Arm.tscn" type="PackedScene" id=30]
+[ext_resource path="res://Actors/player/ui/debug_ui/Debug_UI.tscn" type="PackedScene" id=31]
+[ext_resource path="res://Actors/player/objects/bone_spear/Needle_Arm.tscn" type="PackedScene" id=32]
+[ext_resource path="res://Actors/player/state_machine_player/shared/action_l/action_l.gd" type="Script" id=33]
+[ext_resource path="res://Actors/player/state_machine_player/shared/action_l/states/cast.gd" type="Script" id=34]
+[ext_resource path="res://Actors/player/Player.gd" type="Script" id=35]
+[ext_resource path="res://Actors/player/state_machine_player/shared/shared.gd" type="Script" id=36]
+
+[sub_resource type="CapsuleShape" id=1]
+height = 4.0
+
+[sub_resource type="AnimationNodeAdd2" id=2]
+
+[sub_resource type="AnimationNodeAdd2" id=3]
+
+[sub_resource type="AnimationNodeTimeSeek" id=4]
+
+[sub_resource type="AnimationNodeTimeSeek" id=5]
+
+[sub_resource type="AnimationNodeTimeSeek" id=6]
+
+[sub_resource type="AnimationNodeAnimation" id=7]
+animation = "none"
+
+[sub_resource type="AnimationNodeStateMachine" id=8]
+states/jab_test/position = Vector2( 0, 0 )
+states/none/node = SubResource( 7 )
+states/none/position = Vector2( 452, 134 )
+
+[sub_resource type="AnimationNodeAnimation" id=9]
+animation = "jab_test"
+
+[sub_resource type="AnimationNodeAnimation" id=10]
+animation = "none"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=11]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=12]
+
+[sub_resource type="AnimationNodeStateMachine" id=13]
+states/jab_test/node = SubResource( 9 )
+states/jab_test/position = Vector2( 275, 108 )
+states/none/node = SubResource( 10 )
+states/none/position = Vector2( 90, 108 )
+transitions = [ "jab_test", "none", SubResource( 11 ), "none", "jab_test", SubResource( 12 ) ]
+graph_offset = Vector2( -299, -4 )
+
+[sub_resource type="AnimationNodeAnimation" id=14]
+animation = "none"
+
+[sub_resource type="AnimationNodeAnimation" id=15]
+animation = "stick_jump"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=16]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=17]
+
+[sub_resource type="AnimationNodeStateMachine" id=18]
+states/none/node = SubResource( 14 )
+states/none/position = Vector2( 32, 105 )
+states/stick_jump/node = SubResource( 15 )
+states/stick_jump/position = Vector2( 243, 105 )
+transitions = [ "stick_jump", "none", SubResource( 16 ), "none", "stick_jump", SubResource( 17 ) ]
+graph_offset = Vector2( -534, -9 )
+
+[sub_resource type="AnimationNodeTimeScale" id=19]
+
+[sub_resource type="AnimationNodeTimeScale" id=20]
+
+[sub_resource type="AnimationNodeTimeScale" id=21]
+
+[sub_resource type="AnimationNodeBlendTree" id=22]
+graph_offset = Vector2( -680, -101 )
+nodes/Add/node = SubResource( 2 )
+nodes/Add/position = Vector2( 140, -60 )
+nodes/Add2/node = SubResource( 3 )
+nodes/Add2/position = Vector2( 140, 120 )
+nodes/SeekActionL/node = SubResource( 4 )
+nodes/SeekActionL/position = Vector2( -340, 60 )
+nodes/SeekActionR/node = SubResource( 5 )
+nodes/SeekActionR/position = Vector2( -340, 180 )
+nodes/SeekMotion/node = SubResource( 6 )
+nodes/SeekMotion/position = Vector2( -340, -60 )
+nodes/StateMachineActionL/node = SubResource( 8 )
+nodes/StateMachineActionL/position = Vector2( -580, 60 )
+nodes/StateMachineActionR/node = SubResource( 13 )
+nodes/StateMachineActionR/position = Vector2( -580, 180 )
+nodes/StateMachineMotion/node = SubResource( 18 )
+nodes/StateMachineMotion/position = Vector2( -580, -60 )
+nodes/TimeScaleActionL/node = SubResource( 19 )
+nodes/TimeScaleActionL/position = Vector2( -160, 60 )
+nodes/TimeScaleActionR/node = SubResource( 20 )
+nodes/TimeScaleActionR/position = Vector2( -160, 180 )
+nodes/TimeScaleMotion/node = SubResource( 21 )
+nodes/TimeScaleMotion/position = Vector2( -160, -60 )
+nodes/output/position = Vector2( 420, 80 )
+node_connections = [ "output", 0, "Add2", "Add", 0, "TimeScaleMotion", "Add", 1, "TimeScaleActionL", "TimeScaleActionL", 0, "SeekActionL", "TimeScaleMotion", 0, "SeekMotion", "TimeScaleActionR", 0, "SeekActionR", "SeekActionL", 0, "StateMachineActionL", "SeekActionR", 0, "StateMachineActionR", "SeekMotion", 0, "StateMachineMotion", "Add2", 0, "Add", "Add2", 1, "TimeScaleActionR" ]
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=23]
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=24]
+
+[sub_resource type="Animation" id=25]
+resource_name = "fall"
+length = 0.166667
+step = 0.0166667
+
+[sub_resource type="Animation" id=26]
+length = 0.800002
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body/Needle_Arm/Mesh:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.0500001, 0.0666667, 0.116667, 0.216667, 0.266667, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0.2, 0.2, 0.2 ), Vector3( 0.2, 0.08, 0.2 ), Vector3( 0.2, 0.2, 0.2 ), Vector3( 0.2, 2.2, 0.2 ), Vector3( 0.2, 0.2, 0.2 ), Vector3( 0.2, 0.08, 0.2 ), Vector3( 0.2, 0.2, 0.2 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Body/Needle_Arm/RayCast:cast_to")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.0500001, 0.0666667, 0.116667, 0.216667, 0.266667, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 10.99, 0 ), Vector3( 0.08, 0.08, 0.08 ), Vector3( 0, 10.99, 0 ), Vector3( 0, 121, 0 ), Vector3( 0, 10.99, 0 ), Vector3( 0.08, 0.08, 0.08 ), Vector3( 0, 10.99, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Body/Needle_Arm/RayCast:enabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.0666667, 0.133333 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Body/Needle_Arm:rotation_degrees")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.266667, 0.4, 0.533333, 0.666667, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 720 ), Vector3( 0, 0, 540 ), Vector3( 0, 0, 360 ), Vector3( 0, 0, 180 ), Vector3( 0, 0, 0 ) ]
+}
+tracks/4/type = "method"
+tracks/4/path = NodePath("State_Machines/State_Machine_Action_R/Shared/Action_R")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.0666667, 0.133333 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"values": [ {
+"args": [ false ],
+"method": "set_hit_active"
+}, {
+"args": [ true ],
+"method": "set_hit_active"
+}, {
+"args": [ false ],
+"method": "set_hit_active"
+} ]
+}
+tracks/5/type = "method"
+tracks/5/path = NodePath("AnimationPlayer")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0.8 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ "jab_test" ],
+"method": "animation_finished"
+} ]
+}
+
+[sub_resource type="Animation" id=27]
+length = 0.001
+step = 0.0166667
+
+[sub_resource type="SphereMesh" id=28]
+radius = 0.05
+height = 0.1
+
+[sub_resource type="SpatialMaterial" id=29]
+emission_enabled = true
+emission = Color( 0, 1, 0.917647, 1 )
+emission_energy = 1.0
+emission_operator = 0
+emission_on_uv2 = false
+
+[node name="Player" type="KinematicBody"]
+collision_layer = 2
+script = ExtResource( 35 )
+
+[node name="Body" parent="." instance=ExtResource( 29 )]
+
+[node name="Needle_Arm" parent="Body" instance=ExtResource( 32 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 4, 0 )
+
+[node name="Mesh" parent="Body/Needle_Arm" index="0"]
+transform = Transform( 0.2, 0, 0, 0, -8.74228e-09, 0.2, 0, -0.2, -8.74228e-09, 0, 0, 0 )
+
+[node name="RayCast" parent="Body/Needle_Arm" index="1"]
+enabled = false
+
+[node name="Spell_Arm" parent="Body" instance=ExtResource( 30 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.25, 4, -1.125 )
+
+[node name="Projectile_Pos" type="Position3D" parent="Body/Spell_Arm"]
+transform = Transform( 1, 0, 0, 0, 1, -1.06581e-14, 0, 1.06581e-14, 1, 0, 0, 0 )
+
+[node name="Rotate_Cursor" type="Position3D" parent="."]
+transform = Transform( 0.939693, -0.34202, 0, 0.34202, 0.939693, 0, 0, 0, 1, 1.25, 4, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 3, 0 )
+shape = SubResource( 1 )
+
+[node name="Camera_Rig" parent="." instance=ExtResource( 28 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0 )
+
+[node name="State_Machines" type="Node" parent="."]
+
+[node name="State_Machine_Move" type="Node" parent="State_Machines"]
+script = ExtResource( 12 )
+START_STATE = NodePath("Shared/Motion/On_Ground/Idle")
+
+[node name="Shared" type="Node" parent="State_Machines/State_Machine_Move"]
+script = ExtResource( 36 )
+
+[node name="Motion" type="Node" parent="State_Machines/State_Machine_Move/Shared"]
+script = ExtResource( 21 )
+
+[node name="On_Ground" type="Node" parent="State_Machines/State_Machine_Move/Shared/Motion"]
+script = ExtResource( 7 )
+
+[node name="Idle" type="Node" parent="State_Machines/State_Machine_Move/Shared/Motion/On_Ground"]
+script = ExtResource( 13 )
+
+[node name="Walk" type="Node" parent="State_Machines/State_Machine_Move/Shared/Motion/On_Ground"]
+script = ExtResource( 5 )
+
+[node name="Idle_Aim" type="Node" parent="State_Machines/State_Machine_Move/Shared/Motion/On_Ground"]
+script = ExtResource( 20 )
+
+[node name="Walk_Aim" type="Node" parent="State_Machines/State_Machine_Move/Shared/Motion/On_Ground"]
+script = ExtResource( 8 )
+
+[node name="In_Air" type="Node" parent="State_Machines/State_Machine_Move/Shared/Motion"]
+script = ExtResource( 6 )
+
+[node name="Jump" type="Node" parent="State_Machines/State_Machine_Move/Shared/Motion/In_Air"]
+script = ExtResource( 3 )
+
+[node name="Jump_Aim" type="Node" parent="State_Machines/State_Machine_Move/Shared/Motion/In_Air"]
+script = ExtResource( 9 )
+
+[node name="Fall" type="Node" parent="State_Machines/State_Machine_Move/Shared/Motion/In_Air"]
+script = ExtResource( 15 )
+
+[node name="Fall_Aim" type="Node" parent="State_Machines/State_Machine_Move/Shared/Motion/In_Air"]
+script = ExtResource( 10 )
+
+[node name="Stick_Wall" type="Node" parent="State_Machines/State_Machine_Move/Shared/Motion/In_Air"]
+script = ExtResource( 24 )
+
+[node name="Stick_Jump" type="Node" parent="State_Machines/State_Machine_Move/Shared/Motion/In_Air"]
+script = ExtResource( 27 )
+
+[node name="In_Water" type="Node" parent="State_Machines/State_Machine_Move/Shared/Motion"]
+script = ExtResource( 22 )
+
+[node name="Timer_Move" type="Timer" parent="State_Machines/State_Machine_Move"]
+one_shot = true
+
+[node name="Timer_Aim" type="Timer" parent="State_Machines/State_Machine_Move"]
+one_shot = true
+
+[node name="State_Machine_Action_L" type="Node" parent="State_Machines"]
+script = ExtResource( 14 )
+START_STATE = NodePath("Shared/Action_L/None")
+
+[node name="Shared" type="Node" parent="State_Machines/State_Machine_Action_L"]
+script = ExtResource( 36 )
+
+[node name="Action_L" type="Node" parent="State_Machines/State_Machine_Action_L/Shared"]
+script = ExtResource( 33 )
+
+[node name="None" type="Node" parent="State_Machines/State_Machine_Action_L/Shared/Action_L"]
+script = ExtResource( 16 )
+
+[node name="Cast" type="Node" parent="State_Machines/State_Machine_Action_L/Shared/Action_L"]
+script = ExtResource( 34 )
+
+[node name="Cast_Aim" type="Node" parent="State_Machines/State_Machine_Action_L/Shared/Action_L"]
+script = ExtResource( 11 )
+
+[node name="Timer_Action_L" type="Timer" parent="State_Machines/State_Machine_Action_L"]
+
+[node name="State_Machine_Action_R" type="Node" parent="State_Machines"]
+script = ExtResource( 4 )
+START_STATE = NodePath("Shared/Action_R/None")
+
+[node name="Shared" type="Node" parent="State_Machines/State_Machine_Action_R"]
+script = ExtResource( 36 )
+
+[node name="Action_R" type="Node" parent="State_Machines/State_Machine_Action_R/Shared"]
+script = ExtResource( 19 )
+
+[node name="None" type="Node" parent="State_Machines/State_Machine_Action_R/Shared/Action_R"]
+script = ExtResource( 18 )
+
+[node name="Jab" type="Node" parent="State_Machines/State_Machine_Action_R/Shared/Action_R"]
+script = ExtResource( 2 )
+
+[node name="Jab_Aim" type="Node" parent="State_Machines/State_Machine_Action_R/Shared/Action_R"]
+script = ExtResource( 17 )
+
+[node name="Jab_Stick" type="Node" parent="State_Machines/State_Machine_Action_R/Shared/Action_R"]
+script = ExtResource( 26 )
+
+[node name="Jab_Stick_Jump" type="Node" parent="State_Machines/State_Machine_Action_R/Shared/Action_R"]
+script = ExtResource( 23 )
+
+[node name="Timer_Action_R" type="Timer" parent="State_Machines/State_Machine_Action_R"]
+one_shot = true
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Debug_UI" parent="UI" instance=ExtResource( 31 )]
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource( 22 )
+anim_player = NodePath("../AnimationPlayer")
+active = true
+parameters/Add/add_amount = 0.0
+parameters/Add2/add_amount = 1.0
+parameters/SeekActionL/seek_position = -1.0
+parameters/SeekActionR/seek_position = -1.0
+parameters/SeekMotion/seek_position = -1.0
+parameters/StateMachineActionL/playback = SubResource( 23 )
+parameters/StateMachineActionR/playback = SubResource( 23 )
+parameters/StateMachineMotion/playback = SubResource( 24 )
+parameters/TimeScaleActionL/scale = 1.0
+parameters/TimeScaleActionR/scale = 1.0
+parameters/TimeScaleMotion/scale = 1.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/fall = SubResource( 25 )
+anims/jab_test = SubResource( 26 )
+anims/none = SubResource( 27 )
+anims/stick_jump = ExtResource( 1 )
+script = ExtResource( 25 )
+
+[node name="Debug_Point" type="MeshInstance" parent="."]
+visible = false
+mesh = SubResource( 28 )
+material/0 = SubResource( 29 )
+
+[connection signal="state_machine_camera_state_stack_changed" from="Camera_Rig" to="UI/Debug_UI" method="_on_Camera_Rig_state_machine_camera_state_stack_changed"]
+[connection signal="move_state_stack_changed" from="State_Machines/State_Machine_Move" to="UI/Debug_UI" method="_on_State_Machine_Move_move_state_stack_changed"]
+[connection signal="action_l_state_stack_changed" from="State_Machines/State_Machine_Action_L" to="UI/Debug_UI" method="_on_State_Machine_Action_L_action_l_state_stack_changed"]
+[connection signal="action_r_state_stack_changed" from="State_Machines/State_Machine_Action_R" to="UI/Debug_UI" method="_on_State_Machine_Action_R_action_r_state_stack_changed"]
+
+[editable path="Body/Needle_Arm"]

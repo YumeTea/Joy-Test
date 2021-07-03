@@ -1,8 +1,8 @@
-[gd_scene load_steps=66 format=2]
+[gd_scene load_steps=67 format=2]
 
 [ext_resource path="res://Actors/player/camera_rig/Camera_Rig.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Actors/player/Player.gd" type="Script" id=2]
-[ext_resource path="res://Actors/player/model/Player_Body.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Actors/player/model/Player_Model.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Actors/player/state_machine_player/shared/action_r/states/none.gd" type="Script" id=4]
 [ext_resource path="res://Actors/player/state_machine_player/state_machine_action_r.gd" type="Script" id=5]
 [ext_resource path="res://Actors/player/state_machine_player/shared/move/on_ground/states/walk.gd" type="Script" id=6]
@@ -12,7 +12,7 @@
 [ext_resource path="res://Actors/player/state_machine_player/shared/move/in_air/states/jump.gd" type="Script" id=10]
 [ext_resource path="res://Actors/player/state_machine_player/shared/move/in_air/in_air.gd" type="Script" id=11]
 [ext_resource path="res://Actors/player/state_machine_player/shared/move/on_ground/on_ground.gd" type="Script" id=12]
-[ext_resource path="res://Actors/player/objects/bone_spear/Needle_Arm.tscn" type="PackedScene" id=13]
+[ext_resource path="res://Actors/player/model/anim/anim_boneform/jab_test.anim" type="Animation" id=13]
 [ext_resource path="res://Actors/player/state_machine_player/shared/move/in_water/in_water.gd" type="Script" id=14]
 [ext_resource path="res://Actors/player/state_machine_player/shared/action_r/states/jab.gd" type="Script" id=15]
 [ext_resource path="res://Actors/player/state_machine_player/shared/action_r/action_r.gd" type="Script" id=16]
@@ -22,7 +22,7 @@
 [ext_resource path="res://Actors/player/state_machine_player/shared/action_l/states/cast.gd" type="Script" id=20]
 [ext_resource path="res://Actors/player/state_machine_player/state_machine_action_l.gd" type="Script" id=21]
 [ext_resource path="res://Actors/player/state_machine_player/shared/action_l/action_l.gd" type="Script" id=22]
-[ext_resource path="res://Actors/player/objects/sigil/Spell_Arm.tscn" type="PackedScene" id=23]
+[ext_resource path="res://Actors/player/objects/bone_spear/needle_arm_raycast.gd" type="Script" id=23]
 [ext_resource path="res://Actors/player/state_machine_player/shared/move/on_ground/states/idle_aim.gd" type="Script" id=24]
 [ext_resource path="res://Actors/player/state_machine_player/shared/move/on_ground/states/walk_aim.gd" type="Script" id=25]
 [ext_resource path="res://Actors/player/state_machine_player/shared/move/in_air/states/jump_aim.gd" type="Script" id=26]
@@ -34,201 +34,116 @@
 [ext_resource path="res://Actors/player/state_machine_player/shared/action_r/states/jab_stick.gd" type="Script" id=32]
 [ext_resource path="res://Actors/player/jab_stick_jump.gd" type="Script" id=33]
 [ext_resource path="res://Actors/player/state_machine_player/shared/move/in_air/states/stick_jump.gd" type="Script" id=34]
-[ext_resource path="res://Actors/player/model/anim/playerstick_jump.anim" type="Animation" id=35]
+[ext_resource path="res://Actors/player/model/anim/anim_pill/playerstick_jump.anim" type="Animation" id=35]
 [ext_resource path="res://Actors/player/model/anim/animationplayer.gd" type="Script" id=36]
+[ext_resource path="res://Actors/player/model/anim/anim_boneform/none.anim" type="Animation" id=37]
+[ext_resource path="res://Actors/player/model/anim/anim_pill/fall.anim" type="Animation" id=39]
 
-[sub_resource type="CapsuleShape" id=1]
+[sub_resource type="SphereMesh" id=1]
+radius = 0.05
+height = 0.1
+
+[sub_resource type="CapsuleShape" id=2]
 height = 4.0
 
-[sub_resource type="AnimationNodeAdd2" id=2]
+[sub_resource type="AnimationNodeBlend2" id=28]
 
-[sub_resource type="AnimationNodeAdd2" id=3]
-
-[sub_resource type="AnimationNodeTimeSeek" id=4]
+[sub_resource type="AnimationNodeBlend2" id=29]
 
 [sub_resource type="AnimationNodeTimeSeek" id=5]
 
 [sub_resource type="AnimationNodeTimeSeek" id=6]
 
-[sub_resource type="AnimationNodeAnimation" id=7]
+[sub_resource type="AnimationNodeTimeSeek" id=7]
+
+[sub_resource type="AnimationNodeAnimation" id=8]
 animation = "none"
 
-[sub_resource type="AnimationNodeStateMachine" id=8]
-states/none/node = SubResource( 7 )
+[sub_resource type="AnimationNodeStateMachine" id=9]
+states/none/node = SubResource( 8 )
 states/none/position = Vector2( 452, 134 )
 
-[sub_resource type="AnimationNodeAnimation" id=9]
+[sub_resource type="AnimationNodeAnimation" id=10]
 animation = "jab_test"
 
-[sub_resource type="AnimationNodeAnimation" id=23]
+[sub_resource type="AnimationNodeAnimation" id=11]
 animation = "none"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=24]
+[sub_resource type="AnimationNodeStateMachineTransition" id=12]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=25]
+[sub_resource type="AnimationNodeStateMachineTransition" id=13]
 
-[sub_resource type="AnimationNodeStateMachine" id=10]
-states/jab_test/node = SubResource( 9 )
+[sub_resource type="AnimationNodeStateMachine" id=14]
+states/jab_test/node = SubResource( 10 )
 states/jab_test/position = Vector2( 275, 108 )
-states/none/node = SubResource( 23 )
+states/none/node = SubResource( 11 )
 states/none/position = Vector2( 90, 108 )
-transitions = [ "jab_test", "none", SubResource( 24 ), "none", "jab_test", SubResource( 25 ) ]
+transitions = [ "jab_test", "none", SubResource( 12 ), "none", "jab_test", SubResource( 13 ) ]
 graph_offset = Vector2( -299, -4 )
 
-[sub_resource type="AnimationNodeAnimation" id=26]
+[sub_resource type="AnimationNodeAnimation" id=34]
 animation = "none"
 
-[sub_resource type="AnimationNodeAnimation" id=11]
+[sub_resource type="AnimationNodeAnimation" id=16]
 animation = "stick_jump"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=27]
+[sub_resource type="AnimationNodeStateMachineTransition" id=35]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=28]
+[sub_resource type="AnimationNodeStateMachineTransition" id=36]
 
-[sub_resource type="AnimationNodeStateMachine" id=12]
-states/none/node = SubResource( 26 )
-states/none/position = Vector2( 32, 105 )
-states/stick_jump/node = SubResource( 11 )
+[sub_resource type="AnimationNodeStateMachine" id=19]
+states/none/node = SubResource( 34 )
+states/none/position = Vector2( 48, 105 )
+states/stick_jump/node = SubResource( 16 )
 states/stick_jump/position = Vector2( 243, 105 )
-transitions = [ "stick_jump", "none", SubResource( 27 ), "none", "stick_jump", SubResource( 28 ) ]
+transitions = [ "stick_jump", "none", SubResource( 35 ), "none", "stick_jump", SubResource( 36 ) ]
 graph_offset = Vector2( -534, -9 )
 
-[sub_resource type="AnimationNodeTimeScale" id=13]
+[sub_resource type="AnimationNodeTimeScale" id=20]
 
-[sub_resource type="AnimationNodeTimeScale" id=14]
+[sub_resource type="AnimationNodeTimeScale" id=21]
 
-[sub_resource type="AnimationNodeTimeScale" id=15]
+[sub_resource type="AnimationNodeTimeScale" id=22]
 
-[sub_resource type="AnimationNodeBlendTree" id=16]
-graph_offset = Vector2( -664, -115 )
-nodes/Add/node = SubResource( 2 )
-nodes/Add/position = Vector2( 140, -60 )
-nodes/Add2/node = SubResource( 3 )
-nodes/Add2/position = Vector2( 140, 120 )
-nodes/SeekActionL/node = SubResource( 4 )
+[sub_resource type="AnimationNodeBlendTree" id=23]
+graph_offset = Vector2( -679, -87.8 )
+nodes/Blend2/node = SubResource( 29 )
+nodes/Blend2/position = Vector2( 140, -60 )
+"nodes/Blend2 2/node" = SubResource( 28 )
+"nodes/Blend2 2/position" = Vector2( 140, 120 )
+nodes/SeekActionL/node = SubResource( 5 )
 nodes/SeekActionL/position = Vector2( -340, 60 )
-nodes/SeekActionR/node = SubResource( 5 )
+nodes/SeekActionR/node = SubResource( 6 )
 nodes/SeekActionR/position = Vector2( -340, 180 )
-nodes/SeekMotion/node = SubResource( 6 )
+nodes/SeekMotion/node = SubResource( 7 )
 nodes/SeekMotion/position = Vector2( -340, -60 )
-nodes/StateMachineActionL/node = SubResource( 8 )
+nodes/StateMachineActionL/node = SubResource( 9 )
 nodes/StateMachineActionL/position = Vector2( -580, 60 )
-nodes/StateMachineActionR/node = SubResource( 10 )
+nodes/StateMachineActionR/node = SubResource( 14 )
 nodes/StateMachineActionR/position = Vector2( -580, 180 )
-nodes/StateMachineMotion/node = SubResource( 12 )
+nodes/StateMachineMotion/node = SubResource( 19 )
 nodes/StateMachineMotion/position = Vector2( -580, -60 )
-nodes/TimeScaleActionL/node = SubResource( 13 )
+nodes/TimeScaleActionL/node = SubResource( 20 )
 nodes/TimeScaleActionL/position = Vector2( -160, 60 )
-nodes/TimeScaleActionR/node = SubResource( 14 )
+nodes/TimeScaleActionR/node = SubResource( 21 )
 nodes/TimeScaleActionR/position = Vector2( -160, 180 )
-nodes/TimeScaleMotion/node = SubResource( 15 )
+nodes/TimeScaleMotion/node = SubResource( 22 )
 nodes/TimeScaleMotion/position = Vector2( -160, -60 )
 nodes/output/position = Vector2( 420, 80 )
-node_connections = [ "output", 0, "Add2", "Add", 0, "TimeScaleMotion", "Add", 1, "TimeScaleActionL", "Add2", 0, "Add", "Add2", 1, "TimeScaleActionR", "TimeScaleActionR", 0, "SeekActionR", "SeekActionL", 0, "StateMachineActionL", "SeekMotion", 0, "StateMachineMotion", "SeekActionR", 0, "StateMachineActionR", "TimeScaleMotion", 0, "SeekMotion", "TimeScaleActionL", 0, "SeekActionL" ]
+node_connections = [ "Blend2 2", 0, "TimeScaleMotion", "Blend2 2", 1, "TimeScaleActionR", "output", 0, "Blend2 2", "TimeScaleMotion", 0, "SeekMotion", "TimeScaleActionR", 0, "SeekActionR", "SeekActionR", 0, "StateMachineActionR", "SeekMotion", 0, "StateMachineMotion", "SeekActionL", 0, "StateMachineActionL", "TimeScaleActionL", 0, "SeekActionL" ]
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=17]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=24]
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=18]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=25]
 
-[sub_resource type="Animation" id=29]
-resource_name = "fall"
-length = 0.166667
-step = 0.0166667
-
-[sub_resource type="Animation" id=19]
-length = 0.800002
-step = 0.0166667
-tracks/0/type = "value"
-tracks/0/path = NodePath("Body/Needle_Arm/Mesh:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.0500001, 0.0666667, 0.116667, 0.216667, 0.266667, 0.8 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Vector3( 0.2, 0.2, 0.2 ), Vector3( 0.2, 0.08, 0.2 ), Vector3( 0.2, 0.2, 0.2 ), Vector3( 0.2, 2.2, 0.2 ), Vector3( 0.2, 0.2, 0.2 ), Vector3( 0.2, 0.08, 0.2 ), Vector3( 0.2, 0.2, 0.2 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Body/Needle_Arm/RayCast:cast_to")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.0500001, 0.0666667, 0.116667, 0.216667, 0.266667, 0.8 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Vector3( 0, 10.99, 0 ), Vector3( 0.08, 0.08, 0.08 ), Vector3( 0, 10.99, 0 ), Vector3( 0, 121, 0 ), Vector3( 0, 10.99, 0 ), Vector3( 0.08, 0.08, 0.08 ), Vector3( 0, 10.99, 0 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Body/Needle_Arm/RayCast:enabled")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0.0666667, 0.133333 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, false ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("Body/Needle_Arm:rotation_degrees")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0.266667, 0.4, 0.533333, 0.666667, 0.8 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Vector3( 0, 0, 720 ), Vector3( 0, 0, 540 ), Vector3( 0, 0, 360 ), Vector3( 0, 0, 180 ), Vector3( 0, 0, 0 ) ]
-}
-tracks/4/type = "method"
-tracks/4/path = NodePath("State_Machines/State_Machine_Action_R/Shared/Action_R")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"times": PoolRealArray( 0, 0.0666667, 0.133333 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"values": [ {
-"args": [ false ],
-"method": "set_hit_active"
-}, {
-"args": [ true ],
-"method": "set_hit_active"
-}, {
-"args": [ false ],
-"method": "set_hit_active"
-} ]
-}
-tracks/5/type = "method"
-tracks/5/path = NodePath("AnimationPlayer")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
-"times": PoolRealArray( 0.8 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [ "jab_test" ],
-"method": "animation_finished"
-} ]
-}
-
-[sub_resource type="Animation" id=20]
+[sub_resource type="Animation" id=33]
 resource_name = "none"
 
-[sub_resource type="SphereMesh" id=21]
+[sub_resource type="SphereMesh" id=26]
 radius = 0.05
 height = 0.1
 
-[sub_resource type="SpatialMaterial" id=22]
+[sub_resource type="SpatialMaterial" id=27]
 emission_enabled = true
 emission = Color( 0, 1, 0.917647, 1 )
 emission_energy = 1.0
@@ -241,27 +156,25 @@ script = ExtResource( 2 )
 
 [node name="Body" parent="." instance=ExtResource( 3 )]
 
-[node name="Needle_Arm" parent="Body" instance=ExtResource( 13 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 4, 0 )
+[node name="Skeleton" parent="Body/Armature" index="0"]
+bones/28/bound_children = [ NodePath("RightArmController") ]
 
-[node name="Mesh" parent="Body/Needle_Arm" index="0"]
-transform = Transform( 0.2, 0, 0, 0, -8.74228e-09, 0.2, 0, -0.2, -8.74228e-09, 0, 0, 0 )
+[node name="RightArmController" type="BoneAttachment" parent="Body/Armature/Skeleton" index="1"]
+transform = Transform( -1, -4.47035e-08, -7.00355e-07, 7.15256e-07, 1, 6.78003e-07, 9.87202e-08, 8.41916e-07, -1, -0.516965, 4.86701, -0.0179158 )
+bone_name = "RightArmController"
 
-[node name="RayCast" parent="Body/Needle_Arm" index="1"]
-enabled = false
+[node name="RayCast" type="RayCast" parent="Body/Armature/Skeleton/RightArmController"]
+cast_to = Vector3( 0, 0, 0 )
+script = ExtResource( 23 )
 
-[node name="Spell_Arm" parent="Body" instance=ExtResource( 23 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.25, 4, -1.125 )
-
-[node name="Projectile_Pos" type="Position3D" parent="Body/Spell_Arm"]
-transform = Transform( 1, 0, 0, 0, 1, -1.06581e-14, 0, 1.06581e-14, 1, 0, 0, 0 )
-
-[node name="Rotate_Cursor" type="Position3D" parent="."]
-transform = Transform( 0.939693, -0.34202, 0, 0.34202, 0.939693, 0, 0, 0, 1, 1.25, 4, 0 )
+[node name="Debug_Point" type="MeshInstance" parent="Body/Armature/Skeleton/RightArmController"]
+transform = Transform( 0.999999, -5.96051e-08, -7.85914e-07, -7.45057e-07, 1, -5.88595e-07, 2.30846e-07, 7.67409e-07, 1, 3.57628e-07, 4.76837e-07, -0.436043 )
+mesh = SubResource( 1 )
+material/0 = null
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 3, 0 )
-shape = SubResource( 1 )
+shape = SubResource( 2 )
 
 [node name="Camera_Rig" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0 )
@@ -377,36 +290,37 @@ one_shot = true
 [node name="Debug_UI" parent="UI" instance=ExtResource( 9 )]
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 16 )
+tree_root = SubResource( 23 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
-parameters/Add/add_amount = 0.0
-parameters/Add2/add_amount = 1.0
+parameters/Blend2/blend_amount = 0.0
+"parameters/Blend2 2/blend_amount" = 0.99
 parameters/SeekActionL/seek_position = -1.0
 parameters/SeekActionR/seek_position = -1.0
 parameters/SeekMotion/seek_position = -1.0
-parameters/StateMachineActionL/playback = SubResource( 17 )
-parameters/StateMachineActionR/playback = SubResource( 17 )
-parameters/StateMachineMotion/playback = SubResource( 18 )
+parameters/StateMachineActionL/playback = SubResource( 24 )
+parameters/StateMachineActionR/playback = SubResource( 24 )
+parameters/StateMachineMotion/playback = SubResource( 25 )
 parameters/TimeScaleActionL/scale = 1.0
 parameters/TimeScaleActionR/scale = 1.0
 parameters/TimeScaleMotion/scale = 1.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/fall = SubResource( 29 )
-anims/jab_test = SubResource( 19 )
-anims/none = SubResource( 20 )
+anims/fall = ExtResource( 39 )
+anims/jab_test = ExtResource( 13 )
+anims/none = SubResource( 33 )
+anims/none_armature = ExtResource( 37 )
 anims/stick_jump = ExtResource( 35 )
 script = ExtResource( 36 )
 
 [node name="Debug_Point" type="MeshInstance" parent="."]
 visible = false
-mesh = SubResource( 21 )
-material/0 = SubResource( 22 )
+mesh = SubResource( 26 )
+material/0 = SubResource( 27 )
 
 [connection signal="state_machine_camera_state_stack_changed" from="Camera_Rig" to="UI/Debug_UI" method="_on_Camera_Rig_state_machine_camera_state_stack_changed"]
 [connection signal="move_state_stack_changed" from="State_Machines/State_Machine_Move" to="UI/Debug_UI" method="_on_State_Machine_Move_move_state_stack_changed"]
 [connection signal="action_l_state_stack_changed" from="State_Machines/State_Machine_Action_L" to="UI/Debug_UI" method="_on_State_Machine_Action_L_action_l_state_stack_changed"]
 [connection signal="action_r_state_stack_changed" from="State_Machines/State_Machine_Action_R" to="UI/Debug_UI" method="_on_State_Machine_Action_R_action_r_state_stack_changed"]
 
-[editable path="Body/Needle_Arm"]
+[editable path="Body"]

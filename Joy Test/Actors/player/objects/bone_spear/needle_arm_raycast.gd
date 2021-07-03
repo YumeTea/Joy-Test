@@ -1,4 +1,4 @@
-extends Spatial
+extends RayCast
 
 signal raycast_collided()
 
@@ -6,7 +6,7 @@ signal raycast_collided()
 var cast_to_max = 55
 var weak_bound = 0.75 #percent of max jab length past which a hit is weak
 
-onready var Raycast = self.get_node("RayCast")
+onready var Raycast = self
 
 
 func _process(delta):
@@ -30,16 +30,16 @@ func get_collision_values(raycast_node):
 	collision["collider"] = raycast_node.get_collider()
 	
 	###COL_MATERIAL
-	collision["col_material"] = get_collision_material(raycast_node)
+	collision["col_material"] = get_col_material(raycast_node)
 	
 	###COL_TYPE
-	collision["col_type"] = get_collision_type(raycast_node)
+	collision["col_type"] = get_col_type(raycast_node)
 	
 	###COL_POINT
 	collision["col_point"] = raycast_node.get_collision_point()
 	
 	###COL_NORMAL
-	collision["col_normal"] = get_collision_normal(raycast_node)
+	collision["col_normal"] = get_col_normal(raycast_node)
 	
 	###RECOIL_VEL
 	collision["recoil_vel"] = Vector3(0,0,0) #this is set by receivers
@@ -47,7 +47,7 @@ func get_collision_values(raycast_node):
 	return collision
 
 
-func get_collision_material(raycast_node):
+func get_col_material(raycast_node):
 	var collision_object : Node
 	var collision_material : String
 	
@@ -62,7 +62,7 @@ func get_collision_material(raycast_node):
 	return collision_material
 
 
-func get_collision_type(raycast_node):
+func get_col_type(raycast_node):
 	var col_type : String
 	var col_length : float
 	
@@ -81,7 +81,7 @@ func get_collision_type(raycast_node):
 	return col_type
 
 
-func get_collision_normal(raycast_node):
+func get_col_normal(raycast_node):
 	var col_normal : Vector3
 	
 	var origin_pt = raycast_node.get_global_transform().origin

@@ -5,7 +5,10 @@ extends "res://Actors/player/state_machine_player/shared/action_r/action_r.gd"
 var jab_strength = 56
 
 #Node Storage
-var Needle_Arm : Node
+var Needle_Arm_Raycast : Node
+
+#Debug
+onready var RightArmController_idx = Skel.find_bone("RightArmController")
 
 
 func initialize_values(init_values_dic):
@@ -18,17 +21,20 @@ func enter():
 	set_hit_active(false) #is also set by animation
 	set_hit(false)
 	
-	Needle_Arm = owner.get_node("Body").get_node("Needle_Arm")
-	Needle_Arm.connect("raycast_collided", self, "_on_jab_collision")
+	Needle_Arm_Raycast = owner.get_node("Body/Armature/Skeleton/RightArmController/RayCast")
+	Needle_Arm_Raycast.connect("raycast_collided", self, "_on_jab_collision")
 	
 	AnimStateMachineActionR.start("jab_test")
+	
+	#Debug
+#	print(Skel.get_bone_custom_pose(RightArmController_idx).basis.get_rotation_quat().get_euler())
 	
 	.enter()
 
 
 #Cleans up state, reinitializes values like timers
 func exit():
-	Needle_Arm.disconnect("raycast_collided", self, "_on_jab_collision")
+	Needle_Arm_Raycast.disconnect("raycast_collided", self, "_on_jab_collision")
 	
 	.exit()
 
@@ -40,11 +46,13 @@ func handle_input(event):
 
 #Acts as the _process method would
 func update(_delta):
+#	print(Skel.get_bone_rest(RightArmController_idx).basis.get_rotation_quat().get_euler())
 	return
 
 
 func _on_animation_finished(anim_name):
 	if anim_name == "jab_test":
+		AnimStateMachineActionR.start("none")
 		emit_signal("state_switch", "none")
 
 

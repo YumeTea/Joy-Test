@@ -1,8 +1,12 @@
 extends "res://Actors/player/state_machine_player/shared/action_r/action_r.gd"
 
 
-#Node Storage
-var Needle_Arm : Node
+'arm controller aim is wrong on entering and exiting this state'
+
+
+#Pose Variables
+onready var RightArmController = owner.get_node("Body/Armature/Skeleton/RightArmController")
+onready var RightArmController_idx = Skel.find_bone("RightArmController")
 
 
 func initialize_values(init_values_dic):
@@ -12,8 +16,6 @@ func initialize_values(init_values_dic):
 
 #Initializes state, changes animation, etc
 func enter():
-	Needle_Arm = owner.get_node("Body").get_node("Needle_Arm")
-	
 	attached_facing_dir = get_attached_facing_dir(attached_obj)
 	
 	.enter()
@@ -53,7 +55,7 @@ func update(delta):
 
 func _on_animation_finished(anim_name):
 	if anim_name == "jab_test":
-		reset_arm_rotation()
+		AnimStateMachineActionR.start("none")
 		emit_signal("state_switch", "none")
 
 
@@ -62,25 +64,15 @@ func continue_jab_anim(anim_pause_position):
 	AnimTree.set("parameters/SeekActionR/seek_position", anim_pause_position)
 
 
-func rotate_arm():
-	var look_at_point : Vector3
-	var transform_new : Transform
-	
-	look_at_point = attached_obj.to_global(stick_point)
-	
-	transform_new = Needle_Arm.get_global_transform().looking_at(look_at_point, Vector3(0,1,0))
-	
-	Needle_Arm.set_global_transform(transform_new)
-
-
-func reset_arm_rotation():
-	Needle_Arm.set_rotation(Vector3(0,0,0))
-
-
 func rotate_player():
+	var arm_pos_cent : Vector3
 	var look_at_dir : Vector3
 	var look_at_point : Vector3
 	
+	#Save current arm global origin
+	arm_pos_cent = RightArmController.get_global_transform().origin
+	
+	#Get new facing direction in global
 	look_at_dir = attached_obj.to_global(attached_facing_dir) - attached_obj.get_global_transform().origin
 	look_at_dir.y = 0
 	look_at_dir = look_at_dir.normalized()
@@ -88,6 +80,36 @@ func rotate_player():
 	look_at_point = Body.get_global_transform().origin + look_at_dir
 	
 	Body.look_at(look_at_point, Vector3(0,1,0))
+	
+	#Move body with arm by difference in arm pos after rotation
+	var translate : Vector3
+	
+	translate = arm_pos_cent - RightArmController.get_global_transform().origin
+	
+	Body.translate(translate)
+
+
+func rotate_arm():
+	var look_at_point : Vector3
+	var controller_pose : Transform
+	var pose_new : Transform
+	
+	#Get current pose transform
+	controller_pose = Skel.get_bone_pose(RightArmController_idx)
+	
+	look_at_point = attached_obj.to_global(stick_point)
+	look_at_point = RightArmController.to_local(look_at_point)
+	#Rotate look at point by opposite of controller bone's pose
+	var rot = controller_pose.basis.get_rotation_quat().get_euler()
+	look_at_point = look_at_point.rotated(Vector3(1,0,0), rot.x)
+	look_at_point = look_at_point.rotated(Vector3(0,1,0), rot.y)
+	look_at_point = look_at_point.rotated(Vector3(0,0,1), rot.z)
+	
+	#Set controller pose looking at look at point in bone's local space
+	pose_new = controller_pose.looking_at(look_at_point, Vector3(0,1,0))
+	
+	#Apply pose
+	Skel.set_bone_pose(RightArmController_idx, pose_new)
 
 
 func get_attached_facing_dir(attached_obj):
