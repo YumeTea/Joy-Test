@@ -39,7 +39,7 @@ func handle_input(event):
 #Acts as the _process method would
 func update(delta):
 	if attached_obj != null:
-#		rotate_player()
+		rotate_player()
 		rotate_arm()
 	
 	.update(delta)
@@ -94,57 +94,29 @@ func rotate_arm():
 	#Set arm custom pose back to default
 	reset_arm_rotation()
 	
-	#Orient look at point
 	look_at_point = attached_obj.to_global(stick_point)
-	look_at_point -= RightArmController.get_global_transform().origin
-	look_at_point = look_at_point.rotated(Vector3(0,1,0), -Body.get_rotation().y)
 	
 	#Create custom pose
-	pose.origin = Vector3(0,0,0)
-	pose.basis = Basis(Vector3(1,0,0), Vector3(0,1,0), Vector3(0,0,1))
+	pose.origin = RightArmController.get_global_transform().origin
+	pose.basis.x = Vector3(1,0,0)
+	pose.basis.y = Vector3(0,1,0)
+	pose.basis.z = Vector3(0,0,1)
 	
 	pose = pose.looking_at(look_at_point, Vector3(0,1,0))
 	
+	pose.origin = Vector3(0,0,0)
+	pose = pose.rotated(Vector3(0,1,0), get_facing_direction_horizontal(Body).angle_to(Vector3(0,0,-1)))
 	
-	
-	
-	
-	#Apply custom pose
 	Skel.set_bone_custom_pose(RightArmController_idx, pose)
-	
-	#Debug
-	Debug_Point.global_transform.origin = attached_obj.to_global(stick_point)
-
-
-#func rotate_arm():
-#	var look_at_point : Vector3
-#	var pose : Transform
-#
-#	#Set arm custom pose back to default
-#	reset_arm_rotation()
-#
-#	look_at_point = attached_obj.to_global(stick_point)
-#	look_at_point -= RightArmController.get_global_transform().origin
-#
-#	#Create custom pose
-#	pose.origin = Vector3(0,0,0)
-#	pose.basis = Basis(Vector3(1,0,0), Vector3(0,1,0), Vector3(0,0,1))
-#
-#	pose = pose.looking_at(look_at_point, Vector3(0,1,0))
-#
-#	pose = pose.rotated(Vector3(0,1,0), -Body.get_rotation().y)
-#
-#	Skel.set_bone_custom_pose(RightArmController_idx, pose)
-#
-#	#Debug
-#	Debug_Point.global_transform.origin = attached_obj.to_global(stick_point)
 
 
 func reset_arm_rotation():
 	var transform : Transform
 	
 	transform.origin = Vector3(0,0,0)
-	transform.basis = Basis(Vector3(1,0,0), Vector3(0,1,0), Vector3(0,0,1))
+	transform.basis.x = Vector3(1,0,0)
+	transform.basis.y = Vector3(0,1,0)
+	transform.basis.z = Vector3(0,0,1)
 	
 	Skel.set_bone_custom_pose(RightArmController_idx, transform)
 

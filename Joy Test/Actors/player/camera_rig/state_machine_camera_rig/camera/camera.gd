@@ -8,6 +8,9 @@ var input_stick_r : Vector2
 var input_gyro_r : Vector2
 var camera_input : Vector2
 
+##Camera View Constants
+var camera_angle_max = Vector3(deg2rad(90), deg2rad(360), deg2rad(360))
+
 ##Camera View Variables
 var camera_sensitivity = 1.4
 var camera_angle : Vector3
@@ -18,7 +21,7 @@ var is_aiming : bool
 ##Node Storage
 onready var Camera_Rig = owner
 onready var Pivot = owner.get_node("Pivot")
-onready var Camera_Pos = owner.get_node("Pivot/Camera_Pos")
+onready var Camera_Controller = owner.get_node("Pivot/Camera_Controller")
 onready var Timer_Aim = owner.get_node("State_Machine_Camera/Camera/Timer_Aim")
 onready var Camera_UI = owner.get_node("UI/Camera_UI")
 onready var Tween_Camera = owner.get_node("Tween_Camera")
@@ -81,10 +84,15 @@ func rotate_camera(input):
 	rot_pivot.x += angle_change.x
 	rot_rig.y += angle_change.y
 	
+	##Angle limiting
+	#X
+	if abs(rot_pivot.x) > camera_angle_max.x:
+		rot_pivot.x = camera_angle_max.x * sign(rot_pivot.x)
+	
 	Camera_Rig.set_rotation(rot_rig)
 	Pivot.set_rotation(rot_pivot)
 	
-	camera_angle_update()
+	camera_angle = camera_angle_update()
 
 
 func camera_angle_update():
@@ -99,6 +107,8 @@ func camera_angle_update():
 	camera_angle.z = rot_pivot.z
 	
 	emit_signal("camera_angle_changed", camera_angle)
+	
+	return camera_angle
 
 
 func set_camera_offset(pos_node_name):
@@ -109,11 +119,11 @@ func set_camera_offset(pos_node_name):
 	
 	Tween_Camera.interpolate_property(Pivot, "translation", pivot_translation_current, pivot_translation_final,  0.5, 5, 1, 0)
 	
-	var camera_translation_current = Camera_Pos.get_translation()
+	var camera_translation_current = Camera_Controller.get_translation()
 	var camera_translation_final = Camera_Points.get_node(pos_node_name).get_translation()
-#	Camera_Pos.set_translation(camera_translation)
+#	Camera_Controller.set_translation(camera_translation)
 	
-	Tween_Camera.interpolate_property(Camera_Pos, "translation", camera_translation_current, camera_translation_final,  0.5, 5, 1, 0)
+	Tween_Camera.interpolate_property(Camera_Controller, "translation", camera_translation_current, camera_translation_final,  0.5, 5, 1, 0)
 	
 	Tween_Camera.start()
 

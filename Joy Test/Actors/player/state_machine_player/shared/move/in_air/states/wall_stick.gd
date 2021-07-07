@@ -38,7 +38,7 @@ func handle_input(event):
 
 #Acts as the _process method would
 func update(delta):
-	velocity = calc_stick_velocity(delta)
+#	velocity = calc_stick_velocity(delta)
 	
 	#Counteract gravity
 	velocity.y -= (gravity * weight * delta)
@@ -72,8 +72,4 @@ func exit_stick_state():
 			emit_signal("state_switch", "fall_aim")
 	elif !is_aiming:
 		emit_signal("state_switch", "fall")
-
-
-
-
 

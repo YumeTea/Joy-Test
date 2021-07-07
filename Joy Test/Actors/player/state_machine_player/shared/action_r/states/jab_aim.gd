@@ -91,14 +91,12 @@ func aim_arm_transform(look_at_point):
 	
 	#Create custom pose
 	pose.origin = RightArmController.get_global_transform().origin
-	pose.basis.x = Vector3(1,0,0)
-	pose.basis.y = Vector3(0,1,0)
-	pose.basis.z = Vector3(0,0,1)
+	pose.basis = Basis(Vector3(1,0,0), Vector3(0,1,0), Vector3(0,0,1))
 	
 	pose = pose.looking_at(jab_point, Vector3(0,1,0))
 	
 	pose.origin = Vector3(0,0,0)
-	pose = pose.rotated(Vector3(0,1,0), get_facing_direction_horizontal(Body).angle_to(Vector3(0,0,-1)))
+	pose = pose.rotated(Vector3(0,1,0), -Body.get_rotation().y)
 	
 	Skel.set_bone_custom_pose(RightArmController_idx, pose)
 
@@ -107,9 +105,7 @@ func reset_arm_rotation():
 	var transform : Transform
 	
 	transform.origin = Vector3(0,0,0)
-	transform.basis.x = Vector3(1,0,0)
-	transform.basis.y = Vector3(0,1,0)
-	transform.basis.z = Vector3(0,0,1)
+	transform.basis = Basis(Vector3(1,0,0), Vector3(0,1,0), Vector3(0,0,1))
 	
 	Skel.set_bone_custom_pose(RightArmController_idx, transform)
 

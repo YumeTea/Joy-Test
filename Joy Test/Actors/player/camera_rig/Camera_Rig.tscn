@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Actors/player/camera_rig/Camera_Rig.gd" type="Script" id=1]
 [ext_resource path="res://Actors/player/camera_rig/state_machine_camera_rig/camera/camera.gd" type="Script" id=2]
@@ -8,7 +8,10 @@
 [ext_resource path="res://Actors/player/camera_rig/camera_ui/Camera_UI.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Actors/player/camera_rig/copy_pivot_rotation.gd" type="Script" id=7]
 
-[sub_resource type="SpatialMaterial" id=1]
+[sub_resource type="SphereShape" id=1]
+radius = 0.82
+
+[sub_resource type="SpatialMaterial" id=2]
 albedo_color = Color( 1, 1, 0, 1 )
 emission_enabled = true
 emission = Color( 1, 1, 0, 1 )
@@ -16,8 +19,8 @@ emission_energy = 1.0
 emission_operator = 0
 emission_on_uv2 = false
 
-[sub_resource type="SphereMesh" id=2]
-material = SubResource( 1 )
+[sub_resource type="SphereMesh" id=3]
+material = SubResource( 2 )
 radius = 0.1
 height = 0.2
 
@@ -26,13 +29,20 @@ script = ExtResource( 1 )
 
 [node name="Pivot" type="Spatial" parent="."]
 
-[node name="Camera_Pos" type="Position3D" parent="Pivot"]
+[node name="Camera_Controller" type="Position3D" parent="Pivot"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 12 )
 
-[node name="Camera" type="Camera" parent="Pivot/Camera_Pos"]
+[node name="Camera_Pos" type="KinematicBody" parent="Pivot/Camera_Controller"]
+collision_layer = 0
+
+[node name="Camera_Col" type="CollisionShape" parent="Pivot/Camera_Controller/Camera_Pos"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.82 )
+shape = SubResource( 1 )
+
+[node name="Camera" type="Camera" parent="Pivot/Camera_Controller/Camera_Pos"]
 far = 1024.0
 
-[node name="RayCast_Camera" type="RayCast" parent="Pivot/Camera_Pos/Camera"]
+[node name="RayCast_Camera" type="RayCast" parent="Pivot/Camera_Controller/Camera_Pos/Camera"]
 enabled = true
 cast_to = Vector3( 0, 0, -256 )
 
@@ -75,7 +85,7 @@ script = ExtResource( 4 )
 
 [node name="Debug_Look_At_Point" type="MeshInstance" parent="."]
 visible = false
-mesh = SubResource( 2 )
+mesh = SubResource( 3 )
 material/0 = null
 
 [connection signal="camera_angle_changed" from="." to="Pivot_Points" method="_on_Camera_Rig_camera_angle_changed"]

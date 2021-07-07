@@ -17,6 +17,9 @@ onready var Timer_Aim = owner.get_node("State_Machines/State_Machine_Move/Timer_
 onready var AnimTree = owner.get_node("AnimationTree")
 onready var Anim_Player = owner.get_node("AnimationPlayer")
 
+#Debug Values
+onready var Skel_rotation_init = Skel.get_rotation()
+
 #Debug Nodes
 onready var Debug_Point = owner.get_node("Debug_Point")
 
@@ -135,7 +138,10 @@ func get_gyro_input_r(event):
 func get_facing_direction_horizontal(node : Node):
 	var facing_direction : Vector3
 	
-	facing_direction = Vector3(0,0,-1).rotated(Vector3(0,1,0), node.get_global_transform().basis.get_rotation_quat().get_euler().y)
+	facing_direction = node.to_global(Vector3(0,0,-1)) - node.get_global_transform().origin
+	facing_direction.y = 0.0
+	facing_direction = facing_direction.normalized()
+	
 	
 	return facing_direction
 
