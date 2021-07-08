@@ -1,4 +1,4 @@
-[gd_scene load_steps=72 format=2]
+[gd_scene load_steps=74 format=2]
 
 [ext_resource path="res://Actors/player/camera_rig/Camera_Rig.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Actors/player/Player.gd" type="Script" id=2]
@@ -12,7 +12,7 @@
 [ext_resource path="res://Actors/player/state_machine_player/shared/move/in_air/states/jump.gd" type="Script" id=10]
 [ext_resource path="res://Actors/player/state_machine_player/shared/move/in_air/in_air.gd" type="Script" id=11]
 [ext_resource path="res://Actors/player/state_machine_player/shared/move/on_ground/on_ground.gd" type="Script" id=12]
-[ext_resource path="res://Actors/player/model/anim/anim_boneform/jab_test.anim" type="Animation" id=13]
+[ext_resource path="res://Actors/player/model/anim/anim_boneform/jab.anim" type="Animation" id=13]
 [ext_resource path="res://Actors/player/state_machine_player/shared/move/in_water/in_water.gd" type="Script" id=14]
 [ext_resource path="res://Actors/player/state_machine_player/shared/action_r/states/jab.gd" type="Script" id=15]
 [ext_resource path="res://Actors/player/state_machine_player/shared/action_r/action_r.gd" type="Script" id=16]
@@ -41,12 +41,12 @@
 
 [sub_resource type="SphereMesh" id=28]
 radius = 0.05
-height = 7.0
+height = 16.0
 
 [sub_resource type="SpatialMaterial" id=29]
-albedo_color = Color( 0, 1, 0.164706, 1 )
+albedo_color = Color( 0, 0.6, 1, 1 )
 emission_enabled = true
-emission = Color( 0, 1, 0.164706, 1 )
+emission = Color( 0, 0.6, 1, 1 )
 emission_energy = 1.0
 emission_operator = 0
 emission_on_uv2 = false
@@ -66,12 +66,16 @@ emission_on_uv2 = false
 radius = 0.05
 
 [sub_resource type="SpatialMaterial" id=33]
-albedo_color = Color( 0, 0.6, 1, 1 )
+albedo_color = Color( 0, 1, 0.164706, 1 )
 emission_enabled = true
-emission = Color( 0, 0.6, 1, 1 )
+emission = Color( 0, 1, 0.164706, 1 )
 emission_energy = 1.0
 emission_operator = 0
 emission_on_uv2 = false
+
+[sub_resource type="SphereMesh" id=35]
+radius = 0.02
+height = 1.0
 
 [sub_resource type="CapsuleShape" id=1]
 height = 4.0
@@ -93,22 +97,22 @@ animation = "none"
 states/none/node = SubResource( 7 )
 states/none/position = Vector2( 452, 134 )
 
-[sub_resource type="AnimationNodeAnimation" id=9]
-animation = "jab_test"
+[sub_resource type="AnimationNodeAnimation" id=36]
+animation = "jab"
 
 [sub_resource type="AnimationNodeAnimation" id=10]
 animation = "none"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=11]
+[sub_resource type="AnimationNodeStateMachineTransition" id=37]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=12]
+[sub_resource type="AnimationNodeStateMachineTransition" id=38]
 
 [sub_resource type="AnimationNodeStateMachine" id=13]
-states/jab_test/node = SubResource( 9 )
-states/jab_test/position = Vector2( 275, 108 )
+states/jab/node = SubResource( 36 )
+states/jab/position = Vector2( 260, 108 )
 states/none/node = SubResource( 10 )
 states/none/position = Vector2( 90, 108 )
-transitions = [ "jab_test", "none", SubResource( 11 ), "none", "jab_test", SubResource( 12 ) ]
+transitions = [ "none", "jab", SubResource( 37 ), "jab", "none", SubResource( 38 ) ]
 graph_offset = Vector2( -299, -4 )
 
 [sub_resource type="AnimationNodeAnimation" id=14]
@@ -136,7 +140,7 @@ graph_offset = Vector2( -534, -9 )
 [sub_resource type="AnimationNodeTimeScale" id=21]
 
 [sub_resource type="AnimationNodeBlendTree" id=22]
-graph_offset = Vector2( -679, -87.8 )
+graph_offset = Vector2( -895, -31.5 )
 nodes/Blend2/node = SubResource( 3 )
 nodes/Blend2/position = Vector2( 140, -60 )
 "nodes/Blend2 2/node" = SubResource( 2 )
@@ -170,13 +174,21 @@ node_connections = [ "output", 0, "Blend2 2", "SeekMotion", 0, "StateMachineMoti
 resource_name = "none"
 
 [sub_resource type="SphereMesh" id=26]
-radius = 0.05
+radius = 0.06
 height = 0.1
 
 [sub_resource type="SpatialMaterial" id=27]
 albedo_color = Color( 0, 1, 0.164706, 1 )
 emission_enabled = true
 emission = Color( 0, 1, 0.164706, 1 )
+emission_energy = 1.0
+emission_operator = 0
+emission_on_uv2 = false
+
+[sub_resource type="SpatialMaterial" id=34]
+albedo_color = Color( 0.952941, 0, 1, 1 )
+emission_enabled = true
+emission = Color( 0.952941, 0, 1, 1 )
 emission_energy = 1.0
 emission_operator = 0
 emission_on_uv2 = false
@@ -192,7 +204,7 @@ transform = Transform( -1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 0, 0
 bones/28/bound_children = [ NodePath("RightArmController") ]
 
 [node name="RightArmController" type="BoneAttachment" parent="Body/Armature/Skeleton" index="1"]
-transform = Transform( -1, -5.96046e-08, -6.98492e-07, 7.45058e-07, 1, 5.88596e-07, 1.43424e-07, 7.6741e-07, -1, -0.516965, 4.86701, -0.0179158 )
+transform = Transform( -1, -5.96046e-08, -6.70552e-07, 7.30157e-07, 1, 6.70552e-07, 6.70552e-08, 8.34465e-07, -1, -0.516965, 4.86701, -0.0179158 )
 bone_name = "RightArmController"
 
 [node name="RayCast" type="RayCast" parent="Body/Armature/Skeleton/RightArmController"]
@@ -200,18 +212,24 @@ cast_to = Vector3( 0, 0, 0 )
 script = ExtResource( 23 )
 
 [node name="Debug_Point2" type="MeshInstance" parent="Body/Armature/Skeleton/RightArmController"]
-transform = Transform( 0.999999, 2.30847e-07, 2.82317e-14, -1.94247e-14, -4.37114e-08, 1, 2.30846e-07, -1, -4.37114e-08, 2.44379e-06, 0, -3.47486 )
+transform = Transform( 0.999999, 2.30847e-07, 3.53371e-14, -1.94247e-14, -4.37114e-08, 1, 2.30846e-07, -1, -4.37114e-08, 5.96046e-06, 0, -8.0214 )
+visible = false
 mesh = SubResource( 28 )
 material/0 = SubResource( 29 )
 
 [node name="X_Debug" type="MeshInstance" parent="Body/Armature/Skeleton/RightArmController/Debug_Point2"]
-transform = Transform( -4.37114e-08, 1, 1.50706e-14, -1, -4.37114e-08, 0, -5.68434e-14, -4.42848e-14, 1, 0, 0, 0 )
+transform = Transform( -4.37114e-08, 1, 1.50706e-14, -1, -4.37114e-08, 0, -1.7053e-13, -1.57972e-13, 1, -2.86102e-06, -4.63423, -3.8147e-06 )
 mesh = SubResource( 30 )
 material/0 = SubResource( 31 )
 
-[node name="Z_Debug" type="MeshInstance" parent="Body/Armature/Skeleton/RightArmController/Debug_Point2"]
-transform = Transform( -4.37114e-08, -4.37114e-08, 1, -1, -4.37114e-08, -4.37114e-08, 4.37113e-08, -1, -4.37115e-08, 0, 0, 0 )
+[node name="Y_Debug" type="MeshInstance" parent="Body/Armature/Skeleton/RightArmController/Debug_Point2"]
+transform = Transform( -4.37114e-08, -4.37114e-08, 1, -1, -4.37114e-08, -4.37114e-08, 4.37111e-08, -1, -4.37119e-08, -2.86102e-06, -4.63423, -4.76837e-06 )
 mesh = SubResource( 32 )
+material/0 = SubResource( 33 )
+
+[node name="Y_Debug2" type="MeshInstance" parent="Body/Armature/Skeleton/RightArmController/Debug_Point2"]
+transform = Transform( -4.37114e-08, -4.37114e-08, 1, -1, -4.37114e-08, -4.37114e-08, 4.37111e-08, -1, -4.37119e-08, -4.05312e-06, -8.0214, 0.475611 )
+mesh = SubResource( 35 )
 material/0 = SubResource( 33 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
@@ -349,15 +367,21 @@ parameters/TimeScaleMotion/scale = 1.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/fall = ExtResource( 39 )
-anims/jab_test = ExtResource( 13 )
+anims/jab = ExtResource( 13 )
 anims/none = SubResource( 25 )
 anims/none_armature = ExtResource( 37 )
 anims/stick_jump = ExtResource( 35 )
 script = ExtResource( 36 )
 
 [node name="Debug_Point" type="MeshInstance" parent="."]
+visible = false
 mesh = SubResource( 26 )
 material/0 = SubResource( 27 )
+
+[node name="Debug_Point2" type="MeshInstance" parent="."]
+visible = false
+mesh = SubResource( 26 )
+material/0 = SubResource( 34 )
 
 [connection signal="state_machine_camera_state_stack_changed" from="Camera_Rig" to="UI/Debug_UI" method="_on_Camera_Rig_state_machine_camera_state_stack_changed"]
 [connection signal="move_state_stack_changed" from="State_Machines/State_Machine_Move" to="UI/Debug_UI" method="_on_State_Machine_Move_move_state_stack_changed"]

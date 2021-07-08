@@ -22,6 +22,7 @@ onready var Skel_rotation_init = Skel.get_rotation()
 
 #Debug Nodes
 onready var Debug_Point = owner.get_node("Debug_Point")
+onready var Debug_Point2 = owner.get_node("Debug_Point2")
 
 #Player Flags
 var is_aiming : bool

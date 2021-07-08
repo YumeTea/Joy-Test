@@ -7,9 +7,13 @@ var cast_to_max = 55
 var weak_bound = 0.75 #percent of max jab length past which a hit is weak
 
 onready var Raycast = self
-
+onready var Skel = owner.get_node("Body/Armature/Skeleton")
+onready var RightArmController = self.get_parent()
 
 func _process(delta):
+	#Set RayCast cast to
+	Raycast.cast_to.z = -(Skel.get_bone_global_pose(Skel.find_bone("RightArmTip")).origin.z - RightArmController.translation.z)
+	
 	if Raycast.is_colliding():
 #		Raycast.force_raycast_update() #Player has moved already, but raycast has not updated
 		var collision = get_collision_values(Raycast)

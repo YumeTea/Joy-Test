@@ -24,7 +24,7 @@ func enter():
 	Needle_Arm_Raycast = owner.get_node("Body/Armature/Skeleton/RightArmController/RayCast")
 	Needle_Arm_Raycast.connect("raycast_collided", self, "_on_jab_collision")
 	
-	AnimStateMachineActionR.start("jab_test")
+	AnimStateMachineActionR.start("jab")
 	
 	#Debug
 #	print(Skel.get_bone_custom_pose(RightArmController_idx).basis.get_rotation_quat().get_euler())
@@ -51,7 +51,7 @@ func update(_delta):
 
 
 func _on_animation_finished(anim_name):
-	if anim_name == "jab_test":
+	if anim_name == "jab":
 		AnimStateMachineActionR.start("none")
 		emit_signal("state_switch", "none")
 

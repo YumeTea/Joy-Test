@@ -38,7 +38,7 @@ func handle_input(event):
 
 #Acts as the _process method would
 func update(delta):
-#	velocity = calc_stick_velocity(delta)
+	velocity = calc_stick_velocity(delta)
 	
 	#Counteract gravity
 	velocity.y -= (gravity * weight * delta)

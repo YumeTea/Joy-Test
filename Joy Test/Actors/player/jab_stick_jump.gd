@@ -56,7 +56,7 @@ func update(delta):
 func _on_animation_finished(anim_name):
 	if anim_name == "stick_jump":
 		continue_jab_anim(anim_pause_position)
-	if anim_name == "jab_test":
+	if anim_name == "jab":
 		AnimStateMachineActionR.start("none") #TEMPORARY UNTIL FURTHER ANIMS ARE MADE
 		reset_arm_rotation()
 
@@ -68,7 +68,7 @@ func jump():
 
 
 func continue_jab_anim(anim_position):
-	AnimStateMachineActionR.start("jab_test")
+	AnimStateMachineActionR.start("jab")
 	AnimTree.set("parameters/SeekActionR/seek_position", anim_pause_position)
 
 
@@ -79,17 +79,18 @@ func rotate_arm():
 	#Set arm custom pose back to default
 	reset_arm_rotation()
 	
+	#Orient look at point
 	look_at_point = attached_obj.to_global(stick_point)
+	look_at_point -= RightArmController.get_global_transform().origin #Set look at point to local terms of arm controller
+	look_at_point = look_at_point.rotated(Vector3(0,1,0), -Body.get_rotation().y)
 	
 	#Create custom pose
-	pose.origin = RightArmController.get_global_transform().origin
+	pose.origin = Vector3(0,0,0)
 	pose.basis = Basis(Vector3(1,0,0), Vector3(0,1,0), Vector3(0,0,1))
 	
 	pose = pose.looking_at(look_at_point, Vector3(0,1,0))
 	
-	pose.origin = Vector3(0,0,0)
-	pose = pose.rotated(Vector3(0,1,0), -Body.get_rotation().y)
-	
+	#Apply custom pose
 	Skel.set_bone_custom_pose(RightArmController_idx, pose)
 
 

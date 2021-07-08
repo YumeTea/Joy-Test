@@ -31,13 +31,14 @@ func enter():
 	
 	aim_arm_transform(camera_look_at_point)
 	
-	AnimStateMachineActionR.start("jab_test")
+	AnimStateMachineActionR.start("jab")
 	
 	.enter()
 
 
 #Cleans up state, reinitializes values like timers
 func exit():
+#	reset_arm_rotation()
 	Needle_Arm_Raycast.disconnect("raycast_collided", self, "_on_jab_collision")
 	
 	.exit()
@@ -54,7 +55,7 @@ func update(_delta):
 
 
 func _on_animation_finished(anim_name):
-	if anim_name == "jab_test":
+	if anim_name == "jab":
 		AnimStateMachineActionR.start("none")
 		reset_arm_rotation()
 		emit_signal("state_switch", "none")

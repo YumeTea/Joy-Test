@@ -35,7 +35,7 @@ func camera_obstruct_correct():
 	translate_center = -Camera_Controller.get_translation()
 	translate_center.z -= Pivot.get_translation().z #Prevent translation of camera to in front of player
 	#Move camera_pos to pivot
-	Camera_Pos.set_translation(translate_center)
+	Camera_Pos.translation.z = translate_center.z
 	
 	#Move camera_pos back to controller and check for collision along the way
 	var collision = null
