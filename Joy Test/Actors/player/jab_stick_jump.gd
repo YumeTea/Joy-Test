@@ -66,7 +66,7 @@ func jump():
 
 func continue_jab_anim(anim_position):
 	AnimStateMachineActionR.start("jab")
-	AnimTree.set("parameters/SeekActionR/seek_position", anim_pause_position)
+	AnimTree.set(AnimSeekActionR, anim_pause_position)
 
 
 func rotate_arm():

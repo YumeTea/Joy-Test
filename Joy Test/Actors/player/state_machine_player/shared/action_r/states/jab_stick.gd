@@ -61,7 +61,7 @@ func _on_animation_finished(anim_name):
 
 func continue_jab_anim(anim_pause_position):
 	AnimStateMachineActionR.start("jab")
-	AnimTree.set("parameters/SeekActionR/seek_position", anim_pause_position)
+	AnimTree.set(AnimSeekActionR, anim_pause_position)
 
 
 #Rotates and moves player around RightArmController to face attach point
