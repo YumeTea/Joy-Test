@@ -6,7 +6,6 @@ extends "res://Actors/player/state_machine_player/shared/action_r/action_r.gd"
 
 #Pose Variables
 onready var RightArmController = owner.get_node("Body/Armature/Skeleton/RightArmController")
-onready var RightArmController_idx = Skel.find_bone("RightArmController")
 
 
 func initialize_values(init_values_dic):
@@ -56,7 +55,7 @@ func update(delta):
 func _on_animation_finished(anim_name):
 	if anim_name == "jab":
 		AnimStateMachineActionR.start("none")
-		reset_arm_rotation()
+		reset_custom_pose_r_arm()
 		emit_signal("state_switch", "none")
 
 
@@ -66,6 +65,7 @@ func continue_jab_anim(anim_pause_position):
 
 
 #Rotates and moves player around RightArmController to face attach point
+'This should be in the move state machine'
 func rotate_player():
 	var arm_pos_cent : Vector3
 	var look_at_dir : Vector3
@@ -98,7 +98,7 @@ func rotate_arm():
 	var pose : Transform
 	
 	#Set arm custom pose back to default
-	reset_arm_rotation()
+	reset_custom_pose_r_arm()
 	
 	#Orient look at point
 	look_at_point = attached_obj.to_global(stick_point)
@@ -116,16 +116,6 @@ func rotate_arm():
 	
 	#Debug
 	Debug_Point.global_transform.origin = attached_obj.to_global(stick_point)
-	
-
-
-func reset_arm_rotation():
-	var transform : Transform
-	
-	transform.origin = Vector3(0,0,0)
-	transform.basis = Basis(Vector3(1,0,0), Vector3(0,1,0), Vector3(0,0,1))
-	
-	Skel.set_bone_custom_pose(RightArmController_idx, transform)
 
 
 func get_attached_facing_dir(attached_obj):

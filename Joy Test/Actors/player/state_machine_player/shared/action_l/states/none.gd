@@ -8,7 +8,7 @@ func initialize_values(init_values_dic):
 
 #Initializes state, changes animation, etc
 func enter():
-	AnimStateMachineActionL.start("none")
+#	AnimStateMachineActionL.start("none")
 	.enter()
 
 
@@ -33,6 +33,6 @@ func update(delta):
 	.update(delta)
 
 
-func _on_animation_finished(_anim_name):
-	return
+func _on_animation_finished(anim_name):
+	._on_animation_finished(anim_name)
 

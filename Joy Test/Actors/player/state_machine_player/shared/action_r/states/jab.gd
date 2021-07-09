@@ -7,9 +7,6 @@ var jab_strength = 56
 #Node Storage
 var Needle_Arm_Raycast : Node
 
-#Debug
-onready var RightArmController_idx = Skel.find_bone("RightArmController")
-
 
 func initialize_values(init_values_dic):
 	for value in init_values_dic:

@@ -4,9 +4,6 @@ extends "res://Actors/player/state_machine_player/shared/action_r/action_r.gd"
 var jump_position : Vector3
 var has_jumped : bool
 
-#Pose Variables
-onready var RightArmController_idx = Skel.find_bone("RightArmController")
-
 #Node Storage
 onready var RightArmController = owner.get_node("Body/Armature/Skeleton/RightArmController")
 
@@ -58,7 +55,7 @@ func _on_animation_finished(anim_name):
 		continue_jab_anim(anim_pause_position)
 	if anim_name == "jab":
 		AnimStateMachineActionR.start("none") #TEMPORARY UNTIL FURTHER ANIMS ARE MADE
-		reset_arm_rotation()
+		reset_custom_pose_r_arm()
 
 
 #Called from animation
@@ -77,7 +74,7 @@ func rotate_arm():
 	var pose : Transform
 	
 	#Set arm custom pose back to default
-	reset_arm_rotation()
+	reset_custom_pose_r_arm()
 	
 	#Orient look at point
 	look_at_point = attached_obj.to_global(stick_point)
@@ -92,15 +89,6 @@ func rotate_arm():
 	
 	#Apply custom pose
 	Skel.set_bone_custom_pose(RightArmController_idx, pose)
-
-
-func reset_arm_rotation():
-	var transform : Transform
-	
-	transform.origin = Vector3(0,0,0)
-	transform.basis = Basis(Vector3(1,0,0), Vector3(0,1,0), Vector3(0,0,1))
-	
-	Skel.set_bone_custom_pose(RightArmController_idx, transform)
 
 
 func rotate_player():

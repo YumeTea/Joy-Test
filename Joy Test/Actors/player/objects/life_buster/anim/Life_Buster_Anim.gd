@@ -7,7 +7,7 @@ extends Spatial
 onready var Anim_Player = $AnimationPlayer
 
 func _ready():
-	Anim_Player.play("Casting")
+	Anim_Player.play("charging")
 
 
 #func animation_finished(anim_name):

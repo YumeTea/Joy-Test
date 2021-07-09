@@ -14,6 +14,9 @@ var attached_facing_dir : Vector3
 #Animation Variables
 var anim_pause_position : float
 
+#Pose Variables
+onready var RightArmController_idx = Skel.find_bone("RightArmController")
+
 #Node Storage
 onready var State_Machine_Action_R = owner.get_node("State_Machines/State_Machine_Action_R")
 onready var Timer_Action_R = owner.get_node("State_Machines/State_Machine_Action_R/Timer_Action_R")
@@ -63,6 +66,16 @@ func set_hit_active(value):
 func set_hit(value):
 	var current_state = State_Machine_Action_R.current_state
 	current_state.has_hit = value
+
+
+###POSE VARIABLES###
+func reset_custom_pose_r_arm():
+	var transform : Transform
+	
+	transform.origin = Vector3(0,0,0)
+	transform.basis = Basis(Vector3(1,0,0), Vector3(0,1,0), Vector3(0,0,1))
+	
+	Skel.set_bone_custom_pose(RightArmController_idx, transform)
 
 
 ###STATE INITIALIZATION FUNCTIONS###

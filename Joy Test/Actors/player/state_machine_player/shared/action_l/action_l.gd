@@ -7,6 +7,9 @@ signal velocity_change(velocity)
 #Initialized values storage
 var initialized_values : Dictionary
 
+#Pose Variables
+onready var LeftArmController_idx = Skel.find_bone("LeftArmController")
+
 #Node Storage
 onready var State_Machine_Action_L = owner.get_node("State_Machines/State_Machine_Action_L")
 onready var Timer_Action_L = owner.get_node("State_Machines/State_Machine_Action_L/Timer_Action_L")
@@ -18,6 +21,7 @@ onready var AnimSeekActionL = owner.get_node("AnimationTree").get("parameters/Se
 var is_casting : bool
 var is_charging : bool
 var cast_ready : bool
+var cast : bool
 
 #Animation Variables
 var anim_current_instance : Node
@@ -43,8 +47,11 @@ func update(delta):
 	.update(delta)
 
 
-func _on_animation_finished(_anim_name):
-	return
+func _on_animation_finished(anim_name):
+	if anim_name == "cast":
+		reset_custom_pose_l_arm()
+		AnimStateMachineActionL.start("none")
+	._on_animation_finished(anim_name)
 
 
 #Stores certain values of the current state to be transferred to the next state
@@ -56,15 +63,33 @@ func store_initialized_values(init_values_dic):
 
 #ACTION FLAG FUNCTIONS
 func set_casting(value):
-	is_casting = value
+	var current_state = State_Machine_Action_L.current_state
+	current_state.is_casting = value
 
 
 func set_charging(value):
-	is_charging = value
+	var current_state = State_Machine_Action_L.current_state
+	current_state.is_charging = value
 
 
 func set_cast_ready(value):
-	cast_ready = value
+	var current_state = State_Machine_Action_L.current_state
+	current_state.cast_ready = value
+
+
+func set_cast(value):
+	var current_state = State_Machine_Action_L.current_state
+	current_state.cast = value
+
+
+#POSE FUNCTIONS#
+func reset_custom_pose_l_arm():
+	var transform : Transform
+	
+	transform.origin = Vector3(0,0,0)
+	transform.basis = Basis(Vector3(1,0,0), Vector3(0,1,0), Vector3(0,0,1))
+	
+	Skel.set_bone_custom_pose(LeftArmController_idx, transform)
 
 
 ###LOCAL SIGNAL COMMS###

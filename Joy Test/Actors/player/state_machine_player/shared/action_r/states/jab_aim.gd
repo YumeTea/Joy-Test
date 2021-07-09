@@ -4,12 +4,9 @@ extends "res://Actors/player/state_machine_player/shared/action_r/action_r.gd"
 #Jab Variables
 var jab_strength = 56
 
-var arm_transform_default : Transform
+#Aiming Variables
 var aim_interp_radius_inner = 7
 var aim_interp_radius_outer = 12
-
-#Pose Variables
-onready var RightArmController_idx = Skel.find_bone("RightArmController")
 
 #Node Storage
 onready var RightArmController = owner.get_node("Body/Armature/Skeleton/RightArmController")
@@ -57,12 +54,12 @@ func update(_delta):
 func _on_animation_finished(anim_name):
 	if anim_name == "jab":
 		AnimStateMachineActionR.start("none")
-		reset_arm_rotation()
+		reset_custom_pose_r_arm()
 		emit_signal("state_switch", "none")
 
 
 func aim_arm_transform(look_at_point):
-	var jab_point : Vector3
+	var aim_point : Vector3
 	var look_vec : Vector3
 	var interp_point : Vector3
 	var interp_factor : float
@@ -70,15 +67,15 @@ func aim_arm_transform(look_at_point):
 	var pose : Transform
 	
 	#Set arm custom pose back to default
-	reset_arm_rotation()
+	reset_custom_pose_r_arm()
 	
-	jab_point = look_at_point #This point is global
-	#Get look direction vector and center it at jab controller point
+	aim_point = look_at_point #This point is global
+	#Get look direction vector and center it at aim controller point
 	look_vec = Vector3(0,0,-1).rotated(Vector3(1,0,0), camera_angles.x)
 	interp_point = RightArmController.to_global(look_vec)
 	
-	#Interpolation factor for jab point
-	var radius = (jab_point - Body.get_global_transform().origin).length()
+	#Interpolation factor for aim point
+	var radius = (aim_point - Body.get_global_transform().origin).length()
 	
 	if radius > aim_interp_radius_outer:
 		interp_factor = 0
@@ -87,28 +84,19 @@ func aim_arm_transform(look_at_point):
 	else:
 		interp_factor = (aim_interp_radius_outer - radius) / (aim_interp_radius_outer - aim_interp_radius_inner)
 	
-	#Jab Point Interpolation
-	jab_point = jab_point.linear_interpolate(interp_point, interp_factor)
+	#Aim Point Interpolation
+	aim_point = aim_point.linear_interpolate(interp_point, interp_factor)
 	
 	#Create custom pose
 	pose.origin = RightArmController.get_global_transform().origin
 	pose.basis = Basis(Vector3(1,0,0), Vector3(0,1,0), Vector3(0,0,1))
 	
-	pose = pose.looking_at(jab_point, Vector3(0,1,0))
+	pose = pose.looking_at(aim_point, Vector3(0,1,0))
 	
 	pose.origin = Vector3(0,0,0)
 	pose = pose.rotated(Vector3(0,1,0), -Body.get_rotation().y)
 	
 	Skel.set_bone_custom_pose(RightArmController_idx, pose)
-
-
-func reset_arm_rotation():
-	var transform : Transform
-	
-	transform.origin = Vector3(0,0,0)
-	transform.basis = Basis(Vector3(1,0,0), Vector3(0,1,0), Vector3(0,0,1))
-	
-	Skel.set_bone_custom_pose(RightArmController_idx, transform)
 
 
 func _on_jab_collision(collision):
