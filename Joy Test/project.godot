@@ -8,6 +8,22 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Resource",
+"class": "Inventory",
+"language": "GDScript",
+"path": "res://Resources/CustomResources/inventory_resource.gd"
+}, {
+"base": "Resource",
+"class": "Spell",
+"language": "GDScript",
+"path": "res://Resources/CustomResources/spell_resource.gd"
+} ]
+_global_script_class_icons={
+"Inventory": "",
+"Spell": ""
+}
+
 [application]
 
 config/name="Joy Test"
@@ -18,6 +34,8 @@ run/main_scene="res://Levels/main/Main.tscn"
 Global="*res://Scripts/autoload/Global.gd"
 GlobalValues="*res://Scripts/autoload/GlobalValues.gd"
 ControllerValues="*res://Scripts/autoload/ControllerValues.gd"
+PlayerManager="*res://Scripts/autoload/PlayerManager.gd"
+SpellDatabase="*res://Scripts/autoload/SpellDatabase.gd"
 
 [display]
 

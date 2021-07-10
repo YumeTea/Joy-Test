@@ -7,7 +7,8 @@ var CHAR_MODEL_SAVE_PATH = "res://Actors/player/model/Player_Model.tscn"
 var ANIM_IMPORT_FOLDER = "res://Actors/player/model/anim/anim_import_new/"
 var ANIM_FOLDER = "res://Actors/player/model/anim/anim_boneform/"
 
-
+#Materials
+var material_01 = preload("res://Actors/player/model/BoneForm/materials/default_material.tres")
 
 
 func post_import(scene):
@@ -15,6 +16,11 @@ func post_import(scene):
 	
 	###ROTATION/SCALE CORRECTION
 	scene.get_node("Armature/Skeleton").rotate_y(deg2rad(180))
+	
+	###MATERIAL APPLICATION###
+	for child in scene.get_node("Armature/Skeleton").get_children():
+		if child is MeshInstance:
+			child.set_surface_material(0, material_01)
 	
 	###ANIMATIONS###
 	#Clear anim import folder
