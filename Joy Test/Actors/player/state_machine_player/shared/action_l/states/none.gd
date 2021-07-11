@@ -20,10 +20,17 @@ func exit():
 #Creates output based on the input event passed in
 func handle_input(event):
 	if Input.is_action_just_pressed("attack_left"):
-		if !is_aiming:
-			emit_signal("state_switch", "cast")
-		elif is_aiming:
-			emit_signal("state_switch", "cast_aim")
+		#Branch to correct state based on equipped spell type
+		match current_spell.spell_type:
+			"projectile":
+				if !is_aiming:
+					emit_signal("state_switch", "cast")
+				elif is_aiming:
+					emit_signal("state_switch", "cast_aim")
+			"barrier":
+				pass
+			"held_affect":
+				pass
 	
 	.handle_input(event)
 

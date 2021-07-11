@@ -1,13 +1,6 @@
 extends "res://Actors/player/state_machine_player/shared/action_l/action_l.gd"
 
 
-var life_buster_anim_scene = preload("res://Actors/player/objects/life_buster/anim/Life_Buster_Anim.tscn")
-var current_spell_anim = life_buster_anim_scene
-
-var life_buster_scene = preload("res://Actors/player/objects/life_buster/life_buster.tscn")
-var current_spell = life_buster_scene
-
-
 func initialize_values(init_values_dic):
 	for value in init_values_dic:
 		self[value] = init_values_dic[value]
@@ -16,21 +9,25 @@ func initialize_values(init_values_dic):
 #Initializes state, changes animation, etc
 func enter():
 	if !is_charging:
+		#Load spell assets if entering cast state
+		charge_anim_scene = load(current_spell.charging_anim_scene)
+		spell_projectile = load(current_spell.projectile_scene)
+		
 		#Spell charging initialization
 		set_charging(true)
 		set_casting(false)
 		set_cast_ready(false)
 		set_cast(false)
-		start_charging_anim(current_spell_anim)
+		start_charging_anim(current_spell)
 	
-	anim_current_instance.get_node("AnimationPlayer").connect("animation_finished", self, "_on_animation_finished")
+	charging_spell_instance.get_node("AnimationPlayer").connect("animation_finished", self, "_on_animation_finished")
 	
 	.enter()
 
 
 #Cleans up state, reinitializes values like timers
 func exit():
-	anim_current_instance.get_node("AnimationPlayer").disconnect("animation_finished", self, "_on_animation_finished")
+	charging_spell_instance.get_node("AnimationPlayer").disconnect("animation_finished", self, "_on_animation_finished")
 	
 	.exit()
 
@@ -84,25 +81,25 @@ func cast_abort():
 	emit_signal("state_switch", "none")
 
 
-func start_charging_anim(anim_scene):
+func start_charging_anim(spell_resource):
 	set_charging(true)
 	
-	var anim = anim_scene.instance()
-	owner.get_node("Body/Armature/Skeleton/LeftHandBone/Spell_Origin").add_child(anim)
-	anim_current_instance = owner.get_node("Body/Armature/Skeleton/LeftHandBone/Spell_Origin" + "/" + anim.get_name())
+	var charge_anim = charge_anim_scene.instance()
+	owner.get_node("Body/Armature/Skeleton/LeftHandBone/Spell_Origin").add_child(charge_anim)
+	charging_spell_instance = owner.get_node("Body/Armature/Skeleton/LeftHandBone/Spell_Origin" + "/" + charge_anim.get_name())
 
 
 func end_charging_anim():
-	anim_current_instance.queue_free()
+	charging_spell_instance.queue_free()
 
 
 func reverse_charging_anim():
-	anim_current_instance.get_node("AnimationPlayer").play("charging", -1, -1.0, false)
+	charging_spell_instance.get_node("AnimationPlayer").play("charging", -1, -1.0, false)
 	set_charging(false)
 
 
 func continue_charging_anim():
-	anim_current_instance.get_node("AnimationPlayer").play("charging", -1, 1.0, false)
+	charging_spell_instance.get_node("AnimationPlayer").play("charging", -1, 1.0, false)
 	set_charging(true)
 
 
@@ -111,9 +108,7 @@ func start_cast_anim():
 
 
 func cast_projectile():
-	#Sets current projectile
-	var projectile_current = current_spell #determined by ??? in future
-	var projectile = projectile_current.instance()
+	var projectile = spell_projectile.instance()
 	#Sets facing angle to character model direction
 	var facing_direction = Vector3(0,0,-1).rotated(Vector3(0,1,0), Body.get_rotation().y)
 	

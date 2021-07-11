@@ -143,7 +143,7 @@ nodes/TimeScaleActionL/node = SubResource( 23 )
 nodes/TimeScaleActionL/position = Vector2( -200, 40 )
 nodes/TimeScaleActionR/node = SubResource( 24 )
 nodes/TimeScaleActionR/position = Vector2( -200, 180 )
-node_connections = [ "output", 0, "Add2", "TimeScaleActionR", 0, "SeekActionR", "Add2", 0, "TimeScaleActionL", "Add2", 1, "TimeScaleActionR", "SeekActionR", 0, "StateMachineActionR", "TimeScaleActionL", 0, "SeekActionL", "SeekActionL", 0, "StateMachineActionL" ]
+node_connections = [ "output", 0, "Add2", "TimeScaleActionR", 0, "SeekActionR", "Add2", 0, "TimeScaleActionL", "Add2", 1, "TimeScaleActionR", "SeekActionR", 0, "StateMachineActionR", "SeekActionL", 0, "StateMachineActionL", "TimeScaleActionL", 0, "SeekActionL" ]
 
 [sub_resource type="AnimationNodeTimeSeek" id=26]
 
@@ -174,7 +174,7 @@ nodes/StateMachineMotion/node = SubResource( 31 )
 nodes/StateMachineMotion/position = Vector2( -460, 140 )
 nodes/TimeScaleMotion/node = SubResource( 32 )
 nodes/TimeScaleMotion/position = Vector2( 20, 140 )
-node_connections = [ "output", 0, "TimeScaleMotion", "TimeScaleMotion", 0, "SeekMotion", "SeekMotion", 0, "StateMachineMotion" ]
+node_connections = [ "output", 0, "TimeScaleMotion", "SeekMotion", 0, "StateMachineMotion", "TimeScaleMotion", 0, "SeekMotion" ]
 
 [sub_resource type="AnimationNodeBlendTree" id=34]
 graph_offset = Vector2( -309, -128.063 )
@@ -223,6 +223,9 @@ script = ExtResource( 2 )
 
 [node name="Skeleton" parent="Body/Armature" index="0"]
 transform = Transform( -1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 0, 0 )
+bones/18/bound_children = [ NodePath("LeftArmController") ]
+bones/20/bound_children = [ NodePath("LeftHandBone") ]
+bones/42/bound_children = [ NodePath("RightArmController") ]
 
 [node name="Body" parent="Body/Armature/Skeleton" index="0"]
 skin = null

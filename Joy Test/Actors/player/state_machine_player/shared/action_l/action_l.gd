@@ -7,8 +7,12 @@ signal velocity_change(velocity)
 #Initialized values storage
 var initialized_values : Dictionary
 
-#Spell Variables
+#Inventory Variables
 var current_spell : Resource
+
+#Spell Variables
+var charge_anim_scene : Resource
+var spell_projectile : Resource
 
 #Pose Variables
 onready var LeftArmController_idx = Skel.find_bone("LeftArmController")
@@ -27,7 +31,7 @@ var cast_ready : bool
 var cast : bool
 
 #Animation Variables
-var anim_current_instance : Node
+var charging_spell_instance : Node
 
 
 #Initializes state, changes animation, etc
@@ -97,7 +101,7 @@ func reset_custom_pose_l_arm():
 
 ###LOCAL SIGNAL COMMS###
 func connect_local_signals():
-	owner.inventory.connect("inventory_changed", self, "_on_Player_inventory_changed")
+	owner.inventory.connect("equipped_items_changed", self, "_on_Player_equipped_items_changed")
 	owner.get_node("AnimationPlayer").connect("animation_finished", self, "_on_animation_finished")
 	owner.get_node("Camera_Rig").connect("camera_angle_changed", self, "_on_Camera_Rig_camera_angle_changed")
 	owner.get_node("Camera_Rig").connect("camera_raycast_collision_changed", self, "_on_camera_raycast_collision_changed")
@@ -107,7 +111,7 @@ func connect_local_signals():
 
 
 func disconnect_local_signals():
-	owner.inventory.disconnect("inventory_changed", self, "_on_Player_inventory_changed")
+	owner.inventory.disconnect("equipped_items_changed", self, "_on_Player_equipped_items_changed")
 	owner.get_node("AnimationPlayer").disconnect("animation_finished", self, "_on_animation_finished")
 	owner.get_node("Camera_Rig").disconnect("camera_angle_changed", self, "_on_Camera_Rig_camera_angle_changed")
 	owner.get_node("Camera_Rig").disconnect("camera_raycast_collision_changed", self, "_on_camera_raycast_collision_changed")
@@ -116,8 +120,8 @@ func disconnect_local_signals():
 	owner.get_node("State_Machines/State_Machine_Action_L/Timer_Action_L").disconnect("timeout", self, "_on_Timer_Action_L_timeout")
 
 
-func _on_Player_inventory_changed(inventory):
-	current_spell = inventory.equipped_items["Spell"]
+func _on_Player_equipped_items_changed(equipped_items):
+	current_spell = equipped_items["Spell"]
 
 
 func _on_Camera_Rig_camera_angle_changed(angles):

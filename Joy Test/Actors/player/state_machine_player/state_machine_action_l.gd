@@ -9,6 +9,13 @@ var initialized_values = {
 	"camera_angles": Vector3(),
 	"camera_look_at_point": Vector3(),
 	
+	#Inventory Values
+	"current_spell": Resource,
+	
+	#Spell Values
+	"charge_anim_scene" : Resource,
+	"spell_projectile" : Resource,
+	
 	#Shared Flags
 	"is_aiming": false,
 	
@@ -16,7 +23,6 @@ var initialized_values = {
 	"is_casting": false,
 	"is_charging": false,
 	"cast_ready": false,
-	"anim_current_instance": Node,
 }
 
 func _ready():

@@ -6,7 +6,8 @@ const inventory_resource = preload("res://Resources/CustomResources/inventory_re
 var inventory = inventory_resource.new()
 
 
-
+func _ready():
+	self.inventory.debug_initialize_inventory()
 
 
 
