@@ -36,6 +36,9 @@ func update(delta):
 	
 	rotate_to_direction(null)
 	
+	if !owner.is_on_floor():
+		velocity = calc_aerial_velocity(velocity, delta)
+	
 	.update(delta)
 
 

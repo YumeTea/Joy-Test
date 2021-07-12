@@ -31,6 +31,8 @@ func update(delta):
 	
 	rotate_to_direction(null)
 	
+	velocity = calc_aerial_velocity(velocity, delta)
+	
 	.update(delta)
 
 

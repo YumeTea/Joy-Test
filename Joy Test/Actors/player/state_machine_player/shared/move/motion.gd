@@ -1,14 +1,28 @@
 extends "res://Actors/player/state_machine_player/shared/shared.gd"
 
 
+signal velocity_changed(velocity)
+
+
 #Initialized values storage
 var initialized_values : Dictionary
 
 
-#Movement Variables
-var speed_full = 24
+##Movement Variables
+#Limits
+var run_speed_full = 24
+var air_speed_full = 8
+var speed_thresh_lower = 0.1
+
+#Values
 var weight = 5.0
 var gravity = -9.8
+var walk_accel = 16
+var walk_deaccel = 16
+var air_accel = 1.375
+var air_deaccel = 1.375
+
+#Variables
 var velocity : Vector3
 var velocity_ext : Vector3 #used for adding velocity applied from out of state machine scripts
 var snap_vector : Vector3
@@ -47,7 +61,8 @@ func update(delta):
 	#Move player
 	velocity = owner.move_and_slide_with_snap(velocity, snap_vector, Vector3(0, 1, 0), true, 4, deg2rad(50))
 	
-	.update(delta)
+	#DEBUG FOR UI
+	emit_signal("velocity_changed", velocity)
 
 
 func _on_animation_finished(_anim_name):

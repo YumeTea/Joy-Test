@@ -28,6 +28,8 @@ func update(delta):
 		emit_signal("state_switch", "fall_aim")
 		return
 	
+	velocity = calc_aerial_velocity(velocity, delta)
+	
 	.update(delta)
 
 

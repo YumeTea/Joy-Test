@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Actors/player/ui/debug_ui/debug_theme.tres" type="Theme" id=1]
 [ext_resource path="res://Actors/player/ui/debug_ui/debug_ui.gd" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Actors/player/ui/debug_ui/move_state_values.gd" type="Script" id=5]
 [ext_resource path="res://Actors/player/ui/debug_ui/camera_state_values.gd" type="Script" id=6]
 [ext_resource path="res://Actors/player/ui/debug_ui/action_r_state_values.gd" type="Script" id=7]
+[ext_resource path="res://Actors/player/ui/debug_ui/velocity_value.gd" type="Script" id=8]
 
 [node name="Debug_UI" type="Control"]
 anchor_right = 1.0
@@ -158,6 +159,24 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Physics_Values" type="VBoxContainer" parent="Debug_Values"]
+margin_top = 128.0
+margin_right = 40.0
+margin_bottom = 168.0
+
+[node name="Control" type="Control" parent="Debug_Values/Physics_Values"]
+margin_right = 40.0
+
+[node name="Velocity_Value" type="Label" parent="Debug_Values/Physics_Values/Control"]
+margin_right = 40.0
+margin_bottom = 19.0
+text = "Velocity: "
+script = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="player_velocity_changed" from="." to="Debug_Values/Physics_Values/Control/Velocity_Value" method="_on_Debug_UI_player_velocity_changed"]
 [connection signal="state_machine_action_l_stack_changed" from="." to="Debug_Values/State_Stacks/Action_L_State_Stack2/Stack_Values" method="_on_Debug_UI_state_machine_action_l_stack_changed"]
 [connection signal="state_machine_action_r_stack_changed" from="." to="Debug_Values/State_Stacks/Action_R_State_Stack/Stack_Values" method="_on_Debug_UI_state_machine_action_r_stack_changed"]
 [connection signal="state_machine_camera_stack_changed" from="." to="Debug_Values/State_Stacks/Camera_State_Stack/Stack_Values" method="_on_Debug_UI_state_machine_camera_stack_changed"]

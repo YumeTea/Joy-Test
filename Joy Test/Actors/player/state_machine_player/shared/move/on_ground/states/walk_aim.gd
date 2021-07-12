@@ -1,11 +1,5 @@
 extends "res://Actors/player/state_machine_player/shared/move/on_ground/on_ground.gd"
 
-#Walk Variables
-var accel = 16
-var deaccel = 16
-
-var walk_speed_thresh_lower = 0.1
-
 
 func initialize_values(init_values_dic):
 	for value in init_values_dic:
@@ -37,7 +31,7 @@ func update(delta):
 	
 	.update(delta)
 	
-	if velocity.length() < walk_speed_thresh_lower and get_joystick_input_l().length() == 0.0:
+	if velocity.length() < speed_thresh_lower and get_joystick_input_l().length() == 0.0:
 		emit_signal("state_switch", "idle_aim")
 		return
 	
@@ -83,22 +77,24 @@ func interp_walk_velocity(input_direction, current_velocity, delta):
 	temp_vel.x = current_velocity.x
 	temp_vel.z = current_velocity.z
 	
-	target_vel.x = input_direction.x * speed_full
-	target_vel.z = input_direction.y * speed_full
+	target_vel.x = input_direction.x * run_speed_full
+	target_vel.z = input_direction.y * run_speed_full
 	
 	#Get correct acceleration to use
 	var acceleration
 	if input_direction.length() > 0:
-		acceleration = accel
+		acceleration = walk_accel
 	else:
-		acceleration = deaccel
+		acceleration = walk_deaccel
 	
 	new_vel = temp_vel.linear_interpolate(target_vel, acceleration * delta)
 	
 	#Check new velocity
-	if new_vel.length() < walk_speed_thresh_lower:
+	if new_vel.length() < speed_thresh_lower:
 		new_vel = Vector3(0,0,0)
 	
+	#Add y velocity back in
+	new_vel.y = current_velocity.y
 	
 	return new_vel
 

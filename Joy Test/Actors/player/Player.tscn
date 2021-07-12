@@ -143,7 +143,7 @@ nodes/TimeScaleActionL/node = SubResource( 23 )
 nodes/TimeScaleActionL/position = Vector2( -200, 40 )
 nodes/TimeScaleActionR/node = SubResource( 24 )
 nodes/TimeScaleActionR/position = Vector2( -200, 180 )
-node_connections = [ "output", 0, "Add2", "TimeScaleActionR", 0, "SeekActionR", "Add2", 0, "TimeScaleActionL", "Add2", 1, "TimeScaleActionR", "SeekActionR", 0, "StateMachineActionR", "SeekActionL", 0, "StateMachineActionL", "TimeScaleActionL", 0, "SeekActionL" ]
+node_connections = [ "output", 0, "Add2", "TimeScaleActionL", 0, "SeekActionL", "SeekActionR", 0, "StateMachineActionR", "TimeScaleActionR", 0, "SeekActionR", "Add2", 0, "TimeScaleActionL", "Add2", 1, "TimeScaleActionR", "SeekActionL", 0, "StateMachineActionL" ]
 
 [sub_resource type="AnimationNodeTimeSeek" id=26]
 
@@ -422,6 +422,7 @@ visible = false
 mesh = SubResource( 39 )
 material/0 = SubResource( 41 )
 
+[connection signal="velocity_changed" from="." to="UI/Debug_UI" method="_on_Player_velocity_changed"]
 [connection signal="state_machine_camera_state_stack_changed" from="Camera_Rig" to="UI/Debug_UI" method="_on_Camera_Rig_state_machine_camera_state_stack_changed"]
 [connection signal="move_state_stack_changed" from="State_Machines/State_Machine_Move" to="UI/Debug_UI" method="_on_State_Machine_Move_move_state_stack_changed"]
 [connection signal="action_l_state_stack_changed" from="State_Machines/State_Machine_Action_L" to="UI/Debug_UI" method="_on_State_Machine_Action_L_action_l_state_stack_changed"]

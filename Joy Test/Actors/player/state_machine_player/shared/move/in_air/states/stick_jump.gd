@@ -37,6 +37,8 @@ func update(delta):
 	#Counteract gravity before jumping
 	if !has_jumped:
 		velocity.y -= (gravity * weight * delta)
+	else:
+		velocity = calc_aerial_velocity(velocity, delta)
 	
 	.update(delta)
 
