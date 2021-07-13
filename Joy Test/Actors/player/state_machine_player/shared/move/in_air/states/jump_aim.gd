@@ -34,7 +34,7 @@ func update(delta):
 	if is_aiming == false:
 		emit_signal("state_switch", "fall")
 	
-	rotate_to_direction(null)
+	rotate_to_direction(Vector2(0,-1).rotated(-camera_angles.y))
 	
 	if !owner.is_on_floor():
 		velocity = calc_aerial_velocity(velocity, delta)
@@ -57,13 +57,4 @@ func add_jump_velocity(velocity):
 	set_jumped(true)
 	
 	return velocity
-
-
-func rotate_to_direction(direction): #Direction should be normalized
-	var angle = camera_angles.y
-	
-	var rot_final = Body.get_rotation()
-	rot_final.y = angle
-	
-	Body.set_rotation(rot_final)
 

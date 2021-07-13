@@ -1,6 +1,8 @@
 extends RayCast
 
+
 signal raycast_collided()
+
 
 #Raycast variables
 var cast_to_max = 55
@@ -12,7 +14,7 @@ onready var RightArmController = self.get_parent()
 
 func _process(delta):
 	#Set RayCast cast to
-	Raycast.cast_to.z = -(Skel.get_bone_global_pose(Skel.find_bone("RightArmTip")).origin.z - RightArmController.translation.z)
+	Raycast.cast_to.z = -(Skel.get_bone_global_pose(Skel.find_bone("RightArmTip")).origin.distance_to(RightArmController.translation))
 	
 	if Raycast.is_colliding():
 #		Raycast.force_raycast_update() #Player has moved already, but raycast has not updated

@@ -11,6 +11,7 @@ var initialized_values : Dictionary
 ##Movement Variables
 #Limits
 var run_speed_full = 24
+var run_full_time = 0.875
 var air_speed_full = 8
 var speed_thresh_lower = 0.1
 
@@ -70,6 +71,17 @@ func _on_animation_finished(_anim_name):
 
 
 ###MOTION FUNCTIONS###
+func rotate_to_direction(direction): #Direction should be normalized
+	if direction.length() > 0:
+		var angle = Vector2(0, 1).angle_to(-direction) #calc degree of player rotation on y axis
+		
+		var rot_final = Body.get_rotation()
+		rot_final.y = -angle
+		
+		Body.set_rotation(rot_final)
+	else:
+		return
+
 #Used for adding jab recoil velocity
 func add_velocity_ext(velocity, velocity_ext):
 	var v_dot_ext : float

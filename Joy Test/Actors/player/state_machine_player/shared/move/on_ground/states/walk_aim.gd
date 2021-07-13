@@ -57,55 +57,18 @@ func calc_walk_velocity(current_velocity, delta):
 	input = get_joystick_input_l()
 	
 	#Get direction
-#	input_direction = input.normalized().rotated(-camera_angles.y)
 	input_direction = input.rotated(-camera_angles.y)
 	
 	#Rotate player
-	rotate_to_direction(input_direction)
+	rotate_to_direction(Vector2(0,-1).rotated(-camera_angles.y))
 	
 	#Get next player velocity
 	velocity = interp_walk_velocity(input_direction, current_velocity, delta)
 	
-	return(velocity)
+	return velocity
 
 
-func interp_walk_velocity(input_direction, current_velocity, delta):
-	var temp_vel = Vector3(0,0,0)
-	var target_vel = Vector3(0,0,0)
-	var new_vel = Vector3(0,0,0)
-	
-	temp_vel.x = current_velocity.x
-	temp_vel.z = current_velocity.z
-	
-	target_vel.x = input_direction.x * run_speed_full
-	target_vel.z = input_direction.y * run_speed_full
-	
-	#Get correct acceleration to use
-	var acceleration
-	if input_direction.length() > 0:
-		acceleration = walk_accel
-	else:
-		acceleration = walk_deaccel
-	
-	new_vel = temp_vel.linear_interpolate(target_vel, acceleration * delta)
-	
-	#Check new velocity
-	if new_vel.length() < speed_thresh_lower:
-		new_vel = Vector3(0,0,0)
-	
-	#Add y velocity back in
-	new_vel.y = current_velocity.y
-	
-	return new_vel
 
-
-func rotate_to_direction(direction): #Direction should be normalized
-	var angle = camera_angles.y
-	
-	var rot_final = Body.get_rotation()
-	rot_final.y = angle
-	
-	Body.set_rotation(rot_final)
 
 
 

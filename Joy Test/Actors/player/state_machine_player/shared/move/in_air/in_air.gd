@@ -1,5 +1,6 @@
 extends "res://Actors/player/state_machine_player/shared/move/motion.gd"
 
+
 #In Air bools
 var has_jumped = true
 
@@ -49,8 +50,7 @@ func calc_aerial_velocity(current_velocity, delta):
 	#Handling of input direction to prevent unintended slowing at higher speeds and velocity directed input
 	var velocity_horizontal = Vector2(current_velocity.x, current_velocity.z).length()
 	var dirdotvel = input_direction.normalized().dot(Vector2(current_velocity.x, current_velocity.z).normalized())
-	print(dirdotvel)
-	if velocity_horizontal > air_speed_full and dirdotvel > 0:
+	if velocity_horizontal > air_speed_full and dirdotvel >= 0:
 		velocity = steer_aerial_velocity(input_direction, current_velocity, delta)
 	else:
 		velocity = interp_aerial_velocity(input_direction, current_velocity, delta)

@@ -1,6 +1,9 @@
 extends "res://Actors/player/state_machine_player/shared/action_r/action_r.gd"
 
 
+'jab anim sometimes does not continue playing'
+
+
 var jump_position : Vector3
 var has_jumped : bool
 
@@ -51,8 +54,8 @@ func update(delta):
 
 
 func _on_animation_finished(anim_name):
-	if anim_name == "stick_jump":
-		continue_jab_anim(anim_pause_position)
+#	if anim_name == "stick_jump":
+#		continue_jab_anim(anim_pause_position)
 	if anim_name == "jab":
 		AnimStateMachineActionR.start("none") #TEMPORARY UNTIL FURTHER ANIMS ARE MADE
 		reset_custom_pose_r_arm()
@@ -62,6 +65,7 @@ func _on_animation_finished(anim_name):
 func jump():
 	set_jumped(true)
 	attached_obj = null
+	continue_jab_anim(anim_pause_position)
 
 
 func continue_jab_anim(anim_position):
