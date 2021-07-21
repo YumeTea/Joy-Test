@@ -13,7 +13,11 @@ func initialize_values(init_values_dic):
 
 #Initializes state, changes animation, etc
 func enter():
-	AnimStateMachineMotion.start("none")
+	#Animation must be started on player first being in scene
+	if !AnimStateMachineMotion.is_playing():
+		AnimStateMachineMotion.start("idle")
+	else:
+		AnimStateMachineMotion.travel("idle")
 	.enter()
 
 

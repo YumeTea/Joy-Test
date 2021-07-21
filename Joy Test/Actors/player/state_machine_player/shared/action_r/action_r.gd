@@ -21,7 +21,7 @@ onready var RightArmController_idx = Skel.find_bone("RightArmController")
 onready var State_Machine_Action_R = owner.get_node("State_Machines/State_Machine_Action_R")
 onready var Timer_Action_R = owner.get_node("State_Machines/State_Machine_Action_R/Timer_Action_R")
 
-onready var AnimStateMachineActionR = owner.get_node("AnimationTree").get("parameters/BlendTreeAction/StateMachineActionR/playback")
+#Anim Node Refs
 onready var AnimSeekActionR = "parameters/BlendTreeAction/SeekActionR/seek_position"
 
 #Action R Bools

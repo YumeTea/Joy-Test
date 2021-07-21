@@ -57,8 +57,8 @@ func _on_animation_finished(anim_name):
 #	if anim_name == "stick_jump":
 #		continue_jab_anim(anim_pause_position)
 	if anim_name == "jab":
-		AnimStateMachineActionR.start("none") #TEMPORARY UNTIL FURTHER ANIMS ARE MADE
 		reset_custom_pose_r_arm()
+		emit_signal("state_switch", "none")
 
 
 #Called from animation

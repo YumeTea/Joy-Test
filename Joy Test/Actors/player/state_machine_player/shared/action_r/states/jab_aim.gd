@@ -53,7 +53,6 @@ func update(_delta):
 
 func _on_animation_finished(anim_name):
 	if anim_name == "jab":
-		AnimStateMachineActionR.start("none")
 		reset_custom_pose_r_arm()
 		emit_signal("state_switch", "none")
 

@@ -23,9 +23,6 @@ func enter():
 	
 	AnimStateMachineActionR.start("jab")
 	
-	#Debug
-#	print(Skel.get_bone_custom_pose(RightArmController_idx).basis.get_rotation_quat().get_euler())
-	
 	.enter()
 
 
@@ -43,13 +40,11 @@ func handle_input(event):
 
 #Acts as the _process method would
 func update(_delta):
-#	print(Skel.get_bone_rest(RightArmController_idx).basis.get_rotation_quat().get_euler())
 	return
 
 
 func _on_animation_finished(anim_name):
 	if anim_name == "jab":
-		AnimStateMachineActionR.start("none")
 		emit_signal("state_switch", "none")
 
 

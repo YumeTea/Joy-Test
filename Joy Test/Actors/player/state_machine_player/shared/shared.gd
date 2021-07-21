@@ -17,6 +17,11 @@ onready var Timer_Aim = owner.get_node("State_Machines/State_Machine_Move/Timer_
 onready var AnimTree = owner.get_node("AnimationTree")
 onready var Anim_Player = owner.get_node("AnimationPlayer")
 
+#Anim Node Refs
+onready var AnimMotionActionBlend = owner.get_node("AnimationTree").get_tree_root().get_node("MotionActionBlend")
+onready var AnimStateMachineActionL = owner.get_node("AnimationTree").get("parameters/BlendTreeAction/StateMachineActionL/playback")
+onready var AnimStateMachineActionR = owner.get_node("AnimationTree").get("parameters/BlendTreeAction/StateMachineActionR/playback")
+
 #Debug Values
 onready var Skel_rotation_init = Skel.get_rotation()
 

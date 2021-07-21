@@ -1,6 +1,9 @@
 extends "res://Actors/player/state_machine_player/shared/move/in_air/in_air.gd"
 
 
+'might be issues with anim going between fall and fall_aim'
+
+
 
 func initialize_values(init_values_dic):
 	for value in init_values_dic:
@@ -10,6 +13,8 @@ func initialize_values(init_values_dic):
 #Initializes state, changes animation, etc
 func enter():
 	set_aiming(true)
+	
+	AnimStateMachineMotion.travel("fall")
 	
 	.enter()
 

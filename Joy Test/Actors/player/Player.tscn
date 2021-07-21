@@ -1,4 +1,4 @@
-[gd_scene load_steps=81 format=2]
+[gd_scene load_steps=133 format=2]
 
 [ext_resource path="res://Actors/player/camera_rig/Camera_Rig.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Actors/player/Player.gd" type="Script" id=2]
@@ -34,11 +34,30 @@
 [ext_resource path="res://Actors/player/state_machine_player/shared/action_r/states/jab_stick.gd" type="Script" id=32]
 [ext_resource path="res://Actors/player/jab_stick_jump.gd" type="Script" id=33]
 [ext_resource path="res://Actors/player/state_machine_player/shared/move/in_air/states/stick_jump.gd" type="Script" id=34]
-[ext_resource path="res://Actors/player/model/anim/anim_pill/playerstick_jump.anim" type="Animation" id=35]
+[ext_resource path="res://Actors/player/model/anim/anim_boneform/stick_jump.anim" type="Animation" id=35]
 [ext_resource path="res://Actors/player/model/anim/animationplayer.gd" type="Script" id=36]
 [ext_resource path="res://Actors/player/model/anim/anim_boneform/cast.anim" type="Animation" id=37]
-[ext_resource path="res://Actors/player/model/anim/anim_boneform/run_test.anim" type="Animation" id=38]
-[ext_resource path="res://Actors/player/model/anim/anim_pill/fall.anim" type="Animation" id=39]
+[ext_resource path="res://Actors/player/model/anim/anim_boneform/walk_bl.anim" type="Animation" id=38]
+[ext_resource path="res://Actors/player/model/anim/anim_boneform/walk_br.anim" type="Animation" id=39]
+[ext_resource path="res://Actors/player/model/anim/anim_boneform/walk_back.anim" type="Animation" id=40]
+[ext_resource path="res://Actors/player/model/anim/anim_boneform/walk_fl.anim" type="Animation" id=41]
+[ext_resource path="res://Actors/player/model/anim/anim_boneform/walk_fr.anim" type="Animation" id=42]
+[ext_resource path="res://Actors/player/model/anim/anim_boneform/walk_r.anim" type="Animation" id=43]
+[ext_resource path="res://Actors/player/model/anim/anim_boneform/run_bl.anim" type="Animation" id=44]
+[ext_resource path="res://Actors/player/model/anim/anim_boneform/run_fl.anim" type="Animation" id=45]
+[ext_resource path="res://Actors/player/model/anim/anim_boneform/run_br.anim" type="Animation" id=46]
+[ext_resource path="res://Actors/player/model/anim/anim_boneform/run_back.anim" type="Animation" id=47]
+[ext_resource path="res://Actors/player/model/anim/anim_boneform/walk_forward.anim" type="Animation" id=48]
+[ext_resource path="res://Actors/player/model/anim/anim_boneform/walk_l.anim" type="Animation" id=49]
+[ext_resource path="res://Actors/player/model/anim/anim_boneform/run_forward.anim" type="Animation" id=50]
+[ext_resource path="res://Actors/player/model/anim/anim_boneform/run_fr.anim" type="Animation" id=51]
+[ext_resource path="res://Actors/player/model/anim/anim_boneform/run_l.anim" type="Animation" id=52]
+[ext_resource path="res://Actors/player/model/anim/anim_boneform/run_r.anim" type="Animation" id=53]
+[ext_resource path="res://Actors/player/model/anim/anim_boneform/land.anim" type="Animation" id=54]
+[ext_resource path="res://Actors/player/model/anim/anim_boneform/fall.anim" type="Animation" id=55]
+[ext_resource path="res://Actors/player/model/anim/anim_boneform/jump.anim" type="Animation" id=56]
+[ext_resource path="res://Actors/player/model/anim/anim_boneform/skid_forward.anim" type="Animation" id=57]
+[ext_resource path="res://Actors/player/model/anim/anim_boneform/idle.anim" type="Animation" id=58]
 
 [sub_resource type="SphereMesh" id=1]
 radius = 0.05
@@ -81,125 +100,259 @@ height = 1.0
 [sub_resource type="CapsuleShape" id=8]
 height = 4.0
 
-[sub_resource type="AnimationNodeBlend2" id=9]
+[sub_resource type="AnimationNodeBlend2" id=75]
+filter_enabled = true
+filters = [ "Body/Armature/Skeleton:LeftArmController", "Body/Armature/Skeleton:LeftArmTarget", "Body/Armature/Skeleton:LeftHandBone", "Body/Armature/Skeleton:LeftHandController", "Body/Armature/Skeleton:LeftIndexController", "Body/Armature/Skeleton:LeftIndexDistalBone", "Body/Armature/Skeleton:LeftIndexIntermediateBone", "Body/Armature/Skeleton:LeftIndexProximalBone", "Body/Armature/Skeleton:LeftLittleController", "Body/Armature/Skeleton:LeftLittleDistalBone", "Body/Armature/Skeleton:LeftLittleIntermediateBone", "Body/Armature/Skeleton:LeftLittleProximalBone", "Body/Armature/Skeleton:LeftLowerArmBone", "Body/Armature/Skeleton:LeftMiddleController", "Body/Armature/Skeleton:LeftMiddleDistalBone", "Body/Armature/Skeleton:LeftMiddleIntermediateBone", "Body/Armature/Skeleton:LeftMiddleProximalBone", "Body/Armature/Skeleton:LeftRingController", "Body/Armature/Skeleton:LeftRingDistalBone", "Body/Armature/Skeleton:LeftRingIntermediateBone", "Body/Armature/Skeleton:LeftRingProximalBone", "Body/Armature/Skeleton:LeftThumbController", "Body/Armature/Skeleton:LeftThumbDistalBone", "Body/Armature/Skeleton:LeftThumbIntermediateBone", "Body/Armature/Skeleton:LeftThumbProximalBone", "Body/Armature/Skeleton:LeftUpperArmBone", "State_Machines/State_Machine_Action_L/Shared/Action_L" ]
 
-[sub_resource type="AnimationNodeAdd2" id=10]
+[sub_resource type="AnimationNodeTimeSeek" id=10]
 
 [sub_resource type="AnimationNodeTimeSeek" id=11]
 
-[sub_resource type="AnimationNodeTimeSeek" id=12]
-
-[sub_resource type="AnimationNodeAnimation" id=13]
+[sub_resource type="AnimationNodeAnimation" id=12]
 animation = "cast"
 
-[sub_resource type="AnimationNodeAnimation" id=14]
+[sub_resource type="AnimationNodeAnimation" id=13]
 animation = "none"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=14]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=15]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=16]
-
-[sub_resource type="AnimationNodeStateMachine" id=17]
-states/cast/node = SubResource( 13 )
+[sub_resource type="AnimationNodeStateMachine" id=16]
+states/cast/node = SubResource( 12 )
 states/cast/position = Vector2( 590, 200 )
-states/none/node = SubResource( 14 )
+states/none/node = SubResource( 13 )
 states/none/position = Vector2( 430, 200 )
-transitions = [ "none", "cast", SubResource( 15 ), "cast", "none", SubResource( 16 ) ]
+transitions = [ "none", "cast", SubResource( 14 ), "cast", "none", SubResource( 15 ) ]
 
-[sub_resource type="AnimationNodeAnimation" id=18]
+[sub_resource type="AnimationNodeAnimation" id=17]
 animation = "jab"
 
-[sub_resource type="AnimationNodeAnimation" id=19]
+[sub_resource type="AnimationNodeAnimation" id=18]
 animation = "none"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=19]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=20]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=21]
-
-[sub_resource type="AnimationNodeStateMachine" id=22]
-states/jab/node = SubResource( 18 )
+[sub_resource type="AnimationNodeStateMachine" id=21]
+states/jab/node = SubResource( 17 )
 states/jab/position = Vector2( 568, 228 )
-states/none/node = SubResource( 19 )
+states/none/node = SubResource( 18 )
 states/none/position = Vector2( 413, 228 )
-transitions = [ "jab", "none", SubResource( 20 ), "none", "jab", SubResource( 21 ) ]
+transitions = [ "jab", "none", SubResource( 19 ), "none", "jab", SubResource( 20 ) ]
+
+[sub_resource type="AnimationNodeTimeScale" id=22]
 
 [sub_resource type="AnimationNodeTimeScale" id=23]
 
-[sub_resource type="AnimationNodeTimeScale" id=24]
-
-[sub_resource type="AnimationNodeBlendTree" id=25]
-graph_offset = Vector2( -718, -80 )
-nodes/Add2/node = SubResource( 10 )
-nodes/Add2/position = Vector2( 60, 80 )
-nodes/SeekActionL/node = SubResource( 11 )
+[sub_resource type="AnimationNodeBlendTree" id=24]
+graph_offset = Vector2( -695, -32 )
+nodes/Blend2/node = SubResource( 75 )
+nodes/Blend2/position = Vector2( 80, 80 )
+nodes/SeekActionL/node = SubResource( 10 )
 nodes/SeekActionL/position = Vector2( -380, 40 )
-nodes/SeekActionR/node = SubResource( 12 )
+nodes/SeekActionR/node = SubResource( 11 )
 nodes/SeekActionR/position = Vector2( -380, 180 )
-nodes/StateMachineActionL/node = SubResource( 17 )
+nodes/StateMachineActionL/node = SubResource( 16 )
 nodes/StateMachineActionL/position = Vector2( -620, 40 )
-nodes/StateMachineActionR/node = SubResource( 22 )
+nodes/StateMachineActionR/node = SubResource( 21 )
 nodes/StateMachineActionR/position = Vector2( -620, 180 )
-nodes/TimeScaleActionL/node = SubResource( 23 )
+nodes/TimeScaleActionL/node = SubResource( 22 )
 nodes/TimeScaleActionL/position = Vector2( -200, 40 )
-nodes/TimeScaleActionR/node = SubResource( 24 )
+nodes/TimeScaleActionR/node = SubResource( 23 )
 nodes/TimeScaleActionR/position = Vector2( -200, 180 )
-node_connections = [ "output", 0, "Add2", "SeekActionR", 0, "StateMachineActionR", "TimeScaleActionL", 0, "SeekActionL", "TimeScaleActionR", 0, "SeekActionR", "Add2", 0, "TimeScaleActionL", "Add2", 1, "TimeScaleActionR", "SeekActionL", 0, "StateMachineActionL" ]
+node_connections = [ "output", 0, "Blend2", "SeekActionL", 0, "StateMachineActionL", "SeekActionR", 0, "StateMachineActionR", "TimeScaleActionR", 0, "SeekActionR", "TimeScaleActionL", 0, "SeekActionL", "Blend2", 0, "TimeScaleActionR", "Blend2", 1, "TimeScaleActionL" ]
 
-[sub_resource type="AnimationNodeTimeSeek" id=26]
+[sub_resource type="AnimationNodeTimeSeek" id=25]
 
-[sub_resource type="AnimationNodeAnimation" id=27]
-animation = "none"
+[sub_resource type="AnimationNodeAnimation" id=60]
+animation = "fall"
 
-[sub_resource type="AnimationNodeAnimation" id=28]
+[sub_resource type="AnimationNodeAnimation" id=26]
+animation = "idle"
+
+[sub_resource type="AnimationNodeAnimation" id=61]
+animation = "jump"
+
+[sub_resource type="AnimationNodeAnimation" id=62]
+animation = "land"
+
+[sub_resource type="AnimationNodeAnimation" id=71]
 animation = "stick_jump"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=29]
+[sub_resource type="AnimationNodeAnimation" id=27]
+animation = "walk_forward"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=30]
+[sub_resource type="AnimationNodeAnimation" id=28]
+animation = "walk_l"
 
-[sub_resource type="AnimationNodeStateMachine" id=31]
-states/none/node = SubResource( 27 )
-states/none/position = Vector2( 382, 217 )
-states/stick_jump/node = SubResource( 28 )
-states/stick_jump/position = Vector2( 570, 217 )
-transitions = [ "none", "stick_jump", SubResource( 29 ), "stick_jump", "none", SubResource( 30 ) ]
+[sub_resource type="AnimationNodeAnimation" id=29]
+animation = "walk_r"
 
-[sub_resource type="AnimationNodeTimeScale" id=32]
+[sub_resource type="AnimationNodeAnimation" id=30]
+animation = "walk_back"
 
-[sub_resource type="AnimationNodeBlendTree" id=33]
-graph_offset = Vector2( -568, -42 )
-nodes/SeekMotion/node = SubResource( 26 )
+[sub_resource type="AnimationNodeAnimation" id=31]
+animation = "walk_bl"
+
+[sub_resource type="AnimationNodeAnimation" id=32]
+animation = "walk_br"
+
+[sub_resource type="AnimationNodeAnimation" id=33]
+animation = "walk_fl"
+
+[sub_resource type="AnimationNodeAnimation" id=34]
+animation = "walk_fr"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id=35]
+blend_point_0/node = SubResource( 27 )
+blend_point_0/pos = Vector2( 0, 1 )
+blend_point_1/node = SubResource( 28 )
+blend_point_1/pos = Vector2( -1, 0 )
+blend_point_2/node = SubResource( 29 )
+blend_point_2/pos = Vector2( 1, 0 )
+blend_point_3/node = SubResource( 30 )
+blend_point_3/pos = Vector2( 0, -1 )
+blend_point_4/node = SubResource( 31 )
+blend_point_4/pos = Vector2( -0.71, -0.71 )
+blend_point_5/node = SubResource( 32 )
+blend_point_5/pos = Vector2( 0.71, -0.71 )
+blend_point_6/node = SubResource( 33 )
+blend_point_6/pos = Vector2( -0.71, 0.71 )
+blend_point_7/node = SubResource( 34 )
+blend_point_7/pos = Vector2( 0.71, 0.71 )
+
+[sub_resource type="AnimationNodeAnimation" id=36]
+animation = "run_back"
+
+[sub_resource type="AnimationNodeAnimation" id=37]
+animation = "run_forward"
+
+[sub_resource type="AnimationNodeAnimation" id=38]
+animation = "run_l"
+
+[sub_resource type="AnimationNodeAnimation" id=39]
+animation = "run_r"
+
+[sub_resource type="AnimationNodeAnimation" id=40]
+animation = "run_fr"
+
+[sub_resource type="AnimationNodeAnimation" id=41]
+animation = "run_fl"
+
+[sub_resource type="AnimationNodeAnimation" id=42]
+animation = "run_br"
+
+[sub_resource type="AnimationNodeAnimation" id=43]
+animation = "run_bl"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id=44]
+blend_point_0/node = SubResource( 36 )
+blend_point_0/pos = Vector2( 0, -1 )
+blend_point_1/node = SubResource( 37 )
+blend_point_1/pos = Vector2( 0, 1 )
+blend_point_2/node = SubResource( 38 )
+blend_point_2/pos = Vector2( -1, 0 )
+blend_point_3/node = SubResource( 39 )
+blend_point_3/pos = Vector2( 1, 0 )
+blend_point_4/node = SubResource( 40 )
+blend_point_4/pos = Vector2( 0.71, 0.71 )
+blend_point_5/node = SubResource( 41 )
+blend_point_5/pos = Vector2( -0.71, 0.71 )
+blend_point_6/node = SubResource( 42 )
+blend_point_6/pos = Vector2( 0.71, -0.71 )
+blend_point_7/node = SubResource( 43 )
+blend_point_7/pos = Vector2( -0.71, -0.71 )
+
+[sub_resource type="AnimationNodeBlendSpace1D" id=45]
+blend_point_0/node = SubResource( 35 )
+blend_point_0/pos = 0.0
+blend_point_1/node = SubResource( 44 )
+blend_point_1/pos = 1.0
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=46]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=47]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=63]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=64]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=65]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=66]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=67]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=68]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=69]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=70]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=72]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=73]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=74]
+
+[sub_resource type="AnimationNodeStateMachine" id=48]
+states/fall/node = SubResource( 60 )
+states/fall/position = Vector2( 365, 114 )
+states/idle/node = SubResource( 26 )
+states/idle/position = Vector2( 89, 270 )
+states/jump/node = SubResource( 61 )
+states/jump/position = Vector2( 302, -13 )
+states/land/node = SubResource( 62 )
+states/land/position = Vector2( 365, 190 )
+states/stick_jump/node = SubResource( 71 )
+states/stick_jump/position = Vector2( 480, -13 )
+states/walkrun/node = SubResource( 45 )
+states/walkrun/position = Vector2( 628, 270 )
+transitions = [ "idle", "walkrun", SubResource( 46 ), "walkrun", "idle", SubResource( 47 ), "idle", "jump", SubResource( 63 ), "walkrun", "jump", SubResource( 64 ), "jump", "fall", SubResource( 65 ), "walkrun", "fall", SubResource( 66 ), "idle", "fall", SubResource( 67 ), "fall", "land", SubResource( 68 ), "land", "idle", SubResource( 69 ), "land", "walkrun", SubResource( 70 ), "stick_jump", "fall", SubResource( 72 ), "jump", "stick_jump", SubResource( 73 ), "fall", "stick_jump", SubResource( 74 ) ]
+graph_offset = Vector2( -174, -159 )
+
+[sub_resource type="AnimationNodeTimeScale" id=49]
+
+[sub_resource type="AnimationNodeBlendTree" id=50]
+graph_offset = Vector2( -623, 49 )
+nodes/SeekMotion/node = SubResource( 25 )
 nodes/SeekMotion/position = Vector2( -200, 140 )
-nodes/StateMachineMotion/node = SubResource( 31 )
+nodes/StateMachineMotion/node = SubResource( 48 )
 nodes/StateMachineMotion/position = Vector2( -460, 140 )
-nodes/TimeScaleMotion/node = SubResource( 32 )
+nodes/TimeScaleMotion/node = SubResource( 49 )
 nodes/TimeScaleMotion/position = Vector2( 20, 140 )
 node_connections = [ "output", 0, "TimeScaleMotion", "SeekMotion", 0, "StateMachineMotion", "TimeScaleMotion", 0, "SeekMotion" ]
 
-[sub_resource type="AnimationNodeBlendTree" id=34]
-graph_offset = Vector2( -309, -128.063 )
-nodes/Blend2/node = SubResource( 9 )
-nodes/Blend2/position = Vector2( 260, 20 )
-nodes/BlendTreeAction/node = SubResource( 25 )
+[sub_resource type="AnimationNodeBlend2" id=51]
+filter_enabled = true
+filters = [ "AnimationPlayer", "Body/Armature/Skeleton/RightArmController/RayCast:enabled", "Body/Armature/Skeleton:LeftArmTarget", "Body/Armature/Skeleton:LeftHandBone", "Body/Armature/Skeleton:LeftHandController", "Body/Armature/Skeleton:LeftIndexController", "Body/Armature/Skeleton:LeftIndexDistalBone", "Body/Armature/Skeleton:LeftIndexIntermediateBone", "Body/Armature/Skeleton:LeftIndexProximalBone", "Body/Armature/Skeleton:LeftLittleController", "Body/Armature/Skeleton:LeftLittleDistalBone", "Body/Armature/Skeleton:LeftLittleIntermediateBone", "Body/Armature/Skeleton:LeftLittleProximalBone", "Body/Armature/Skeleton:LeftLowerArmBone", "Body/Armature/Skeleton:LeftMiddleController", "Body/Armature/Skeleton:LeftMiddleDistalBone", "Body/Armature/Skeleton:LeftMiddleIntermediateBone", "Body/Armature/Skeleton:LeftMiddleProximalBone", "Body/Armature/Skeleton:LeftRingController", "Body/Armature/Skeleton:LeftRingDistalBone", "Body/Armature/Skeleton:LeftRingIntermediateBone", "Body/Armature/Skeleton:LeftRingProximalBone", "Body/Armature/Skeleton:LeftThumbController", "Body/Armature/Skeleton:LeftThumbDistalBone", "Body/Armature/Skeleton:LeftThumbIntermediateBone", "Body/Armature/Skeleton:LeftThumbProximalBone", "Body/Armature/Skeleton:LeftUpperArmBone", "Body/Armature/Skeleton:RightArmTarget", "Body/Armature/Skeleton:RightArmTip", "Body/Armature/Skeleton:RightHandBone", "Body/Armature/Skeleton:RightHandController", "Body/Armature/Skeleton:RightIndexController", "Body/Armature/Skeleton:RightIndexDistalBone", "Body/Armature/Skeleton:RightIndexIntermediateBone", "Body/Armature/Skeleton:RightIndexProximalBone", "Body/Armature/Skeleton:RightLittleController", "Body/Armature/Skeleton:RightLittleDistalBone", "Body/Armature/Skeleton:RightLittleIntermediateBone", "Body/Armature/Skeleton:RightLittleProximalBone", "Body/Armature/Skeleton:RightLowerArmBone", "Body/Armature/Skeleton:RightMiddleController", "Body/Armature/Skeleton:RightMiddleDistalBone", "Body/Armature/Skeleton:RightMiddleIntermediateBone", "Body/Armature/Skeleton:RightMiddleProximalBone", "Body/Armature/Skeleton:RightRingController", "Body/Armature/Skeleton:RightRingDistalBone", "Body/Armature/Skeleton:RightRingIntermediateBone", "Body/Armature/Skeleton:RightRingProximalBone", "Body/Armature/Skeleton:RightThumbController", "Body/Armature/Skeleton:RightThumbDistalBone", "Body/Armature/Skeleton:RightThumbIntermediateBone", "Body/Armature/Skeleton:RightThumbProximalBone", "Body/Armature/Skeleton:RightUpperArmBone", "Body/Armature/Skeleton:UpperChestBone", "State_Machines/State_Machine_Action_L/Shared/Action_L", "State_Machines/State_Machine_Action_R/Shared/Action_R" ]
+
+[sub_resource type="AnimationNodeBlendTree" id=52]
+graph_offset = Vector2( -285, -101 )
+nodes/BlendTreeAction/node = SubResource( 24 )
 nodes/BlendTreeAction/position = Vector2( -20, 120 )
-nodes/BlendTreeMotion/node = SubResource( 33 )
+nodes/BlendTreeMotion/node = SubResource( 50 )
 nodes/BlendTreeMotion/position = Vector2( -20, 20 )
+nodes/MotionActionBlend/node = SubResource( 51 )
+nodes/MotionActionBlend/position = Vector2( 260, 20 )
 nodes/output/position = Vector2( 520, 80 )
-node_connections = [ "output", 0, "Blend2", "Blend2", 0, "BlendTreeMotion", "Blend2", 1, "BlendTreeAction" ]
+node_connections = [ "output", 0, "MotionActionBlend", "MotionActionBlend", 0, "BlendTreeMotion", "MotionActionBlend", 1, "BlendTreeAction" ]
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=35]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=53]
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=36]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=54]
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=37]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=55]
 
-[sub_resource type="Animation" id=38]
+[sub_resource type="Animation" id=56]
 
-[sub_resource type="SphereMesh" id=39]
+[sub_resource type="SphereMesh" id=57]
 radius = 0.06
 height = 0.1
 
-[sub_resource type="SpatialMaterial" id=40]
+[sub_resource type="SpatialMaterial" id=58]
 albedo_color = Color( 0, 1, 0.164706, 1 )
 emission_enabled = true
 emission = Color( 0, 1, 0.164706, 1 )
@@ -207,7 +360,7 @@ emission_energy = 1.0
 emission_operator = 0
 emission_on_uv2 = false
 
-[sub_resource type="SpatialMaterial" id=41]
+[sub_resource type="SpatialMaterial" id=59]
 albedo_color = Color( 0.952941, 0, 1, 1 )
 emission_enabled = true
 emission = Color( 0.952941, 0, 1, 1 )
@@ -231,11 +384,11 @@ bones/42/bound_children = [ NodePath("RightArmController") ]
 skin = null
 
 [node name="LeftArmController" type="BoneAttachment" parent="Body/Armature/Skeleton" index="1"]
-transform = Transform( -1, -1.92103e-15, 1.50996e-07, -8.39496e-15, 1, -4.28749e-08, -1.50996e-07, -4.28749e-08, -1, 0.516964, 4.867, -0.017916 )
+transform = Transform( -1, -1.92103e-15, 1.50996e-07, -8.39496e-15, 1, -4.28749e-08, -1.50996e-07, -4.28749e-08, -1, 0.500306, 4.78901, 0.355554 )
 bone_name = "LeftArmController"
 
 [node name="RightArmController" type="BoneAttachment" parent="Body/Armature/Skeleton" index="2"]
-transform = Transform( -1, 1.92103e-15, -1.50996e-07, 8.39496e-15, 1, -4.28749e-08, 1.50996e-07, -4.28749e-08, -1, -0.516964, 4.867, -0.0179159 )
+transform = Transform( -1, 1.92103e-15, -1.50996e-07, 8.39496e-15, 1, -4.28749e-08, 1.50996e-07, -4.28749e-08, -1, -0.520364, 4.80719, 0.108553 )
 bone_name = "RightArmController"
 
 [node name="RayCast" type="RayCast" parent="Body/Armature/Skeleton/RightArmController"]
@@ -264,7 +417,7 @@ mesh = SubResource( 7 )
 material/0 = SubResource( 6 )
 
 [node name="LeftHandBone" type="BoneAttachment" parent="Body/Armature/Skeleton" index="3"]
-transform = Transform( -0.913355, 0.384396, -0.134239, -0.391726, -0.919517, 0.0322357, -0.111044, 0.0820274, 0.990424, 0.87888, 3.98796, -0.0650787 )
+transform = Transform( -0.867096, 0.194525, -0.458584, -0.116647, -0.974296, -0.192722, -0.484285, -0.113616, 0.867502, 0.811154, 4.05972, -0.17115 )
 bone_name = "LeftLowerArmBone"
 
 [node name="Spell_Origin" type="Position3D" parent="Body/Armature/Skeleton/LeftHandBone"]
@@ -388,39 +541,61 @@ one_shot = true
 [node name="Debug_UI" parent="UI" instance=ExtResource( 9 )]
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 34 )
+tree_root = SubResource( 52 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
-parameters/Blend2/blend_amount = 0.99
-parameters/BlendTreeAction/Add2/add_amount = 1.0
+parameters/BlendTreeAction/Blend2/blend_amount = 0.0
 parameters/BlendTreeAction/SeekActionL/seek_position = -1.0
 parameters/BlendTreeAction/SeekActionR/seek_position = -1.0
-parameters/BlendTreeAction/StateMachineActionL/playback = SubResource( 35 )
-parameters/BlendTreeAction/StateMachineActionR/playback = SubResource( 36 )
+parameters/BlendTreeAction/StateMachineActionL/playback = SubResource( 53 )
+parameters/BlendTreeAction/StateMachineActionR/playback = SubResource( 54 )
 parameters/BlendTreeAction/TimeScaleActionL/scale = 1.0
 parameters/BlendTreeAction/TimeScaleActionR/scale = 1.0
 parameters/BlendTreeMotion/SeekMotion/seek_position = -1.0
-parameters/BlendTreeMotion/StateMachineMotion/playback = SubResource( 37 )
+parameters/BlendTreeMotion/StateMachineMotion/playback = SubResource( 55 )
+parameters/BlendTreeMotion/StateMachineMotion/walkrun/blend_position = -0.000766277
+parameters/BlendTreeMotion/StateMachineMotion/walkrun/0/blend_position = Vector2( 0, 0 )
+parameters/BlendTreeMotion/StateMachineMotion/walkrun/1/blend_position = Vector2( -0.103673, -0.00862074 )
 parameters/BlendTreeMotion/TimeScaleMotion/scale = 1.0
+parameters/MotionActionBlend/blend_amount = 0.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/cast = ExtResource( 37 )
-anims/fall = ExtResource( 39 )
+anims/fall = ExtResource( 55 )
+anims/idle = ExtResource( 58 )
 anims/jab = ExtResource( 13 )
-anims/none = SubResource( 38 )
-anims/run_test = ExtResource( 38 )
+anims/jump = ExtResource( 56 )
+anims/land = ExtResource( 54 )
+anims/none = SubResource( 56 )
+anims/run_back = ExtResource( 47 )
+anims/run_bl = ExtResource( 44 )
+anims/run_br = ExtResource( 46 )
+anims/run_fl = ExtResource( 45 )
+anims/run_forward = ExtResource( 50 )
+anims/run_fr = ExtResource( 51 )
+anims/run_l = ExtResource( 52 )
+anims/run_r = ExtResource( 53 )
+anims/skid_forward = ExtResource( 57 )
 anims/stick_jump = ExtResource( 35 )
+anims/walk_back = ExtResource( 40 )
+anims/walk_bl = ExtResource( 38 )
+anims/walk_br = ExtResource( 39 )
+anims/walk_fl = ExtResource( 41 )
+anims/walk_forward = ExtResource( 48 )
+anims/walk_fr = ExtResource( 42 )
+anims/walk_l = ExtResource( 49 )
+anims/walk_r = ExtResource( 43 )
 script = ExtResource( 36 )
 
 [node name="Debug_Point" type="MeshInstance" parent="."]
 visible = false
-mesh = SubResource( 39 )
-material/0 = SubResource( 40 )
+mesh = SubResource( 57 )
+material/0 = SubResource( 58 )
 
 [node name="Debug_Point2" type="MeshInstance" parent="."]
 visible = false
-mesh = SubResource( 39 )
-material/0 = SubResource( 41 )
+mesh = SubResource( 57 )
+material/0 = SubResource( 59 )
 
 [connection signal="velocity_changed" from="." to="UI/Debug_UI" method="_on_Player_velocity_changed"]
 [connection signal="state_machine_camera_state_stack_changed" from="Camera_Rig" to="UI/Debug_UI" method="_on_Camera_Rig_state_machine_camera_state_stack_changed"]

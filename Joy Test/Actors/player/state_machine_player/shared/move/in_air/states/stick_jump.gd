@@ -17,7 +17,7 @@ func initialize_values(init_values_dic):
 func enter():
 	set_jumped(false)
 	
-	AnimStateMachineMotion.start("stick_jump")
+	AnimStateMachineMotion.travel("stick_jump")
 	
 	.enter()
 
@@ -45,7 +45,6 @@ func update(delta):
 
 func _on_animation_finished(anim_name):
 	if anim_name == "stick_jump":
-		AnimStateMachineMotion.start("none")
 		if is_aiming:
 			emit_signal("state_switch", "fall_aim")
 		elif !is_aiming:

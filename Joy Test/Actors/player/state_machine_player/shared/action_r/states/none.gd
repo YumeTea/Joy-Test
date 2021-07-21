@@ -8,11 +8,17 @@ func initialize_values(init_values_dic):
 
 #Initializes state, changes animation, etc
 func enter():
+	AnimStateMachineActionR.start("none")
+	
+	if AnimStateMachineActionL.get_current_node() == "none":
+		AnimTree.set("parameters/MotionActionBlend/blend_amount", 0.0)
+		
 	.enter()
 
 
 #Cleans up state, reinitializes values like timers
 func exit():
+	AnimTree.set("parameters/MotionActionBlend/blend_amount", 1.0)
 	.exit()
 
 

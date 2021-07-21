@@ -14,7 +14,8 @@ func initialize_values(init_values_dic):
 func enter():
 	set_aiming(true)
 	set_jumped(false)
-	velocity = add_jump_velocity(velocity)
+	
+	AnimStateMachineMotion.travel("jump")
 	
 	.enter()
 
@@ -31,8 +32,11 @@ func handle_input(event):
 
 #Acts as the _process method would
 func update(delta):
-	if is_aiming == false:
+	if is_aiming == false and has_jumped:
 		emit_signal("state_switch", "fall")
+	if velocity.y <= 0.0 and has_jumped:
+		emit_signal("state_switch", "fall_aim")
+		return
 	
 	rotate_to_direction(Vector2(0,-1).rotated(-camera_angles.y))
 	
@@ -48,6 +52,10 @@ func _on_animation_finished(_anim_name):
 
 func calc_air_speed(velocity):
 	pass
+
+
+func jump():
+	velocity = add_jump_velocity(velocity)
 
 
 #Call this function in future animation
