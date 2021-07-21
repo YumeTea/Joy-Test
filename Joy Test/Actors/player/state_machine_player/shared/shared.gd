@@ -19,8 +19,8 @@ onready var Anim_Player = owner.get_node("AnimationPlayer")
 
 #Anim Node Refs
 onready var AnimMotionActionBlend = owner.get_node("AnimationTree").get_tree_root().get_node("MotionActionBlend")
-onready var AnimStateMachineActionL = owner.get_node("AnimationTree").get("parameters/BlendTreeAction/StateMachineActionL/playback")
-onready var AnimStateMachineActionR = owner.get_node("AnimationTree").get("parameters/BlendTreeAction/StateMachineActionR/playback")
+onready var AnimStateMachineActionL = owner.get_node("AnimationTree").get("parameters/BlendTreeActionL/StateMachineActionL/playback")
+onready var AnimStateMachineActionR = owner.get_node("AnimationTree").get("parameters/BlendTreeActionR/StateMachineActionR/playback")
 
 #Debug Values
 onready var Skel_rotation_init = Skel.get_rotation()

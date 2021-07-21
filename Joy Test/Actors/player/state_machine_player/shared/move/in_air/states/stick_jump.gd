@@ -47,8 +47,10 @@ func _on_animation_finished(anim_name):
 	if anim_name == "stick_jump":
 		if is_aiming:
 			emit_signal("state_switch", "fall_aim")
+			return
 		elif !is_aiming:
 			emit_signal("state_switch", "fall")
+			return
 
 
 func calc_air_speed(velocity):

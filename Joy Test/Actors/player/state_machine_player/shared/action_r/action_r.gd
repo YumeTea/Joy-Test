@@ -22,7 +22,7 @@ onready var State_Machine_Action_R = owner.get_node("State_Machines/State_Machin
 onready var Timer_Action_R = owner.get_node("State_Machines/State_Machine_Action_R/Timer_Action_R")
 
 #Anim Node Refs
-onready var AnimSeekActionR = "parameters/BlendTreeAction/SeekActionR/seek_position"
+onready var AnimSeekActionR = "parameters/BlendTreeActionR/SeekActionR/seek_position"
 
 #Action R Bools
 var hit_active : bool

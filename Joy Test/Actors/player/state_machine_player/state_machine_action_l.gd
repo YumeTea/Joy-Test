@@ -23,6 +23,9 @@ var initialized_values = {
 	"is_casting": false,
 	"is_charging": false,
 	"cast_ready": false,
+	
+	#Animation Variables
+	"charging_spell_instance": Resource,
 }
 
 func _ready():

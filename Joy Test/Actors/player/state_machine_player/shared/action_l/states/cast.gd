@@ -27,8 +27,6 @@ func enter():
 
 #Cleans up state, reinitializes values like timers
 func exit():
-	charging_spell_instance.get_node("AnimationPlayer").disconnect("animation_finished", self, "_on_animation_finished")
-	
 	.exit()
 
 
@@ -65,6 +63,9 @@ func _on_animation_finished(anim_name):
 		else:
 			cast_abort() #reached beginning of animation
 	
+	if anim_name == "cast":
+		emit_signal("state_switch", "none")
+	
 	._on_animation_finished(anim_name)
 
 
@@ -72,7 +73,7 @@ func cast():
 	end_charging_anim()
 	set_charging(false)
 	cast_projectile()
-	emit_signal("state_switch", "none")
+#	emit_signal("state_switch", "none")
 
 
 func cast_abort():
@@ -90,6 +91,7 @@ func start_charging_anim(spell_resource):
 
 
 func end_charging_anim():
+	charging_spell_instance.get_node("AnimationPlayer").disconnect("animation_finished", self, "_on_animation_finished")
 	charging_spell_instance.queue_free()
 
 
@@ -104,6 +106,7 @@ func continue_charging_anim():
 
 
 func start_cast_anim():
+	AnimTree.set("parameters/MotionActionLBlend/blend_amount", 1.0)
 	AnimStateMachineActionL.start("cast")
 
 

@@ -129,7 +129,7 @@ func get_attached_facing_dir(attached_obj):
 	return attached_facing_dir
 
 
-
+###ANIMATION FUNCTIONS###
 
 
 

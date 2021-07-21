@@ -1,6 +1,10 @@
 extends "res://Actors/player/state_machine_player/shared/move/in_air/in_air.gd"
 
 
+'player gets stuck in jump aim'
+'slide issue'
+
+
 #Jump Variables
 var jump_velocity = 28
 
