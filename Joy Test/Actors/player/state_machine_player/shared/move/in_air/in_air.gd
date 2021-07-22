@@ -25,12 +25,8 @@ func update(delta):
 	.update(delta)
 	
 	if owner.is_on_floor() and has_jumped: #check has_jumped to allow jump squat to play out
-		if !is_aiming:
-			emit_signal("state_switch", "idle")
-			return
-		elif is_aiming:
-			emit_signal("state_switch", "idle_aim")
-			return
+		emit_signal("state_switch", "idle")
+		return
 
 
 func _on_animation_finished(_anim_name):

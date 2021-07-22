@@ -25,13 +25,9 @@ var initialized_values = {
 func _ready():
 	states_map = { #populate state map on initialization
 		"idle": $Shared/Motion/On_Ground/Idle,
-		"idle_aim": $Shared/Motion/On_Ground/Idle_Aim,
 		"walk": $Shared/Motion/On_Ground/Walk,
-		"walk_aim": $Shared/Motion/On_Ground/Walk_Aim,
 		"jump": $Shared/Motion/In_Air/Jump,
-		"jump_aim": $Shared/Motion/In_Air/Jump_Aim,
 		"fall": $Shared/Motion/In_Air/Fall,
-		"fall_aim": $Shared/Motion/In_Air/Fall_Aim,
 		
 		"stick_wall": $Shared/Motion/In_Air/Stick_Wall,
 		"stick_jump": $Shared/Motion/In_Air/Stick_Jump,

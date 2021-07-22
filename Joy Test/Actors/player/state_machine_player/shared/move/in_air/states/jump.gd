@@ -31,12 +31,12 @@ func handle_input(event):
 
 #Acts as the _process method would
 func update(delta):
-	if is_aiming and has_jumped:
-		emit_signal("state_switch", "fall_aim")
-		return
 	if velocity.y <= 0.0 and has_jumped:
 		emit_signal("state_switch", "fall")
 		return
+	
+	if is_aiming:
+		rotate_to_direction(Vector2(0,-1).rotated(-camera_angles.y))
 	
 	if !owner.is_on_floor():
 		velocity = calc_aerial_velocity(velocity, delta)

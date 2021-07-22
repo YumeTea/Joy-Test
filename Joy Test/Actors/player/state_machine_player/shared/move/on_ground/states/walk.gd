@@ -1,8 +1,8 @@
 extends "res://Actors/player/state_machine_player/shared/move/on_ground/on_ground.gd"
 
 #Anim Constants
-const anim_walk_bound = 3
-const anim_run_bound = 8
+const anim_walk_bound = 3.0
+const anim_run_bound = 8.0
 
 
 func initialize_values(init_values_dic):
@@ -28,10 +28,6 @@ func handle_input(event):
 
 #Acts as the _process method would
 func update(delta):
-	if is_aiming:
-		emit_signal("state_switch", "walk_aim")
-		return
-	
 	#Calc player velocity
 	velocity = calc_walk_velocity(velocity, delta)
 	
@@ -49,9 +45,6 @@ func update(delta):
 		emit_signal("state_switch", "jump")
 		return
 	#####################################
-	if Input.is_action_just_pressed("aim_r"):
-		emit_signal("state_switch", "walk_aim")
-		return
 
 
 func _on_animation_finished(_anim_name):
@@ -71,7 +64,10 @@ func calc_walk_velocity(current_velocity, delta):
 	input_direction = input.rotated(-camera_angles.y)
 	
 	#Rotate player
-	rotate_to_direction(input_direction)
+	if !is_aiming:
+		rotate_to_direction(input_direction)
+	elif is_aiming:
+		rotate_to_direction(Vector2(0,-1).rotated(-camera_angles.y))
 	
 	#Get next player velocity
 	velocity = interp_walk_velocity(input_direction, current_velocity, delta)
@@ -87,12 +83,18 @@ func set_walk_anim_blend(current_velocity):
 	
 	velocity_horizontal = Vector2(current_velocity.x, -current_velocity.z)
 	
-	if velocity_horizontal.length() < anim_walk_bound:
+	##Anim blend position calc
+	#Walk
+	if velocity_horizontal.length() <= anim_walk_bound:
 		blend_position = 0.0
-	elif velocity_horizontal.length() > anim_walk_bound:
+	#Walk/run blending
+	elif velocity_horizontal.length() > anim_walk_bound and velocity_horizontal.length() < anim_run_bound:
+		blend_position = 1 - ((anim_run_bound - velocity_horizontal.length()) / (anim_run_bound - anim_walk_bound))
+	#Run
+	elif velocity_horizontal.length() >= anim_run_bound:
 		blend_position = 1.0
 	
-	
+	#Set blend between walk/run
 	AnimTree.set("parameters/BlendTreeMotion/StateMachineMotion/walkrun/blend_position", blend_position)
 	
 	#Set directional blend of walk and run anims
@@ -100,13 +102,23 @@ func set_walk_anim_blend(current_velocity):
 	var anim_direction : Vector2 #Normalized vector of velocity in relation to facing
 	var anim_velocity : Vector2
 	
+	##Anim speed calc
+	#Walk
 	if blend_position == 0.0:
-		anim_speed = velocity_horizontal.length() / anim_walk_bound
-		anim_direction = velocity_horizontal.rotated(-Body.get_rotation().y).normalized()
+		anim_speed = velocity_horizontal.length() / anim_walk_bound * 0.4
+	#Walk/run blend speed
+	elif blend_position > 0.0 and blend_position < 1.0:
+		var bound_lower = 0.4
+		var bound_upper = anim_run_bound / run_speed_full
+		anim_speed = ((bound_upper - bound_lower) * blend_position) + bound_lower
+	#Run
 	elif blend_position == 1.0:
 		anim_speed = velocity_horizontal.length() / run_speed_full
-		anim_direction = velocity_horizontal.rotated(-Body.get_rotation().y).normalized()
 	
+	##Anim direction calc
+	anim_direction = velocity_horizontal.rotated(-Body.get_rotation().y).normalized()
+	
+	#Set time scale and direction of walk/run
 	AnimTree.set("parameters/BlendTreeMotion/TimeScaleMotion/scale", anim_speed)
 	AnimTree.set("parameters/BlendTreeMotion/StateMachineMotion/walkrun/0/blend_position", anim_direction)
 	AnimTree.set("parameters/BlendTreeMotion/StateMachineMotion/walkrun/1/blend_position", anim_direction)

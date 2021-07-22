@@ -28,16 +28,13 @@ func exit():
 
 #Creates output based on the input event passed in
 func handle_input(event):
-#	if Input.is_action_just_pressed("jump"):
-#			emit_signal("state_switch", "jump")
 	.handle_input(event)
 
 
 #Acts as the _process method would
 func update(delta):
 	if is_aiming:
-		emit_signal("state_switch", "idle_aim")
-		return
+		rotate_to_direction(Vector2(0,-1).rotated(-camera_angles.y))
 	
 	velocity = calc_idle_velocity(velocity, delta)
 	.update(delta)

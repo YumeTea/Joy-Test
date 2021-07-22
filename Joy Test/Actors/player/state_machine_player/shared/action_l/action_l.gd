@@ -23,6 +23,8 @@ onready var Timer_Action_L = owner.get_node("State_Machines/State_Machine_Action
 
 onready var AnimSeekActionL = "parameters/BlendTreeActionL/SeekActionL/seek_position"
 
+onready var LeftArmController = owner.get_node("Body/Armature/Skeleton/LeftArmController")
+
 #Action L Flags
 var is_casting : bool
 var is_charging : bool
@@ -54,9 +56,6 @@ func update(delta):
 
 
 func _on_animation_finished(anim_name):
-	if anim_name == "cast":
-		reset_custom_pose_l_arm()
-		AnimStateMachineActionL.start("none")
 	._on_animation_finished(anim_name)
 
 

@@ -27,8 +27,7 @@ func handle_input(event):
 #Acts as the _process method would
 func update(delta):
 	if is_aiming:
-		emit_signal("state_switch", "fall_aim")
-		return
+		rotate_to_direction(Vector2(0,-1).rotated(-camera_angles.y))
 	
 	velocity = calc_aerial_velocity(velocity, delta)
 	

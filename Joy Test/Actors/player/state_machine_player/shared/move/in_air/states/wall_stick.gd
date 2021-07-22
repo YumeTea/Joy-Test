@@ -68,8 +68,5 @@ func calc_stick_velocity(delta):
 
 
 func exit_stick_state():
-	if is_aiming:
-			emit_signal("state_switch", "fall_aim")
-	elif !is_aiming:
-		emit_signal("state_switch", "fall")
+	emit_signal("state_switch", "fall")
 

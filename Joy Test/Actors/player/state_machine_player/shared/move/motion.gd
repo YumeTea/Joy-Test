@@ -10,9 +10,9 @@ var initialized_values : Dictionary
 
 ##Movement Variables
 #Limits
-var run_speed_full = 24
+var run_speed_full = 24.0
 var run_full_time = 0.875
-var air_speed_full = 8
+var air_speed_full = 8.0
 var speed_thresh_lower = 0.1
 
 #Values
@@ -42,6 +42,7 @@ func enter():
 
 #Cleans up state, reinitializes values like timers
 func exit():
+	AnimTree.set("parameters/BlendTreeMotion/TimeScaleMotion/scale", 1.0)
 	disconnect_local_signals()
 
 

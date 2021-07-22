@@ -73,7 +73,6 @@ func cast():
 	end_charging_anim()
 	set_charging(false)
 	cast_projectile()
-#	emit_signal("state_switch", "none")
 
 
 func cast_abort():
@@ -107,7 +106,7 @@ func continue_charging_anim():
 
 func start_cast_anim():
 	AnimTree.set("parameters/MotionActionLBlend/blend_amount", 1.0)
-	AnimStateMachineActionL.start("cast")
+	AnimStateMachineActionL.travel("cast")
 
 
 func cast_projectile():

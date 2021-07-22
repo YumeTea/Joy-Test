@@ -93,7 +93,7 @@ func set_walk_anim_blend(current_velocity):
 	elif velocity_horizontal.length() > anim_walk_bound:
 		blend_position = 1.0
 	
-	
+	#Set directional blend of walk and run anims
 	AnimTree.set("parameters/BlendTreeMotion/StateMachineMotion/walkrun/blend_position", blend_position)
 	
 	#Set directional blend of walk and run anims
@@ -101,13 +101,16 @@ func set_walk_anim_blend(current_velocity):
 	var anim_direction : Vector2 #Normalized vector of velocity in relation to facing
 	var anim_velocity : Vector2
 	
+	#Walk
 	if blend_position == 0.0:
-		anim_speed = velocity_horizontal.length() / anim_walk_bound
+		anim_speed = velocity_horizontal.length() / anim_walk_bound * 0.4
 		anim_direction = velocity_horizontal.rotated(-Body.get_rotation().y).normalized()
+	#Run
 	elif blend_position == 1.0:
 		anim_speed = velocity_horizontal.length() / run_speed_full
 		anim_direction = velocity_horizontal.rotated(-Body.get_rotation().y).normalized()
 	
+	#Set time scale and direction of walk/run
 	AnimTree.set("parameters/BlendTreeMotion/TimeScaleMotion/scale", anim_speed)
 	AnimTree.set("parameters/BlendTreeMotion/StateMachineMotion/walkrun/0/blend_position", anim_direction)
 	AnimTree.set("parameters/BlendTreeMotion/StateMachineMotion/walkrun/1/blend_position", anim_direction)

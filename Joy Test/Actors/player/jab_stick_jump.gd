@@ -68,11 +68,6 @@ func jump():
 	continue_jab_anim(anim_pause_position)
 
 
-func continue_jab_anim(anim_position):
-	AnimStateMachineActionR.start("jab")
-	AnimTree.set(AnimSeekActionR, anim_pause_position)
-
-
 func rotate_arm():
 	var look_at_point : Vector3
 	var pose : Transform
@@ -118,8 +113,15 @@ func get_attached_facing_dir(attached_obj):
 	
 	return attached_facing_dir
 
-
+###FLAG FUNCTIONS###
 func set_jumped(value):
 	has_jumped = value
+
+
+###ANIMATION FUNCTIONS###
+func continue_jab_anim(anim_position):
+	AnimStateMachineActionR.start("jab")
+	AnimTree.set(AnimSeekActionR, anim_pause_position)
+
 
 

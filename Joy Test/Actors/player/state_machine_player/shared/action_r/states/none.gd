@@ -18,6 +18,7 @@ func enter():
 #Cleans up state, reinitializes values like timers
 func exit():
 	AnimTree.set("parameters/MotionActionRBlend/blend_amount", 1.0)
+	
 	.exit()
 
 

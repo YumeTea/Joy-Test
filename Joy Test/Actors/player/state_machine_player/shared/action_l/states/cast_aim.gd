@@ -8,9 +8,6 @@ var aim_interp_radius_outer = 12
 #Transform Storage
 var arm_transform_default : Transform
 
-#Node Storage
-onready var LeftArmController = owner.get_node("Body/Armature/Skeleton/LeftArmController")
-
 
 func initialize_values(init_values_dic):
 	for value in init_values_dic:
@@ -35,13 +32,13 @@ func enter():
 	
 	charging_spell_instance.get_node("AnimationPlayer").connect("animation_finished", self, "_on_animation_finished")
 	
+#	reset_custom_pose_l_arm()
+	
 	.enter()
 
 
 #Cleans up state, reinitializes values like timers
 func exit():
-	reset_custom_pose_l_arm()
-	
 	.exit()
 
 
@@ -132,7 +129,7 @@ func continue_charging_anim():
 
 func start_cast_anim():
 	AnimTree.set("parameters/MotionActionLBlend/blend_amount", 1.0)
-	AnimStateMachineActionL.start("cast")
+	AnimStateMachineActionL.travel("cast")
 
 
 func cast_projectile():
