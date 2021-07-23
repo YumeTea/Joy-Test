@@ -15,7 +15,9 @@ var attached_facing_dir : Vector3
 var anim_pause_position : float
 
 #Pose Variables
+onready var RightArmController = owner.get_node("Body/Armature/Skeleton/RightArmController")
 onready var RightArmController_idx = Skel.find_bone("RightArmController")
+onready var RightArmController_anchor = owner.get_node("Body/Armature/Skeleton/RightShoulderBone/RightArmController_anchor")
 
 #Node Storage
 onready var State_Machine_Action_R = owner.get_node("State_Machines/State_Machine_Action_R")
@@ -41,11 +43,6 @@ func exit():
 
 #Creates output based on the input event passed in
 func handle_input(event):
-#	if Input.is_action_just_pressed("cancel"):
-#		if is_aiming:
-#			set_aiming(false)
-#	if Input.is_action_just_pressed("aim_r"):
-#		set_aiming(true)
 	.handle_input(event)
 
 
@@ -68,7 +65,7 @@ func set_hit(value):
 	current_state.has_hit = value
 
 
-###POSE VARIABLES###
+###POSE FUNCTIONIS###
 func reset_custom_pose_r_arm():
 	var transform : Transform
 	
@@ -76,6 +73,19 @@ func reset_custom_pose_r_arm():
 	transform.basis = Basis(Vector3(1,0,0), Vector3(0,1,0), Vector3(0,0,1))
 	
 	Skel.set_bone_custom_pose(RightArmController_idx, transform)
+
+
+func anchor_arm_transform():
+	var pose : Transform
+
+	pose = Skel.get_bone_custom_pose(RightArmController_idx)
+	pose.origin = Vector3(0,0,0)
+	Skel.set_bone_custom_pose(RightArmController_idx, pose)
+	RightArmController.force_update_transform()
+
+	pose.origin = RightArmController.to_local(RightArmController_anchor.get_global_transform().origin)
+
+	Skel.set_bone_custom_pose(RightArmController_idx, pose)
 
 
 ###STATE INITIALIZATION FUNCTIONS###

@@ -2,7 +2,7 @@ extends "res://Actors/player/state_machine_player/shared/move/on_ground/on_groun
 
 #Anim Constants
 const anim_walk_bound = 3.0
-const anim_run_bound = 8.0
+const anim_run_bound = 10.0
 
 
 func initialize_values(init_values_dic):

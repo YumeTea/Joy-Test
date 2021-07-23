@@ -7,9 +7,6 @@ extends "res://Actors/player/state_machine_player/shared/action_r/action_r.gd"
 var jump_position : Vector3
 var has_jumped : bool
 
-#Node Storage
-onready var RightArmController = owner.get_node("Body/Armature/Skeleton/RightArmController")
-
 
 func initialize_values(init_values_dic):
 	for value in init_values_dic:

@@ -1,6 +1,9 @@
 extends "res://Actors/player/state_machine_player/shared/action_r/action_r.gd"
 
 
+'anim needs to correct for spine and chest forward/back rotation'
+
+
 #Jab Variables
 var jab_strength = 56
 
@@ -9,7 +12,7 @@ var aim_interp_radius_inner = 7
 var aim_interp_radius_outer = 12
 
 #Node Storage
-onready var RightArmController = owner.get_node("Body/Armature/Skeleton/RightArmController")
+
 var Needle_Arm_Raycast : Node
 
 
@@ -35,7 +38,6 @@ func enter():
 
 #Cleans up state, reinitializes values like timers
 func exit():
-#	reset_arm_rotation()
 	Needle_Arm_Raycast.disconnect("raycast_collided", self, "_on_jab_collision")
 	
 	.exit()
@@ -47,8 +49,9 @@ func handle_input(event):
 
 
 #Acts as the _process method would
-func update(_delta):
-	return
+func update(delta):
+#	anchor_arm_transform()
+	.update(delta)
 
 
 func _on_animation_finished(anim_name):
@@ -66,7 +69,7 @@ func aim_arm_transform(look_at_point):
 	var pose : Transform
 	
 	#Set arm custom pose back to default
-	reset_custom_pose_r_arm()
+#	reset_custom_pose_r_arm()
 	
 	aim_point = look_at_point #This point is global
 	#Get look direction vector and center it at aim controller point
