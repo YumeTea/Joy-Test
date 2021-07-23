@@ -32,7 +32,6 @@ func enter():
 	
 	charging_spell_instance.get_node("AnimationPlayer").connect("animation_finished", self, "_on_animation_finished")
 	
-#	reset_custom_pose_l_arm()
 	
 	.enter()
 
@@ -73,6 +72,7 @@ func update(delta):
 	
 	if is_casting:
 		aim_arm_transform(camera_look_at_point)
+		anchor_arm_l_transform()
 	
 	.update(delta)
 
@@ -94,7 +94,6 @@ func cast():
 	end_charging_anim()
 	set_charging(false)
 	cast_projectile()
-#	emit_signal("state_switch", "none")
 
 
 func cast_abort():
@@ -155,7 +154,7 @@ func aim_arm_transform(look_at_point):
 	var pose : Transform
 	
 	#Set arm custom pose back to default
-	reset_custom_pose_l_arm()
+	reset_custom_pose_arm_l()
 	
 	aim_point = look_at_point #This point is global
 	#Get look direction vector and center it at aim controller point

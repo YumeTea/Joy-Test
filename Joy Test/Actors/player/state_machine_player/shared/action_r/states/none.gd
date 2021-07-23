@@ -8,6 +8,8 @@ func initialize_values(init_values_dic):
 
 #Initializes state, changes animation, etc
 func enter():
+	reset_custom_pose_arm_r()
+	
 	AnimStateMachineActionR.start("none")
 	
 	AnimTree.set("parameters/MotionActionRBlend/blend_amount", 0.0)

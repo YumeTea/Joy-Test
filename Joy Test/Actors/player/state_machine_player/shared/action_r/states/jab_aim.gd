@@ -50,13 +50,12 @@ func handle_input(event):
 
 #Acts as the _process method would
 func update(delta):
-#	anchor_arm_transform()
 	.update(delta)
 
 
 func _on_animation_finished(anim_name):
 	if anim_name == "jab":
-		reset_custom_pose_r_arm()
+		reset_custom_pose_arm_r()
 		emit_signal("state_switch", "none")
 
 
@@ -69,7 +68,7 @@ func aim_arm_transform(look_at_point):
 	var pose : Transform
 	
 	#Set arm custom pose back to default
-#	reset_custom_pose_r_arm()
+#	reset_custom_pose_arm_r()
 	
 	aim_point = look_at_point #This point is global
 	#Get look direction vector and center it at aim controller point

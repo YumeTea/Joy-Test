@@ -54,7 +54,7 @@ func _on_animation_finished(anim_name):
 #	if anim_name == "stick_jump":
 #		continue_jab_anim(anim_pause_position)
 	if anim_name == "jab":
-		reset_custom_pose_r_arm()
+		reset_custom_pose_arm_r()
 		emit_signal("state_switch", "none")
 
 
@@ -70,7 +70,7 @@ func rotate_arm():
 	var pose : Transform
 	
 	#Set arm custom pose back to default
-	reset_custom_pose_r_arm()
+	reset_custom_pose_arm_r()
 	
 	#Orient look at point
 	look_at_point = attached_obj.to_global(stick_point)

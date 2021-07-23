@@ -39,8 +39,8 @@ func handle_input(event):
 
 
 #Acts as the _process method would
-func update(_delta):
-	return
+func update(delta):
+	.update(delta)
 
 
 func _on_animation_finished(anim_name):

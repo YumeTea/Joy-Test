@@ -47,8 +47,8 @@ func handle_input(event):
 
 
 #Acts as the _process method would
-func update(_delta):
-	return
+func update(delta):
+	anchor_arm_r_transform()
 
 
 func _on_animation_finished(_anim_name):
@@ -66,7 +66,7 @@ func set_hit(value):
 
 
 ###POSE FUNCTIONIS###
-func reset_custom_pose_r_arm():
+func reset_custom_pose_arm_r():
 	var transform : Transform
 	
 	transform.origin = Vector3(0,0,0)
@@ -75,16 +75,14 @@ func reset_custom_pose_r_arm():
 	Skel.set_bone_custom_pose(RightArmController_idx, transform)
 
 
-func anchor_arm_transform():
+func anchor_arm_r_transform():
 	var pose : Transform
-
+	
 	pose = Skel.get_bone_custom_pose(RightArmController_idx)
-	pose.origin = Vector3(0,0,0)
-	Skel.set_bone_custom_pose(RightArmController_idx, pose)
-	RightArmController.force_update_transform()
-
-	pose.origin = RightArmController.to_local(RightArmController_anchor.get_global_transform().origin)
-
+	
+	pose.origin =  Skel.get_bone_global_pose(Skel.find_bone("UpperChestBone")).origin - Skel.get_bone_global_pose(Skel.find_bone("SpineBone")).origin
+	pose.origin.y = 0.0
+	
 	Skel.set_bone_custom_pose(RightArmController_idx, pose)
 
 

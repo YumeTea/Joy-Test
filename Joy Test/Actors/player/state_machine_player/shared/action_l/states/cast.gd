@@ -1,6 +1,9 @@
 extends "res://Actors/player/state_machine_player/shared/action_l/action_l.gd"
 
 
+'cast anim controller bone disconnects when running'
+
+
 func initialize_values(init_values_dic):
 	for value in init_values_dic:
 		self[value] = init_values_dic[value]
@@ -54,6 +57,9 @@ func update(_delta):
 	if cast:
 		cast()
 		set_cast(false)
+	
+	if is_casting:
+		anchor_arm_l_transform()
 
 
 func _on_animation_finished(anim_name):

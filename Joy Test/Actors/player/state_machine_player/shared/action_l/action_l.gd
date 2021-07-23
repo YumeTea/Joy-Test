@@ -52,7 +52,7 @@ func handle_input(event):
 
 #Acts as the _process method would
 func update(delta):
-	.update(delta)
+	pass
 
 
 func _on_animation_finished(anim_name):
@@ -88,13 +88,24 @@ func set_cast(value):
 
 
 #POSE FUNCTIONS#
-func reset_custom_pose_l_arm():
+func reset_custom_pose_arm_l():
 	var transform : Transform
 	
 	transform.origin = Vector3(0,0,0)
 	transform.basis = Basis(Vector3(1,0,0), Vector3(0,1,0), Vector3(0,0,1))
 	
 	Skel.set_bone_custom_pose(LeftArmController_idx, transform)
+
+
+func anchor_arm_l_transform():
+	var pose : Transform
+	
+	pose = Skel.get_bone_custom_pose(LeftArmController_idx)
+	
+	pose.origin =  Skel.get_bone_global_pose(Skel.find_bone("UpperChestBone")).origin - Skel.get_bone_global_pose(Skel.find_bone("SpineBone")).origin
+	pose.origin.y = 0.0
+	
+	Skel.set_bone_custom_pose(LeftArmController_idx, pose)
 
 
 ###LOCAL SIGNAL COMMS###
