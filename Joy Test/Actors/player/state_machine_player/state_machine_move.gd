@@ -12,6 +12,7 @@ var initialized_values = {
 	
 	#Shared Flags
 	"is_aiming": false,
+	"is_b_sliding": false,
 	
 	#Motion
 	"velocity": Vector3(),
@@ -24,8 +25,12 @@ var initialized_values = {
 
 func _ready():
 	states_map = { #populate state map on initialization
+		#On Ground
 		"idle": $Shared/Motion/On_Ground/Idle,
 		"walk": $Shared/Motion/On_Ground/Walk,
+		"barrier_slide": $Shared/Motion/On_Ground/Barrier_Slide,
+		
+		#In Air
 		"jump": $Shared/Motion/In_Air/Jump,
 		"fall": $Shared/Motion/In_Air/Fall,
 		

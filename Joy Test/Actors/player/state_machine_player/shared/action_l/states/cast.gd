@@ -1,9 +1,6 @@
 extends "res://Actors/player/state_machine_player/shared/action_l/action_l.gd"
 
 
-'cast anim controller bone disconnects when running'
-
-
 func initialize_values(init_values_dic):
 	for value in init_values_dic:
 		self[value] = init_values_dic[value]

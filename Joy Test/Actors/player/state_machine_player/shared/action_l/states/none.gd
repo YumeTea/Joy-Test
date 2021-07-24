@@ -49,9 +49,23 @@ func handle_input(event):
 				elif is_aiming:
 					emit_signal("state_switch", "cast_aim")
 			"barrier":
-				pass
+				if !is_aiming:
+					emit_signal("state_switch", "barrier")
+				elif is_aiming:
+					emit_signal("state_switch", "barrier_aim")
 			"held_affect":
 				pass
+	
+	if Input.is_action_just_pressed("attack_left_alt"):
+		if current_spell.alt_cast == true:
+			#Branch to correct state based on equipped spell type
+			match current_spell.spell_type:
+				"projectile":
+					pass
+				"barrier":
+					emit_signal("state_switch", "barrier_ground")
+				"held_affect":
+					pass
 	
 	.handle_input(event)
 

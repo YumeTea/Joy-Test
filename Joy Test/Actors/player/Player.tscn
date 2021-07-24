@@ -1,4 +1,4 @@
-[gd_scene load_steps=131 format=2]
+[gd_scene load_steps=142 format=2]
 
 [ext_resource path="res://Actors/player/camera_rig/Camera_Rig.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Actors/player/Player.gd" type="Script" id=2]
@@ -24,7 +24,10 @@
 [ext_resource path="res://Actors/player/state_machine_player/shared/action_l/action_l.gd" type="Script" id=22]
 [ext_resource path="res://Actors/player/objects/bone_spear/needle_arm_raycast.gd" type="Script" id=23]
 [ext_resource path="res://Actors/player/model/anim/anim_boneform/none_l.anim" type="Animation" id=24]
+[ext_resource path="res://Actors/player/state_machine_player/shared/action_l/states/barrier.gd" type="Script" id=25]
+[ext_resource path="res://Actors/player/state_machine_player/shared/action_l/states/barrier_ground.gd" type="Script" id=26]
 [ext_resource path="res://Actors/player/state_machine_player/shared/move/in_air/states/fall.gd" type="Script" id=27]
+[ext_resource path="res://Actors/player/state_machine_player/shared/move/on_ground/states/barrier_slide.gd" type="Script" id=28]
 [ext_resource path="res://Actors/player/state_machine_player/shared/action_r/states/jab_aim.gd" type="Script" id=29]
 [ext_resource path="res://Actors/player/state_machine_player/shared/action_l/states/cast_aim.gd" type="Script" id=30]
 [ext_resource path="res://Actors/player/state_machine_player/shared/move/in_air/states/wall_stick.gd" type="Script" id=31]
@@ -55,18 +58,9 @@
 [ext_resource path="res://Actors/player/model/anim/anim_boneform/jump.anim" type="Animation" id=56]
 [ext_resource path="res://Actors/player/model/anim/anim_boneform/skid_forward.anim" type="Animation" id=57]
 [ext_resource path="res://Actors/player/model/anim/anim_boneform/idle.anim" type="Animation" id=58]
-
-[sub_resource type="SphereMesh" id=1]
-radius = 0.06
-height = 0.1
-
-[sub_resource type="SpatialMaterial" id=2]
-albedo_color = Color( 0, 1, 0.164706, 1 )
-emission_enabled = true
-emission = Color( 0, 1, 0.164706, 1 )
-emission_energy = 1.0
-emission_operator = 0
-emission_on_uv2 = false
+[ext_resource path="res://Actors/player/model/anim/anim_boneform/default.anim" type="Animation" id=59]
+[ext_resource path="res://Actors/player/model/anim/anim_boneform/barrier_slide.anim" type="Animation" id=60]
+[ext_resource path="res://Actors/player/state_machine_player/shared/action_l/states/barrier_aim.gd" type="Script" id=61]
 
 [sub_resource type="SphereMesh" id=3]
 radius = 0.05
@@ -174,6 +168,9 @@ nodes/TimeScaleActionR/position = Vector2( -40, 120 )
 node_connections = [ "output", 0, "TimeScaleActionR", "TimeScaleActionR", 0, "SeekActionR", "SeekActionR", 0, "StateMachineActionR" ]
 
 [sub_resource type="AnimationNodeTimeSeek" id=27]
+
+[sub_resource type="AnimationNodeAnimation" id=76]
+animation = "barrier_slide"
 
 [sub_resource type="AnimationNodeAnimation" id=28]
 animation = "fall"
@@ -311,7 +308,21 @@ xfade_time = 0.2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=64]
 
+[sub_resource type="AnimationNodeStateMachineTransition" id=77]
+xfade_time = 0.2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=78]
+xfade_time = 0.2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=79]
+xfade_time = 0.1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=80]
+xfade_time = 0.1
+
 [sub_resource type="AnimationNodeStateMachine" id=65]
+states/barrier_slide/node = SubResource( 76 )
+states/barrier_slide/position = Vector2( 286, 412 )
 states/fall/node = SubResource( 28 )
 states/fall/position = Vector2( 365, 114 )
 states/idle/node = SubResource( 29 )
@@ -324,8 +335,8 @@ states/stick_jump/node = SubResource( 32 )
 states/stick_jump/position = Vector2( 480, -13 )
 states/walkrun/node = SubResource( 51 )
 states/walkrun/position = Vector2( 628, 270 )
-transitions = [ "idle", "walkrun", SubResource( 52 ), "walkrun", "idle", SubResource( 53 ), "idle", "jump", SubResource( 54 ), "walkrun", "jump", SubResource( 55 ), "jump", "fall", SubResource( 56 ), "walkrun", "fall", SubResource( 57 ), "idle", "fall", SubResource( 58 ), "fall", "land", SubResource( 59 ), "land", "idle", SubResource( 60 ), "land", "walkrun", SubResource( 61 ), "stick_jump", "fall", SubResource( 62 ), "jump", "stick_jump", SubResource( 63 ), "fall", "stick_jump", SubResource( 64 ) ]
-graph_offset = Vector2( -171, -103 )
+transitions = [ "idle", "walkrun", SubResource( 52 ), "walkrun", "idle", SubResource( 53 ), "idle", "jump", SubResource( 54 ), "walkrun", "jump", SubResource( 55 ), "jump", "fall", SubResource( 56 ), "walkrun", "fall", SubResource( 57 ), "idle", "fall", SubResource( 58 ), "fall", "land", SubResource( 59 ), "land", "idle", SubResource( 60 ), "land", "walkrun", SubResource( 61 ), "stick_jump", "fall", SubResource( 62 ), "jump", "stick_jump", SubResource( 63 ), "fall", "stick_jump", SubResource( 64 ), "idle", "barrier_slide", SubResource( 77 ), "walkrun", "barrier_slide", SubResource( 78 ), "barrier_slide", "walkrun", SubResource( 79 ), "barrier_slide", "idle", SubResource( 80 ) ]
+graph_offset = Vector2( -209, 235 )
 
 [sub_resource type="AnimationNodeTimeScale" id=66]
 
@@ -337,7 +348,7 @@ nodes/StateMachineMotion/node = SubResource( 65 )
 nodes/StateMachineMotion/position = Vector2( -460, 140 )
 nodes/TimeScaleMotion/node = SubResource( 66 )
 nodes/TimeScaleMotion/position = Vector2( 20, 140 )
-node_connections = [ "output", 0, "TimeScaleMotion", "SeekMotion", 0, "StateMachineMotion", "TimeScaleMotion", 0, "SeekMotion" ]
+node_connections = [ "output", 0, "TimeScaleMotion", "TimeScaleMotion", 0, "SeekMotion", "SeekMotion", 0, "StateMachineMotion" ]
 
 [sub_resource type="AnimationNodeBlend2" id=68]
 filter_enabled = true
@@ -348,7 +359,7 @@ filter_enabled = true
 filters = [ "AnimationPlayer", "Body/Armature/Skeleton/RightArmController/RayCast:enabled", "Body/Armature/Skeleton:ChestBone", "Body/Armature/Skeleton:HeadBone", "Body/Armature/Skeleton:LeftArmController", "Body/Armature/Skeleton:LeftArmTarget", "Body/Armature/Skeleton:LeftHandBone", "Body/Armature/Skeleton:LeftHandController", "Body/Armature/Skeleton:LeftIndexController", "Body/Armature/Skeleton:LeftIndexDistalBone", "Body/Armature/Skeleton:LeftIndexIntermediateBone", "Body/Armature/Skeleton:LeftIndexProximalBone", "Body/Armature/Skeleton:LeftLittleController", "Body/Armature/Skeleton:LeftLittleDistalBone", "Body/Armature/Skeleton:LeftLittleIntermediateBone", "Body/Armature/Skeleton:LeftLittleProximalBone", "Body/Armature/Skeleton:LeftLowerArmBone", "Body/Armature/Skeleton:LeftMiddleController", "Body/Armature/Skeleton:LeftMiddleDistalBone", "Body/Armature/Skeleton:LeftMiddleIntermediateBone", "Body/Armature/Skeleton:LeftMiddleProximalBone", "Body/Armature/Skeleton:LeftRingController", "Body/Armature/Skeleton:LeftRingDistalBone", "Body/Armature/Skeleton:LeftRingIntermediateBone", "Body/Armature/Skeleton:LeftRingProximalBone", "Body/Armature/Skeleton:LeftShoulderBone", "Body/Armature/Skeleton:LeftThumbController", "Body/Armature/Skeleton:LeftThumbDistalBone", "Body/Armature/Skeleton:LeftThumbIntermediateBone", "Body/Armature/Skeleton:LeftThumbProximalBone", "Body/Armature/Skeleton:LeftUpperArmBone", "Body/Armature/Skeleton:NeckBone", "Body/Armature/Skeleton:RightArmController", "Body/Armature/Skeleton:RightArmTarget", "Body/Armature/Skeleton:RightArmTip", "Body/Armature/Skeleton:RightHandBone", "Body/Armature/Skeleton:RightHandController", "Body/Armature/Skeleton:RightIndexController", "Body/Armature/Skeleton:RightIndexDistalBone", "Body/Armature/Skeleton:RightIndexIntermediateBone", "Body/Armature/Skeleton:RightIndexProximalBone", "Body/Armature/Skeleton:RightLittleController", "Body/Armature/Skeleton:RightLittleDistalBone", "Body/Armature/Skeleton:RightLittleIntermediateBone", "Body/Armature/Skeleton:RightLittleProximalBone", "Body/Armature/Skeleton:RightLowerArmBone", "Body/Armature/Skeleton:RightMiddleController", "Body/Armature/Skeleton:RightMiddleDistalBone", "Body/Armature/Skeleton:RightMiddleIntermediateBone", "Body/Armature/Skeleton:RightMiddleProximalBone", "Body/Armature/Skeleton:RightRingController", "Body/Armature/Skeleton:RightRingDistalBone", "Body/Armature/Skeleton:RightRingIntermediateBone", "Body/Armature/Skeleton:RightRingProximalBone", "Body/Armature/Skeleton:RightShoulderBone", "Body/Armature/Skeleton:RightThumbController", "Body/Armature/Skeleton:RightThumbDistalBone", "Body/Armature/Skeleton:RightThumbIntermediateBone", "Body/Armature/Skeleton:RightThumbProximalBone", "Body/Armature/Skeleton:RightUpperArmBone", "Body/Armature/Skeleton:SpineBone", "Body/Armature/Skeleton:UpperChestBone", "State_Machines/State_Machine_Action_R/Shared/Action_R" ]
 
 [sub_resource type="AnimationNodeBlendTree" id=70]
-graph_offset = Vector2( -202, 104 )
+graph_offset = Vector2( -182, -99.5 )
 nodes/BlendTreeActionL/node = SubResource( 18 )
 nodes/BlendTreeActionL/position = Vector2( -20, 220 )
 nodes/BlendTreeActionR/node = SubResource( 26 )
@@ -370,6 +381,18 @@ node_connections = [ "output", 0, "MotionActionLBlend", "MotionActionLBlend", 0,
 
 [sub_resource type="Animation" id=74]
 
+[sub_resource type="SphereMesh" id=1]
+radius = 0.06
+height = 0.1
+
+[sub_resource type="SpatialMaterial" id=2]
+albedo_color = Color( 0, 1, 0.164706, 1 )
+emission_enabled = true
+emission = Color( 0, 1, 0.164706, 1 )
+emission_energy = 1.0
+emission_operator = 0
+emission_on_uv2 = false
+
 [sub_resource type="SpatialMaterial" id=75]
 albedo_color = Color( 0.952941, 0, 1, 1 )
 emission_enabled = true
@@ -386,7 +409,9 @@ script = ExtResource( 2 )
 
 [node name="Skeleton" parent="Body/Armature" index="0"]
 transform = Transform( -1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 0, 0 )
-bones/17/bound_children = [ NodePath("RightShoulderBone") ]
+bones/1/bound_children = [ NodePath("TorsoController") ]
+bones/13/bound_children = [ NodePath("UpperChestBone") ]
+bones/16/bound_children = [ NodePath("LeftShoulderBone") ]
 bones/18/bound_children = [ NodePath("LeftArmController") ]
 bones/20/bound_children = [ NodePath("LeftHandBone") ]
 bones/42/bound_children = [ NodePath("RightArmController") ]
@@ -394,24 +419,12 @@ bones/42/bound_children = [ NodePath("RightArmController") ]
 [node name="Body" parent="Body/Armature/Skeleton" index="0"]
 skin = null
 
-[node name="RightShoulderBone" type="BoneAttachment" parent="Body/Armature/Skeleton" index="1"]
-transform = Transform( -0.268338, -0.941562, 0.203608, -0.0317264, 0.219883, 0.97501, -0.962803, 0.255173, -0.0888752, -0.149277, 4.78114, -0.117562 )
-bone_name = "RightShoulderBone"
-
-[node name="RightArmController_anchor" type="Position3D" parent="Body/Armature/Skeleton/RightShoulderBone"]
-transform = Transform( -1, 1.49012e-08, -1.49012e-07, 0, 1, -2.04891e-08, 1.49012e-07, -5.7742e-08, -1, 8.17701e-07, 0.390507, -2.86102e-06 )
-
-[node name="Debug_Point_Arm" type="MeshInstance" parent="Body/Armature/Skeleton/RightShoulderBone/RightArmController_anchor"]
-transform = Transform( 1, 8.39497e-15, -3.01992e-07, 4.55292e-15, 1, 4.28749e-08, 3.01992e-07, -4.28749e-08, 1, 0, 0, 0 )
-mesh = SubResource( 1 )
-material/0 = SubResource( 2 )
-
-[node name="LeftArmController" type="BoneAttachment" parent="Body/Armature/Skeleton" index="2"]
-transform = Transform( -1, 7.10543e-15, 1.50996e-07, -1.42109e-14, 1, -1.19209e-07, -1.50996e-07, -1.78814e-07, -1, 0.516964, 4.867, -0.017916 )
+[node name="LeftArmController" type="BoneAttachment" parent="Body/Armature/Skeleton" index="1"]
+transform = Transform( -1, 7.10543e-15, 1.50996e-07, -1.42109e-14, 1, -1.19209e-07, -1.50996e-07, -1.78814e-07, -1, 0.291287, 3.78784, 0.864029 )
 bone_name = "LeftArmController"
 
-[node name="RightArmController" type="BoneAttachment" parent="Body/Armature/Skeleton" index="3"]
-transform = Transform( -1, -7.10543e-15, -1.50996e-07, 1.42109e-14, 1, -1.19209e-07, 1.50996e-07, -1.78814e-07, -1, -0.516964, 4.867, -0.017916 )
+[node name="RightArmController" type="BoneAttachment" parent="Body/Armature/Skeleton" index="2"]
+transform = Transform( -1, -7.10543e-15, -1.50996e-07, 1.42109e-14, 1, -1.19209e-07, 1.50996e-07, -1.78814e-07, -1, -0.447576, 3.90283, 0.153278 )
 bone_name = "RightArmController"
 
 [node name="RayCast" type="RayCast" parent="Body/Armature/Skeleton/RightArmController"]
@@ -440,12 +453,35 @@ transform = Transform( -4.37114e-08, -4.37114e-08, 1, -1, -4.37114e-08, -4.37114
 mesh = SubResource( 9 )
 material/0 = SubResource( 8 )
 
-[node name="LeftHandBone" type="BoneAttachment" parent="Body/Armature/Skeleton" index="4"]
-transform = Transform( -0.913356, 0.384396, -0.134238, -0.391725, -0.919517, 0.0322316, -0.111044, 0.0820242, 0.990425, 0.878881, 3.98796, -0.065075 )
+[node name="LeftHandBone" type="BoneAttachment" parent="Body/Armature/Skeleton" index="3"]
+transform = Transform( -0.41306, -0.0236132, -0.910397, -0.791549, -0.485051, 0.371718, -0.450366, 0.874168, 0.181666, 0.782999, 3.13606, 1.35324 )
 bone_name = "LeftLowerArmBone"
 
 [node name="Spell_Origin" type="Position3D" parent="Body/Armature/Skeleton/LeftHandBone"]
 transform = Transform( -1.56462e-07, -0.999999, 2.6077e-08, -7.45058e-09, -4.19095e-08, -0.999999, 1, -1.71363e-07, 0, -4.76837e-07, 0.853914, -7.45058e-09 )
+
+[node name="TorsoController" type="BoneAttachment" parent="Body/Armature/Skeleton" index="4"]
+transform = Transform( 1, 0, 0, 0, 0, 1, 0, -1, 0, -4.23473e-18, 2.48964, 0.00964467 )
+bone_name = "TorsoController"
+
+[node name="LeftArmController_default" type="Position3D" parent="Body/Armature/Skeleton/TorsoController"]
+transform = Transform( -0.268338, 0.941562, -0.203608, -0.962803, -0.255173, 0.0888751, 0.0317263, 0.219883, 0.97501, 0.149277, 0.127207, 1.36355 )
+
+[node name="RightArmController_default" type="Position3D" parent="Body/Armature/Skeleton/TorsoController"]
+transform = Transform( 1, -5.50214e-08, 5.75614e-08, 5.50214e-08, -0.0450993, -0.998983, 5.75613e-08, 0.998983, -0.0450993, 8.88178e-16, 0.0958721, 1.15696 )
+
+[node name="UpperChestBone" type="BoneAttachment" parent="Body/Armature/Skeleton" index="5"]
+transform = Transform( 0.848864, -0.11471, -0.516015, -0.0628465, 0.947347, -0.31398, 0.524862, 0.298956, 0.79696, -0.00100457, 3.58105, 0.404436 )
+bone_name = "UpperChestBone"
+
+[node name="RightArmController_offset" type="Position3D" parent="Body/Armature/Skeleton/UpperChestBone"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+
+[node name="LeftShoulderBone" type="BoneAttachment" parent="Body/Armature/Skeleton" index="6"]
+transform = Transform( -0.876447, 0.430531, -0.215601, -0.227818, 0.0236872, 0.973415, 0.424193, 0.902265, 0.0773222, 0.123161, 3.77859, 0.511687 )
+bone_name = "LeftShoulderBone"
+
+[node name="LeftArmController_offset" type="Position3D" parent="Body/Armature/Skeleton/LeftShoulderBone"]
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 3, 0 )
@@ -474,6 +510,9 @@ script = ExtResource( 7 )
 
 [node name="Walk" type="Node" parent="State_Machines/State_Machine_Move/Shared/Motion/On_Ground"]
 script = ExtResource( 6 )
+
+[node name="Barrier_Slide" type="Node" parent="State_Machines/State_Machine_Move/Shared/Motion/On_Ground"]
+script = ExtResource( 28 )
 
 [node name="In_Air" type="Node" parent="State_Machines/State_Machine_Move/Shared/Motion"]
 script = ExtResource( 11 )
@@ -517,6 +556,15 @@ script = ExtResource( 20 )
 
 [node name="Cast_Aim" type="Node" parent="State_Machines/State_Machine_Action_L/Shared/Action_L"]
 script = ExtResource( 30 )
+
+[node name="Barrier" type="Node" parent="State_Machines/State_Machine_Action_L/Shared/Action_L"]
+script = ExtResource( 25 )
+
+[node name="Barrier_Aim" type="Node" parent="State_Machines/State_Machine_Action_L/Shared/Action_L"]
+script = ExtResource( 61 )
+
+[node name="Barrier_Ground" type="Node" parent="State_Machines/State_Machine_Action_L/Shared/Action_L"]
+script = ExtResource( 26 )
 
 [node name="Timer_Action_L" type="Timer" parent="State_Machines/State_Machine_Action_L"]
 
@@ -572,7 +620,9 @@ parameters/MotionActionLBlend/blend_amount = 0
 parameters/MotionActionRBlend/blend_amount = 0.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/barrier_slide = ExtResource( 60 )
 anims/cast = ExtResource( 37 )
+anims/default = ExtResource( 59 )
 anims/fall = ExtResource( 55 )
 anims/idle = ExtResource( 58 )
 anims/jab = ExtResource( 13 )

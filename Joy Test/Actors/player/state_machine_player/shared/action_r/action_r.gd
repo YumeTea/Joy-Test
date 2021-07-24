@@ -14,10 +14,11 @@ var attached_facing_dir : Vector3
 #Animation Variables
 var anim_pause_position : float
 
-#Pose Variables
+#Pose Nodes/Variables
 onready var RightArmController = owner.get_node("Body/Armature/Skeleton/RightArmController")
 onready var RightArmController_idx = Skel.find_bone("RightArmController")
-onready var RightArmController_anchor = owner.get_node("Body/Armature/Skeleton/RightShoulderBone/RightArmController_anchor")
+onready var RightArmController_default = owner.get_node("Body/Armature/Skeleton/TorsoController/RightArmController_default")
+onready var RightArmController_offset = owner.get_node("Body/Armature/Skeleton/UpperChestBone/RightArmController_offset")
 
 #Node Storage
 onready var State_Machine_Action_R = owner.get_node("State_Machines/State_Machine_Action_R")
@@ -48,7 +49,8 @@ func handle_input(event):
 
 #Acts as the _process method would
 func update(delta):
-	anchor_arm_r_transform()
+#	anchor_arm_r_transform()
+	pass
 
 
 func _on_animation_finished(_anim_name):
@@ -80,8 +82,8 @@ func anchor_arm_r_transform():
 	
 	pose = Skel.get_bone_custom_pose(RightArmController_idx)
 	
-	pose.origin =  Skel.get_bone_global_pose(Skel.find_bone("UpperChestBone")).origin - Skel.get_bone_global_pose(Skel.find_bone("SpineBone")).origin
-	pose.origin.y = 0.0
+	pose.origin =  (RightArmController_offset.get_global_transform().origin - RightArmController_default.get_global_transform().origin)
+	pose.origin = pose.origin.rotated(Vector3(0,1,0), -Body.get_rotation().y)
 	
 	Skel.set_bone_custom_pose(RightArmController_idx, pose)
 

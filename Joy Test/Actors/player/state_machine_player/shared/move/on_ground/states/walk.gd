@@ -28,6 +28,11 @@ func handle_input(event):
 
 #Acts as the _process method would
 func update(delta):
+	if is_b_sliding:
+		emit_signal("state_switch", "barrier_slide")
+		return
+	
+	
 	#Calc player velocity
 	velocity = calc_walk_velocity(velocity, delta)
 	

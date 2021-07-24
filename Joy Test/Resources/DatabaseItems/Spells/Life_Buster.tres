@@ -8,6 +8,7 @@ name = "Life_Buster"
 index = 0
 item_type = "Spell"
 spell_type = "projectile"
+alt_cast = false
 player_cast_anim = "res://Actors/player/model/anim/anim_boneform/cast.anim"
 charging_anim_scene = "res://Actors/player/objects/life_buster/anim/Life_Buster_Anim.tscn"
 projectile_scene = "res://Actors/player/objects/life_buster/life_buster.tscn"

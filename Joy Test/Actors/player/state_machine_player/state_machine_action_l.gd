@@ -32,7 +32,10 @@ func _ready():
 	states_map = {
 		"none": $Shared/Action_L/None,
 		"cast": $Shared/Action_L/Cast,
-		"cast_aim": $Shared/Action_L/Cast_Aim
+		"cast_aim": $Shared/Action_L/Cast_Aim,
+		"barrier": $Shared/Action_L/Barrier,
+		"barrier_aim": $Shared/Action_L/Barrier_Aim,
+		"barrier_ground": $Shared/Action_L/Barrier_Ground,
 	#	"death": $Death,
 	#	"void": $Void
 	}

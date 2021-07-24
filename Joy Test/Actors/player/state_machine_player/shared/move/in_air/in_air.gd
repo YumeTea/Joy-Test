@@ -1,6 +1,9 @@
 extends "res://Actors/player/state_machine_player/shared/move/motion.gd"
 
 
+'currently goes to idle for a frame when landing no matter what'
+
+
 #In Air bools
 var has_jumped = true
 

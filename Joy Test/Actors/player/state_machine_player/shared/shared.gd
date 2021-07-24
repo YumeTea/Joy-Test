@@ -31,6 +31,7 @@ onready var Debug_Point2 = owner.get_node("Debug_Point2")
 
 #Player Flags
 var is_aiming : bool
+var is_b_sliding : bool
 
 
 #Initializes state, changes animation, etc
@@ -60,6 +61,10 @@ func handle_input(event):
 		if Input.is_action_just_pressed("aim_r"):
 			set_aiming(true)
 	
+	if Input.is_action_just_pressed("attack_left_alt"):
+		set_b_sliding(true)
+	elif Input.is_action_just_released("attack_left_alt"):
+		set_b_sliding(false)
 
 
 #Acts as the _process method would
@@ -74,6 +79,9 @@ func _on_animation_finished(_anim_name):
 ###PLAYER FLAG FUNCTIONS###
 func set_aiming(value : bool):
 	is_aiming = value
+
+func set_b_sliding(value : bool):
+	is_b_sliding = value
 
 
 ###INPUT FUNCTIONS###

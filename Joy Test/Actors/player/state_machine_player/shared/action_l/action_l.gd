@@ -23,7 +23,10 @@ onready var Timer_Action_L = owner.get_node("State_Machines/State_Machine_Action
 
 onready var AnimSeekActionL = "parameters/BlendTreeActionL/SeekActionL/seek_position"
 
+#Pose Nodes/Variables
 onready var LeftArmController = owner.get_node("Body/Armature/Skeleton/LeftArmController")
+onready var LeftArmController_default = owner.get_node("Body/Armature/Skeleton/TorsoController/LeftArmController_default")
+onready var LeftArmController_offset = owner.get_node("Body/Armature/Skeleton/LeftShoulderBone/LeftArmController_offset")
 
 #Action L Flags
 var is_casting : bool
@@ -102,8 +105,8 @@ func anchor_arm_l_transform():
 	
 	pose = Skel.get_bone_custom_pose(LeftArmController_idx)
 	
-	pose.origin =  Skel.get_bone_global_pose(Skel.find_bone("UpperChestBone")).origin - Skel.get_bone_global_pose(Skel.find_bone("SpineBone")).origin
-	pose.origin.y = 0.0
+	pose.origin =  (LeftArmController_offset.get_global_transform().origin - LeftArmController_default.get_global_transform().origin)
+	pose.origin = pose.origin.rotated(Vector3(0,1,0), -Body.get_rotation().y)
 	
 	Skel.set_bone_custom_pose(LeftArmController_idx, pose)
 
