@@ -23,14 +23,13 @@ func exit():
 
 #Creates output based on the input event passed in
 func handle_input(event):
+	.handle_input(event)
+	
 	if attached_obj != null:
 		if Input.is_action_just_pressed("jump"):
 			emit_signal("state_switch", "jab_stick_jump")
 		elif Input.is_action_just_pressed("attack_right"):
 			attached_obj = null #Clear attached object after letting go
-		
-	
-	.handle_input(event)
 
 
 #Acts as the _process method would

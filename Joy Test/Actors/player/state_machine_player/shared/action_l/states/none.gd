@@ -12,10 +12,7 @@ func initialize_values(init_values_dic):
 
 #Initializes state, changes animation, etc
 func enter():
-	if !AnimStateMachineActionL.is_playing():
-		AnimStateMachineActionL.start("none_l")
-	else:
-		AnimStateMachineActionL.travel("none_l")
+	anim_tree_play_anim("none_l", AnimStateMachineActionL)
 	
 	#Blend values to none state
 	pose_blend = Skel.get_bone_custom_pose(LeftArmController_idx)
@@ -25,8 +22,6 @@ func enter():
 	Tween_Player.interpolate_property(self, "pose_blend", pose_blend, Transform(Vector3(1,0,0), Vector3(0,1,0), Vector3(0,0,1), Vector3(0,0,0)), 0.25, 4)
 	Tween_Player.interpolate_property(self, "blend_motionactionl", blend_motionactionl, 0.0, 0.25, 4)
 	Tween_Player.start()
-	
-	AnimTree.set("parameters/MotionActionLBlend/blend_amount", 0.0)
 	
 	.enter()
 
@@ -40,6 +35,8 @@ func exit():
 
 #Creates output based on the input event passed in
 func handle_input(event):
+	.handle_input(event)
+	
 	if Input.is_action_just_pressed("attack_left"):
 		#Branch to correct state based on equipped spell type
 		match current_spell.spell_type:
@@ -66,8 +63,6 @@ func handle_input(event):
 					emit_signal("state_switch", "barrier_ground")
 				"held_affect":
 					pass
-	
-	.handle_input(event)
 
 
 #Acts as the _process method would

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://Resources/CustomResources/spell_resource.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+name = "Barrier"
+index = 1
+item_type = "Spell"
+spell_type = "barrier"
+alt_cast = true
+player_cast_anim = ""
+charging_anim_scene = ""
+projectile_scene = ""

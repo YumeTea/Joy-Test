@@ -60,11 +60,6 @@ func handle_input(event):
 	elif !is_aiming:
 		if Input.is_action_just_pressed("aim_r"):
 			set_aiming(true)
-	
-	if Input.is_action_just_pressed("attack_left_alt"):
-		set_b_sliding(true)
-	elif Input.is_action_just_released("attack_left_alt"):
-		set_b_sliding(false)
 
 
 #Acts as the _process method would
@@ -82,6 +77,14 @@ func set_aiming(value : bool):
 
 func set_b_sliding(value : bool):
 	is_b_sliding = value
+
+
+###ANIMATION FUNCTIONS###
+func anim_tree_play_anim(anim_name, anim_tree_node_playback):
+	if !anim_tree_node_playback.is_playing():
+		anim_tree_node_playback.start(anim_name)
+	else:
+		anim_tree_node_playback.travel(anim_name)
 
 
 ###INPUT FUNCTIONS###

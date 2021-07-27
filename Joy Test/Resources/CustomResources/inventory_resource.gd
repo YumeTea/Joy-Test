@@ -78,7 +78,8 @@ func equip_item(item_type, item_name):
 ###DEBUG FUNCTIONS###
 func debug_initialize_inventory():
 	add_item("Spell", "Life_Buster")
-	equip_item("Spell", "Life_Buster")
+	add_item("Spell", "Barrier")
+	equip_item("Spell", "Barrier")
 
 
 

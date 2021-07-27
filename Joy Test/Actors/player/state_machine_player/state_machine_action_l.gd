@@ -18,6 +18,7 @@ var initialized_values = {
 	
 	#Shared Flags
 	"is_aiming": false,
+	"is_b_sliding":false,
 	
 	#Action L Specific Values
 	"is_casting": false,

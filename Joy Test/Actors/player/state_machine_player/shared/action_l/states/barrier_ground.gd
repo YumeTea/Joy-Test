@@ -8,21 +8,24 @@ func initialize_values(init_values_dic):
 
 #Initializes state, changes animation, etc
 func enter():
+	set_b_sliding(true)
+	
 	.enter()
 
 
 #Cleans up state, reinitializes values like timers
 func exit():
+	set_b_sliding(false)
+	
 	.exit()
 
 
 #Creates output based on the input event passed in
 func handle_input(event):
-#	if Input.is_action_just_pressed("aim_r"):
-#		emit_signal("state_switch", "barrier_aim")
-	
-	
 	.handle_input(event)
+	
+	if Input.is_action_just_released("attack_left_alt"):
+		emit_signal("state_switch", "none")
 
 
 #Acts as the _process method would

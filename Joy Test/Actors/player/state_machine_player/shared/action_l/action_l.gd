@@ -18,6 +18,7 @@ var spell_projectile : Resource
 onready var LeftArmController_idx = Skel.find_bone("LeftArmController")
 
 #Node Storage
+onready var State_Machine_Move = owner.get_node("State_Machines/State_Machine_Move")
 onready var State_Machine_Action_L = owner.get_node("State_Machines/State_Machine_Action_L")
 onready var Timer_Action_L = owner.get_node("State_Machines/State_Machine_Action_L/Timer_Action_L")
 
@@ -88,6 +89,13 @@ func set_cast_ready(value):
 func set_cast(value):
 	var current_state = State_Machine_Action_L.current_state
 	current_state.cast = value
+
+
+func set_b_sliding(value):
+	var current_move_state = State_Machine_Move.current_state
+	var current_actionl_state = State_Machine_Action_L.current_state
+	current_move_state.is_b_sliding = value
+	current_actionl_state.is_b_sliding = value
 
 
 #POSE FUNCTIONS#

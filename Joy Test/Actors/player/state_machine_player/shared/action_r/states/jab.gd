@@ -21,7 +21,7 @@ func enter():
 	Needle_Arm_Raycast = owner.get_node("Body/Armature/Skeleton/RightArmController/RayCast")
 	Needle_Arm_Raycast.connect("raycast_collided", self, "_on_jab_collision")
 	
-	AnimStateMachineActionR.start("jab")
+	anim_tree_play_anim("jab", AnimStateMachineActionR)
 	
 	.enter()
 
@@ -44,6 +44,7 @@ func update(delta):
 
 
 func _on_animation_finished(anim_name):
+	print(anim_name)
 	if anim_name == "jab":
 		emit_signal("state_switch", "none")
 

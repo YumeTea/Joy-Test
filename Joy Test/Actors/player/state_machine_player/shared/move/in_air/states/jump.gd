@@ -14,7 +14,7 @@ func initialize_values(init_values_dic):
 func enter():
 	set_jumped(false)
 	
-	AnimStateMachineMotion.travel("jump")
+	anim_tree_play_anim("jump", AnimStateMachineMotion)
 	
 	.enter()
 

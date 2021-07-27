@@ -31,7 +31,7 @@ func enter():
 	
 	aim_arm_transform(camera_look_at_point)
 	
-	AnimStateMachineActionR.start("jab")
+	anim_tree_play_anim("jab", AnimStateMachineActionR)
 	
 	.enter()
 

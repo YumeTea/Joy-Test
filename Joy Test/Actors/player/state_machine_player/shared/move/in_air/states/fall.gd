@@ -9,7 +9,7 @@ func initialize_values(init_values_dic):
 
 #Initializes state, changes animation, etc
 func enter():
-	AnimStateMachineMotion.travel("fall")
+	anim_tree_play_anim("fall", AnimStateMachineMotion)
 	
 	.enter()
 

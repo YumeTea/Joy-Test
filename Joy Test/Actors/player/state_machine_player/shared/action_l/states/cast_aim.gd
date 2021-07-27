@@ -16,8 +16,6 @@ func initialize_values(init_values_dic):
 
 #Initializes state, changes animation, etc
 func enter():
-	set_aiming(true)
-	
 	if !is_charging:
 		#Load spell assets if entering cast state
 		charge_anim_scene = load(current_spell.charging_anim_scene)
@@ -43,6 +41,8 @@ func exit():
 
 #Creates output based on the input event passed in
 func handle_input(event):
+	.handle_input(event)
+	
 	if Input.is_action_just_pressed("cancel") or !is_aiming:
 		emit_signal("state_switch", "cast")
 	
@@ -56,8 +56,6 @@ func handle_input(event):
 				set_casting(true)
 		if Input.is_action_just_pressed("attack_left"):
 			continue_charging_anim()
-	
-	.handle_input(event)
 
 
 #Acts as the _process method would
@@ -127,7 +125,7 @@ func continue_charging_anim():
 
 
 func start_cast_anim():
-	AnimTree.set("parameters/MotionActionLBlend/blend_amount", 1.0)
+	AnimTree.set("parameters/MotionActionLBlend/blend_amount", 0.99)
 	AnimStateMachineActionL.travel("cast")
 
 

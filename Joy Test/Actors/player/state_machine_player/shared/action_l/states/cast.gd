@@ -32,7 +32,9 @@ func exit():
 
 #Creates output based on the input event passed in
 func handle_input(event):
-	if Input.is_action_just_pressed("aim_r"):
+	.handle_input(event)
+	
+	if Input.is_action_just_pressed("aim_r") or is_aiming:
 		emit_signal("state_switch", "cast_aim")
 	
 	#Cast charge input handling
@@ -45,12 +47,10 @@ func handle_input(event):
 				set_casting(true)
 		if Input.is_action_just_pressed("attack_left"):
 			continue_charging_anim()
-	
-	.handle_input(event)
 
 
 #Acts as the _process method would
-func update(_delta):
+func update(delta):
 	if cast:
 		cast()
 		set_cast(false)
@@ -108,7 +108,7 @@ func continue_charging_anim():
 
 
 func start_cast_anim():
-	AnimTree.set("parameters/MotionActionLBlend/blend_amount", 1.0)
+	AnimTree.set("parameters/MotionActionLBlend/blend_amount", 0.99)
 	AnimStateMachineActionL.travel("cast")
 
 

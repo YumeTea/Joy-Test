@@ -12,7 +12,7 @@ func initialize_values(init_values_dic):
 
 #Initializes state, changes animation, etc
 func enter():
-	AnimStateMachineMotion.travel("walkrun")
+	anim_tree_play_anim("walkrun", AnimStateMachineMotion)
 	.enter()
 
 

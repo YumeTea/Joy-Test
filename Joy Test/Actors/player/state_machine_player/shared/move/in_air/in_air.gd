@@ -28,7 +28,10 @@ func update(delta):
 	.update(delta)
 	
 	if owner.is_on_floor() and has_jumped: #check has_jumped to allow jump squat to play out
-		emit_signal("state_switch", "idle")
+		if is_b_sliding:
+			emit_signal("state_switch", "barrier_slide")
+		else:
+			emit_signal("state_switch", "idle")
 		return
 
 

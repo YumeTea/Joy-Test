@@ -8,6 +8,8 @@ func initialize_values(init_values_dic):
 
 #Initializes state, changes animation, etc
 func enter():
+	start_barrier_anim()
+	
 	.enter()
 
 
@@ -18,17 +20,25 @@ func exit():
 
 #Creates output based on the input event passed in
 func handle_input(event):
-#	if Input.is_action_just_pressed("aim_r"):
-#		emit_signal("state_switch", "barrier_aim")
-	
-	
 	.handle_input(event)
+	
+	if Input.is_action_just_released("attack_left"):
+		emit_signal("state_switch", "none")
+	elif Input.is_action_just_pressed("aim_r") or is_aiming:
+		emit_signal("state_switch", "barrier_aim")
 
 
 #Acts as the _process method would
-func update(_delta):
-	pass
+func update(delta):
+	anchor_arm_l_transform()
 
 
 func _on_animation_finished(anim_name):
 	._on_animation_finished(anim_name)
+
+
+###ANIMATION FUNCTIONS###
+func start_barrier_anim():
+	AnimTree.set("parameters/MotionActionLBlend/blend_amount", 0.99)
+	anim_tree_play_anim("barrier_up", AnimStateMachineActionL)
+
