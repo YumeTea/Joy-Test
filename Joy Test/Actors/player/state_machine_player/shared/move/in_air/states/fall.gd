@@ -32,6 +32,9 @@ func update(delta):
 	velocity = calc_aerial_velocity(velocity, delta)
 	
 	.update(delta)
+	
+	if owner.is_on_wall() and !can_wall_jump:
+		check_can_wall_jump()
 
 
 func _on_animation_finished(_anim_name):

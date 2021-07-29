@@ -73,11 +73,7 @@ func interp_walk_velocity(input_direction, current_velocity, delta):
 		step_vel = (target_vel - temp_vel)
 	else:
 		step_mag = min(2.4, (target_vel - temp_vel).length())
-#		step_mag = (pow((target_t / run_full_time), x) * run_speed_full) - (pow((t / run_full_time), x) * run_speed_full)
-#		step_mag = (target_vel - temp_vel).length() - step_mag
-#		if abs(step_mag) > (target_vel - temp_vel).length():
-#			step_mag = (target_vel - temp_vel).length()
-	
+		
 		step_vel = (target_vel - temp_vel).normalized() * step_mag
 	
 	#Set new velocity

@@ -30,7 +30,6 @@ func handle_input(event):
 func update(delta):
 	if is_b_sliding:
 		emit_signal("state_switch", "barrier_slide")
-		return
 	
 	
 	#Calc player velocity

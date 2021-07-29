@@ -44,7 +44,6 @@ func update(delta):
 
 
 func _on_animation_finished(anim_name):
-	print(anim_name)
 	if anim_name == "jab":
 		emit_signal("state_switch", "none")
 

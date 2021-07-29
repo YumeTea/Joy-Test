@@ -21,7 +21,6 @@ onready var RightArmController_default = owner.get_node("Body/Armature/Skeleton/
 onready var RightArmController_offset = owner.get_node("Body/Armature/Skeleton/UpperChestBone/RightArmController_offset")
 
 #Node Storage
-onready var State_Machine_Action_R = owner.get_node("State_Machines/State_Machine_Action_R")
 onready var Timer_Action_R = owner.get_node("State_Machines/State_Machine_Action_R/Timer_Action_R")
 
 #Anim Node Refs

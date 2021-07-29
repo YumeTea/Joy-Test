@@ -8,12 +8,16 @@ func initialize_values(init_values_dic):
 
 #Initializes state, changes animation, etc
 func enter():
+	set_stop_on_slope(false)
+	
 	anim_tree_play_anim("barrier_slide", AnimStateMachineMotion)
 	.enter()
 
 
 #Cleans up state, reinitializes values like timers
 func exit():
+	set_stop_on_slope(true)
+	
 	.exit()
 
 
@@ -25,8 +29,7 @@ func handle_input(event):
 #Acts as the _process method would
 func update(delta):
 	if !is_b_sliding:
-		emit_signal("state_switch", "idle")
-		return
+		emit_signal("state_switch", "walk")
 	
 	.update(delta)
 	

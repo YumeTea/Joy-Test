@@ -18,8 +18,6 @@ var spell_projectile : Resource
 onready var LeftArmController_idx = Skel.find_bone("LeftArmController")
 
 #Node Storage
-onready var State_Machine_Move = owner.get_node("State_Machines/State_Machine_Move")
-onready var State_Machine_Action_L = owner.get_node("State_Machines/State_Machine_Action_L")
 onready var Timer_Action_L = owner.get_node("State_Machines/State_Machine_Action_L/Timer_Action_L")
 
 onready var AnimSeekActionL = "parameters/BlendTreeActionL/SeekActionL/seek_position"

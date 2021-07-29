@@ -28,11 +28,17 @@ var velocity : Vector3
 var velocity_ext : Vector3 #used for adding velocity applied from out of state machine scripts
 var snap_vector : Vector3
 var snap_vector_default = Vector3(0, -0.5, 0)
+var wall_col_normal = null
 
 #Node Storage
 onready var Timer_Move = owner.get_node("State_Machines/State_Machine_Move/Timer_Move")
+onready var Timer_Wall_Jump = owner.get_node("State_Machines/State_Machine_Move/Timer_Wall_Jump")
 
 onready var AnimStateMachineMotion = owner.get_node("AnimationTree").get("parameters/BlendTreeMotion/StateMachineMotion/playback")
+
+#Motion Flags
+var stop_on_slope = true
+var can_wall_jump = false
 
 
 #Initializes state, changes animation, etc
@@ -61,7 +67,7 @@ func update(delta):
 	velocity.y += (gravity * weight * delta)
 	
 	#Move player
-	velocity = owner.move_and_slide_with_snap(velocity, snap_vector, Vector3(0, 1, 0), true, 4, deg2rad(50))
+	velocity = owner.move_and_slide_with_snap(velocity, snap_vector, Vector3(0, 1, 0), stop_on_slope, 4, deg2rad(50))
 	
 	#DEBUG FOR UI
 	emit_signal("velocity_changed", velocity)
@@ -106,6 +112,11 @@ func clear_velocity_ext():
 	velocity_ext = Vector3(0,0,0)
 
 
+###MOTION FLAG FUNCTIONS###
+func set_stop_on_slope(value):
+	State_Machine_Move.current_state.stop_on_slope = value
+
+
 #Stores values of the current state in the top level state machine's dict, for transfer to another state
 #Called from main state machine
 func store_initialized_values(init_values_dic):
@@ -122,6 +133,8 @@ func connect_local_signals():
 	
 	owner.get_node("State_Machines/State_Machine_Move/Timer_Aim").connect("timeout", self, "_on_Timer_Aim_timeout")
 	owner.get_node("State_Machines/State_Machine_Move/Timer_Move").connect("timeout", self, "_on_Timer_Move_timeout")
+	owner.get_node("State_Machines/State_Machine_Move/Timer_Wall_Jump").connect("timeout", self, "_on_Timer_Wall_Jump_timeout")
+	
 	
 	owner.get_node("AnimationPlayer").connect("animation_finished", self, "_on_animation_finished")
 
@@ -135,6 +148,7 @@ func disconnect_local_signals():
 	
 	owner.get_node("State_Machines/State_Machine_Move/Timer_Aim").disconnect("timeout", self, "_on_Timer_Aim_timeout")
 	owner.get_node("State_Machines/State_Machine_Move/Timer_Move").disconnect("timeout", self, "_on_Timer_Move_timeout")
+	owner.get_node("State_Machines/State_Machine_Move/Timer_Wall_Jump").disconnect("timeout", self, "_on_Timer_Wall_Jump_timeout")
 	
 	owner.get_node("AnimationPlayer").disconnect("animation_finished", self, "_on_animation_finished")
 
@@ -148,12 +162,16 @@ func _on_State_Machine_Action_R_state_changed(action_r_state):
 	pass
 
 
+func _on_Timer_Move_timeout():
+	pass
+
+
 func _on_Timer_Aim_timeout():
 	set_aiming(false)
 
 
-func _on_Timer_Move_timeout():
-	pass
+func _on_Timer_Wall_Jump_timeout():
+	State_Machine_Move.current_state.set_can_wall_jump(false)
 
 
 func _on_jab_collision(collision):

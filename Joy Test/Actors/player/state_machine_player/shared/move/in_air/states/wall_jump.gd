@@ -2,7 +2,7 @@ extends "res://Actors/player/state_machine_player/shared/move/in_air/in_air.gd"
 
 
 #Jump Variables
-var jump_velocity = 24
+var wall_jump_velocity = 32
 
 
 func initialize_values(init_values_dic):
@@ -12,9 +12,14 @@ func initialize_values(init_values_dic):
 
 #Initializes state, changes animation, etc
 func enter():
+	set_can_wall_jump(false)
+	Timer_Wall_Jump.stop()
 	set_jumped(false)
 	
-	anim_tree_play_anim("jump", AnimStateMachineMotion)
+#	anim_tree_play_anim("jump", AnimStateMachineMotion)
+	
+	#DEBUG
+	jump()
 	
 	.enter()
 
@@ -35,12 +40,6 @@ func update(delta):
 		emit_signal("state_switch", "fall")
 		return
 	
-	if is_aiming:
-		rotate_to_direction(Vector2(0,-1).rotated(-camera_angles.y))
-	
-	if !owner.is_on_floor(): #Check if on floor so jump squat does not use aerial velocity
-		velocity = calc_aerial_velocity(velocity, delta)
-	
 	.update(delta)
 	
 	if owner.is_on_wall() and !can_wall_jump:
@@ -51,21 +50,24 @@ func _on_animation_finished(_anim_name):
 	return
 
 
-func calc_air_speed(velocity):
-	pass
-
-
 func jump():
-	velocity = add_jump_velocity(velocity)
+	velocity = add_wall_jump_velocity(velocity, wall_col_normal)
+	wall_col_normal = null
 
 
 #Call this function in future animation
-func add_jump_velocity(velocity):
-	velocity.y = jump_velocity
+func add_wall_jump_velocity(velocity, wall_normal):
+	var temp_vel : Vector3
+	var rot_axis : Vector3
+	
+	rot_axis = Vector3(0,1,0).cross(wall_normal).normalized()
+	
+	temp_vel = Vector3(0, wall_jump_velocity, 0).rotated(rot_axis, deg2rad(40))
+	
 	snap_vector = Vector3(0,0,0) #disable snap vector so player can leave floor
 	set_jumped(true)
 	
-	return velocity
+	return temp_vel
 
 
 

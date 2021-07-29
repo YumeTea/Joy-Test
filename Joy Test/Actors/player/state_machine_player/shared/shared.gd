@@ -12,6 +12,10 @@ onready var world = get_tree().current_scene
 onready var Body = owner.get_node("Body")
 onready var Skel = owner.get_node("Body/Armature/Skeleton")
 
+onready var State_Machine_Move = owner.get_node("State_Machines/State_Machine_Move")
+onready var State_Machine_Action_L = owner.get_node("State_Machines/State_Machine_Action_L")
+onready var State_Machine_Action_R = owner.get_node("State_Machines/State_Machine_Action_R")
+
 onready var Timer_Aim = owner.get_node("State_Machines/State_Machine_Move/Timer_Aim")
 
 onready var AnimTree = owner.get_node("AnimationTree")

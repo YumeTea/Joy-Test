@@ -1,8 +1,9 @@
 extends "res://Actors/player/state_machine_player/shared/move/motion.gd"
 
 
-'currently goes to idle for a frame when landing no matter what'
 
+#Wall Jump Values
+var wall_angle_variance = deg2rad(18)
 
 #In Air bools
 var has_jumped = true
@@ -20,19 +21,25 @@ func exit():
 
 #Creates output based on the input event passed in
 func handle_input(event):
+	if Input.is_action_just_pressed("jump"):
+		if can_wall_jump:
+			emit_signal("state_switch", "wall_jump")
+	
 	.handle_input(event)
 
 
 #Acts as the _process method would
 func update(delta):
+	print(can_wall_jump)
+	
 	.update(delta)
 	
 	if owner.is_on_floor() and has_jumped: #check has_jumped to allow jump squat to play out
+		snap_vector = snap_vector_default
 		if is_b_sliding:
 			emit_signal("state_switch", "barrier_slide")
 		else:
 			emit_signal("state_switch", "idle")
-		return
 
 
 func _on_animation_finished(_anim_name):
@@ -110,12 +117,38 @@ func interp_aerial_velocity(input_direction, current_velocity, delta):
 	return new_vel
 
 
+func check_can_wall_jump():
+	for slide_idx in owner.get_slide_count():
+		var collision = owner.get_slide_collision(slide_idx)
+		
+		var wall_angle : float
+		
+		wall_angle = Vector3(0,1,0).angle_to(collision.normal)
+		#Check if current collision is with a wall jumpable wall
+		if wall_angle >= (deg2rad(90) - wall_angle_variance) and wall_angle <= (deg2rad(90) + wall_angle_variance):
+			var vdotwall : float
+		
+			vdotwall = collision.travel.normalized().dot(collision.normal)
+			
+			#Check if wall jump is valid based on velocity and wall normal
+			if vdotwall <= -((deg2rad(90) - wall_angle_variance) / deg2rad(90)):
+				set_can_wall_jump(true)
+				wall_col_normal = collision.normal
+		else:
+			continue
+
+
 ###FLAG FUNCTIONS
 func set_jumped(value):
 	has_jumped = value
 
 
-
+func set_can_wall_jump(value):
+	State_Machine_Move.current_state.can_wall_jump = value
+	
+	if value == true:
+		Timer_Wall_Jump.start()
+	
 
 
 

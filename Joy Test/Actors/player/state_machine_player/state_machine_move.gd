@@ -10,6 +10,10 @@ var initialized_values = {
 	#Shared Nodes
 	"attached_obj": Node,
 	
+	#Motion Flags
+	"stop_on_slope": true,
+	"can_wall_jump": false,
+	
 	#Shared Flags
 	"is_aiming": false,
 	"is_b_sliding": false,
@@ -18,6 +22,9 @@ var initialized_values = {
 	"velocity": Vector3(),
 	"camera_angles": Vector3(),
 	"camera_look_at_point": Vector3(),
+	
+	#In_Air
+	"wall_col_normal": Vector3(),
 	
 	
 }
@@ -33,9 +40,10 @@ func _ready():
 		#In Air
 		"jump": $Shared/Motion/In_Air/Jump,
 		"fall": $Shared/Motion/In_Air/Fall,
-		
+		"wall_jump": $Shared/Motion/In_Air/Wall_Jump,
 		"stick_wall": $Shared/Motion/In_Air/Stick_Wall,
 		"stick_jump": $Shared/Motion/In_Air/Stick_Jump,
+		
 	#	"death": $Death,
 	#	"void": $Void
 	}
