@@ -36,6 +36,9 @@ func enter():
 
 #Cleans up state, reinitializes values like timers
 func exit():
+	if charging_spell_instance != null:
+		charging_spell_instance.get_node("AnimationPlayer").disconnect("animation_finished", self, "_on_animation_finished")
+	
 	.exit()
 
 

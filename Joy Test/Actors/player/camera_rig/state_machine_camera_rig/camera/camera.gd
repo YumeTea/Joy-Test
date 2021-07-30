@@ -1,6 +1,9 @@
 extends "res://Scripts/state_machine/state_default.gd"
 
 
+'need to initialize can_aim flag'
+
+
 signal camera_angle_changed(camera_angles)
 
 
@@ -17,7 +20,7 @@ var camera_sensitivity = 1.4
 var camera_angle : Vector3
 
 #Camera Flags
-var can_aim : bool
+var can_aim = true
 var is_aiming : bool
 
 ##Node Storage

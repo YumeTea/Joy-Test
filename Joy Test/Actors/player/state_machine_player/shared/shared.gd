@@ -39,7 +39,7 @@ onready var Debug_Point2 = owner.get_node("Debug_Point2")
 #Player Flags
 var arm_l_occupied : bool
 var arm_r_occupied : bool
-var can_aim : bool
+var can_aim = true
 var is_aiming : bool
 var is_b_sliding : bool
 
