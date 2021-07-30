@@ -3,7 +3,8 @@ extends "res://Actors/player/state_machine_player/shared/move/motion.gd"
 
 
 #Wall Jump Values
-var wall_angle_variance = deg2rad(18)
+#var wall_angle_variance = deg2rad(18)
+var wall_angle_variance = deg2rad(60)
 
 #In Air bools
 var has_jumped = true
@@ -22,7 +23,7 @@ func exit():
 #Creates output based on the input event passed in
 func handle_input(event):
 	if Input.is_action_just_pressed("jump"):
-		if can_wall_jump:
+		if can_wall_jump and !arm_l_occupied and !arm_r_occupied:
 			emit_signal("state_switch", "wall_jump")
 	
 	.handle_input(event)
@@ -30,8 +31,6 @@ func handle_input(event):
 
 #Acts as the _process method would
 func update(delta):
-	print(can_wall_jump)
-	
 	.update(delta)
 	
 	if owner.is_on_floor() and has_jumped: #check has_jumped to allow jump squat to play out
@@ -133,7 +132,7 @@ func check_can_wall_jump():
 			#Check if wall jump is valid based on velocity and wall normal
 			if vdotwall <= -((deg2rad(90) - wall_angle_variance) / deg2rad(90)):
 				set_can_wall_jump(true)
-				wall_col_normal = collision.normal
+				set_wall_col(collision)
 		else:
 			continue
 
@@ -141,13 +140,6 @@ func check_can_wall_jump():
 ###FLAG FUNCTIONS
 func set_jumped(value):
 	has_jumped = value
-
-
-func set_can_wall_jump(value):
-	State_Machine_Move.current_state.can_wall_jump = value
-	
-	if value == true:
-		Timer_Wall_Jump.start()
 	
 
 

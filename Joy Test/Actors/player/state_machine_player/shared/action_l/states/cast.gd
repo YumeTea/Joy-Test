@@ -8,6 +8,8 @@ func initialize_values(init_values_dic):
 
 #Initializes state, changes animation, etc
 func enter():
+	set_arm_l_occupied(false)
+	
 	if !is_charging:
 		#Load spell assets if entering cast state
 		charge_anim_scene = load(current_spell.charging_anim_scene)

@@ -17,10 +17,12 @@ var initialized_values = {
 	"spell_projectile" : Resource,
 	
 	#Shared Flags
+	"arm_l_occupied": false,
+	"can_aim": true,
 	"is_aiming": false,
 	"is_b_sliding":false,
 	
-	#Action L Specific Values
+	#Action L Flags
 	"is_casting": false,
 	"is_charging": false,
 	"cast_ready": false,
@@ -37,6 +39,8 @@ func _ready():
 		"barrier": $Shared/Action_L/Barrier,
 		"barrier_aim": $Shared/Action_L/Barrier_Aim,
 		"barrier_ground": $Shared/Action_L/Barrier_Ground,
+		
+		"occupied_l": $Shared/Action_L/Occupied_L,
 	#	"death": $Death,
 	#	"void": $Void
 	}

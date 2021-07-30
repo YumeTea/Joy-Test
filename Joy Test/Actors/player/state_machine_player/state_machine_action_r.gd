@@ -19,8 +19,12 @@ var initialized_values = {
 	#Anim Variables
 	"anim_pause_position": 0.0,
 	
-	#Flags
+	#Shared Flags
+	"arm_r_occupied": false,
+	"can_aim": true,
 	"is_aiming": false,
+	
+	#ActionR Flags
 	"hit_active": false,
 }
 
@@ -31,6 +35,8 @@ func _ready():
 		"jab_aim": $Shared/Action_R/Jab_Aim,
 		"jab_stick": $Shared/Action_R/Jab_Stick,
 		"jab_stick_jump": $Shared/Action_R/Jab_Stick_Jump,
+		
+		"occupied_r": $Shared/Action_R/Occupied_R,
 	#	"death": $Death,
 	#	"void": $Void
 	}

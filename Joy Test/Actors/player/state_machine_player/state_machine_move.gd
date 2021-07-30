@@ -15,16 +15,17 @@ var initialized_values = {
 	"can_wall_jump": false,
 	
 	#Shared Flags
+	"arm_l_occupied": false,
+	"arm_r_occupied": false,
+	"can_aim": true,
 	"is_aiming": false,
 	"is_b_sliding": false,
 	
 	#Motion
 	"velocity": Vector3(),
+	"wall_col": Vector3(),
 	"camera_angles": Vector3(),
 	"camera_look_at_point": Vector3(),
-	
-	#In_Air
-	"wall_col_normal": Vector3(),
 	
 	
 }

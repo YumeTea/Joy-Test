@@ -5,6 +5,7 @@ signal camera_state_changed(action_state)
 signal camera_state_stack_changed(state_stack)
 
 var initialized_values = {
+	"can_aim": true,
 	"is_aiming": false,
 }
 

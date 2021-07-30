@@ -36,7 +36,7 @@ func update(delta):
 	#Exit aim state handling
 	if Input.is_action_just_pressed("cancel"):
 		emit_signal("state_switch", "default")
-	if !is_aiming:
+	if !is_aiming: #this line is for immediately exiting aim state instead of waiting for timer
 		if Input.is_action_just_pressed("attack_left") or Input.is_action_just_pressed("attack_right"):
 			emit_signal("state_switch", "default")
 	

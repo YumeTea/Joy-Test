@@ -12,6 +12,8 @@ func initialize_values(init_values_dic):
 
 #Initializes state, changes animation, etc
 func enter():
+	set_arm_l_occupied(false)
+	
 	anim_tree_play_anim("none_l", AnimStateMachineActionL)
 	
 	#Blend values to none state
@@ -28,6 +30,8 @@ func enter():
 
 #Cleans up state, reinitializes values like timers
 func exit():
+	set_arm_l_occupied(true)
+	
 	AnimTree.set("parameters/MotionActionLBlend/blend_amount", 0.01)
 	
 	.exit()
@@ -36,8 +40,28 @@ func exit():
 #Creates output based on the input event passed in
 func handle_input(event):
 	.handle_input(event)
+
+
+#Acts as the _process method would
+func update(delta):
+	if arm_l_occupied:
+		emit_signal("state_switch", "occupied_l")
 	
-	if Input.is_action_just_pressed("attack_left"):
+	Skel.set_bone_custom_pose(LeftArmController_idx, pose_blend)
+	AnimTree.set("parameters/MotionActionLBlend/blend_amount", blend_motionactionl)
+	
+	.update(delta)
+	
+	#INPUT HANDLING
+	handle_held_input()
+
+
+func _on_animation_finished(anim_name):
+	._on_animation_finished(anim_name)
+
+
+func handle_held_input():
+	if Input.is_action_pressed("attack_left"):
 		#Branch to correct state based on equipped spell type
 		match current_spell.spell_type:
 			"projectile":
@@ -53,7 +77,7 @@ func handle_input(event):
 			"held_affect":
 				pass
 	
-	if Input.is_action_just_pressed("attack_left_alt"):
+	if Input.is_action_pressed("attack_left_alt"):
 		if current_spell.alt_cast == true:
 			#Branch to correct state based on equipped spell type
 			match current_spell.spell_type:
@@ -64,15 +88,4 @@ func handle_input(event):
 				"held_affect":
 					pass
 
-
-#Acts as the _process method would
-func update(delta):
-	Skel.set_bone_custom_pose(LeftArmController_idx, pose_blend)
-	AnimTree.set("parameters/MotionActionLBlend/blend_amount", blend_motionactionl)
-	
-	.update(delta)
-
-
-func _on_animation_finished(anim_name):
-	._on_animation_finished(anim_name)
 

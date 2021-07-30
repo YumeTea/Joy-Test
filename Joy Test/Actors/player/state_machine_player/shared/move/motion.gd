@@ -28,7 +28,7 @@ var velocity : Vector3
 var velocity_ext : Vector3 #used for adding velocity applied from out of state machine scripts
 var snap_vector : Vector3
 var snap_vector_default = Vector3(0, -0.5, 0)
-var wall_col_normal = null
+var wall_col = null
 
 #Node Storage
 onready var Timer_Move = owner.get_node("State_Machines/State_Machine_Move/Timer_Move")
@@ -113,8 +113,20 @@ func clear_velocity_ext():
 
 
 ###MOTION FLAG FUNCTIONS###
-func set_stop_on_slope(value):
+func set_stop_on_slope(value : bool):
 	State_Machine_Move.current_state.stop_on_slope = value
+
+
+func set_can_wall_jump(value):
+	State_Machine_Move.current_state.can_wall_jump = value
+	
+	if value == true:
+		Timer_Wall_Jump.start()
+
+
+###MOTION VAR SETTER FUNCTIONS###
+func set_wall_col(collision):
+	State_Machine_Move.current_state.wall_col = collision
 
 
 #Stores values of the current state in the top level state machine's dict, for transfer to another state

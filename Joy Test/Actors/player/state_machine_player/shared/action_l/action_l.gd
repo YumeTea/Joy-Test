@@ -69,27 +69,27 @@ func store_initialized_values(init_values_dic):
 
 
 #ACTION FLAG FUNCTIONS
-func set_casting(value):
+func set_casting(value : bool):
 	var current_state = State_Machine_Action_L.current_state
 	current_state.is_casting = value
 
 
-func set_charging(value):
+func set_charging(value : bool):
 	var current_state = State_Machine_Action_L.current_state
 	current_state.is_charging = value
 
 
-func set_cast_ready(value):
+func set_cast_ready(value : bool):
 	var current_state = State_Machine_Action_L.current_state
 	current_state.cast_ready = value
 
 
-func set_cast(value):
+func set_cast(value : bool):
 	var current_state = State_Machine_Action_L.current_state
 	current_state.cast = value
 
 
-func set_b_sliding(value):
+func set_b_sliding(value : bool):
 	var current_move_state = State_Machine_Move.current_state
 	var current_actionl_state = State_Machine_Action_L.current_state
 	current_move_state.is_b_sliding = value

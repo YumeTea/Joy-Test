@@ -11,6 +11,8 @@ func initialize_values(init_values_dic):
 
 #Initializes state, changes animation, etc
 func enter():
+	set_arm_r_occupied(false)
+	
 	reset_custom_pose_arm_r()
 	
 	anim_tree_play_anim("none", AnimStateMachineActionR)
@@ -26,6 +28,8 @@ func enter():
 
 #Cleans up state, reinitializes values like timers
 func exit():
+	set_arm_r_occupied(true)
+	
 	AnimTree.set("parameters/MotionActionRBlend/blend_amount", 0.99)
 	
 	.exit()
@@ -47,6 +51,9 @@ func handle_input(event):
 
 #Acts as the _process method would
 func update(delta):
+	if arm_r_occupied:
+		emit_signal("state_switch", "occupied_r")
+	
 	AnimTree.set("parameters/MotionActionRBlend/blend_amount", blend_motionactionr)
 	
 	.update(delta)

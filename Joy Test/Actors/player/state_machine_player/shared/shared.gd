@@ -1,6 +1,9 @@
 extends "res://Scripts/state_machine/state_default.gd"
 
 
+signal restrict_aiming(value)
+
+
 #Camera View Variables
 var camera_angles : Vector3
 var camera_look_at_point : Vector3 #stores point that camera raycast is hitting
@@ -34,6 +37,9 @@ onready var Debug_Point = owner.get_node("Debug_Point")
 onready var Debug_Point2 = owner.get_node("Debug_Point2")
 
 #Player Flags
+var arm_l_occupied : bool
+var arm_r_occupied : bool
+var can_aim : bool
 var is_aiming : bool
 var is_b_sliding : bool
 
@@ -61,7 +67,7 @@ func handle_input(event):
 		elif Input.is_action_just_pressed("aim_r"):
 			if !Timer_Aim.is_stopped():
 				Timer_Aim.stop()
-	elif !is_aiming:
+	elif !is_aiming and can_aim:
 		if Input.is_action_just_pressed("aim_r"):
 			set_aiming(true)
 
@@ -76,8 +82,33 @@ func _on_animation_finished(_anim_name):
 
 
 ###PLAYER FLAG FUNCTIONS###
+func set_arm_l_occupied(value : bool):
+	State_Machine_Move.current_state.arm_l_occupied = value
+	State_Machine_Action_L.current_state.arm_l_occupied = value
+
+
+func set_arm_r_occupied(value : bool):
+	State_Machine_Move.current_state.arm_r_occupied = value
+	State_Machine_Action_R.current_state.arm_r_occupied = value
+
+
+func set_can_aim(value : bool):
+	if value == false:
+		State_Machine_Move.current_state.set_aiming(false)
+		State_Machine_Action_L.current_state.set_aiming(false)
+		State_Machine_Action_R.current_state.set_aiming(false)
+		Timer_Aim.stop()
+	
+	State_Machine_Move.current_state.can_aim = value
+	State_Machine_Action_L.current_state.can_aim = value
+	State_Machine_Action_R.current_state.can_aim = value
+	
+	emit_signal("restrict_aiming", value)
+
+
 func set_aiming(value : bool):
 	is_aiming = value
+
 
 func set_b_sliding(value : bool):
 	is_b_sliding = value

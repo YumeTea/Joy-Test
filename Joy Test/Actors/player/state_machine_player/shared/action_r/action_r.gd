@@ -57,11 +57,11 @@ func _on_animation_finished(_anim_name):
 
 
 ###ACTION FLAG FUNCTIONS###
-func set_hit_active(value):
+func set_hit_active(value : bool):
 	var current_state = State_Machine_Action_R.current_state
 	current_state.hit_active = value
 
-func set_hit(value):
+func set_hit(value : bool):
 	var current_state = State_Machine_Action_R.current_state
 	current_state.has_hit = value
 

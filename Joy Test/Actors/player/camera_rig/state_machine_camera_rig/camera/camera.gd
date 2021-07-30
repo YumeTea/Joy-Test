@@ -1,5 +1,6 @@
 extends "res://Scripts/state_machine/state_default.gd"
 
+
 signal camera_angle_changed(camera_angles)
 
 
@@ -15,7 +16,8 @@ var camera_angle_max = Vector3(deg2rad(90), deg2rad(360), deg2rad(360))
 var camera_sensitivity = 1.4
 var camera_angle : Vector3
 
-#Camera Bools
+#Camera Flags
+var can_aim : bool
 var is_aiming : bool
 
 ##Node Storage
@@ -28,17 +30,21 @@ onready var Tween_Camera = owner.get_node("Tween_Camera")
 #Debug Node Storage??
 onready var Pivot_Points = owner.get_node("Pivot_Points")
 onready var Camera_Points = owner.get_node("Pivot/Camera_Points")
+#State Machine
+onready var State_Machine_Camera = owner.get_node("State_Machine_Camera")
 
 
 #Initializes state, changes animation, etc
 func enter():
 	camera_angle_update()
 	connect_local_signals()
+	connect_external_signals()
 
 
 #Cleans up state, reinitializes values like timers
 func exit():
 	disconnect_local_signals()
+	disconnect_external_signals()
 
 
 #Creates output based on the input event passed in
@@ -54,7 +60,7 @@ func handle_input(_event):
 		elif Input.is_action_just_pressed("aim_r"):
 			if !Timer_Aim.is_stopped():
 				Timer_Aim.stop()
-	elif !is_aiming:
+	elif !is_aiming and can_aim:
 		if Input.is_action_just_pressed("aim_r"):
 			set_aiming(true)
 
@@ -199,8 +205,12 @@ func clear_gyro_input():
 
 
 ###CAMERA FLAG FUNCTIONS###
-func set_aiming(value):
-	is_aiming = value
+func set_can_aim(value : bool):
+	State_Machine_Camera.current_state.can_aim = value
+
+
+func set_aiming(value : bool):
+	State_Machine_Camera.current_state.is_aiming = value
 
 
 ###STATE MACHINE FUNCTIONS###
@@ -220,10 +230,27 @@ func disconnect_local_signals():
 	owner.get_node("State_Machine_Camera/Camera/Timer_Aim").disconnect("timeout", self, "_on_Timer_Aim_timeout")
 
 
+###EXTERNAL SIGNAL COMMS###
+func connect_external_signals():
+	owner.owner.get_node("State_Machines/State_Machine_Move/Shared/Motion/In_Air/Wall_Jump").connect("restrict_aiming", self, "_on_restrict_aiming")
+
+
+func disconnect_external_signals():
+	owner.owner.get_node("State_Machines/State_Machine_Move/Shared/Motion/In_Air/Wall_Jump").disconnect("restrict_aiming", self, "_on_restrict_aiming")
+
+
+###LOCAL SIGNAL FUNCTIONS###
 func _on_Timer_Aim_timeout():
 	set_aiming(false)
 
 
-
-
+###EXTERNAL SIGNAL FUNCTIONS###
+func _on_restrict_aiming(value : bool):
+	State_Machine_Camera.current_state.set_can_aim(value)
+	
+	if value == false:
+		State_Machine_Camera.current_state.set_aiming(false)
+		
+		if State_Machine_Camera.current_state.name == "Aim":
+			emit_signal("state_switch", "default")
 
