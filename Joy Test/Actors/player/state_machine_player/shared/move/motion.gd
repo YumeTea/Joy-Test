@@ -28,17 +28,24 @@ var velocity : Vector3
 var velocity_ext : Vector3 #used for adding velocity applied from out of state machine scripts
 var snap_vector : Vector3
 var snap_vector_default = Vector3(0, -0.5, 0)
+
 var wall_col = null
+var grab_point = null
+var grab_dir = null
 
 #Node Storage
+onready var Ledge_Grab_Position = owner.get_node("Body/Position_Nodes/Ledge_Grab_Position")
+
 onready var Timer_Move = owner.get_node("State_Machines/State_Machine_Move/Timer_Move")
 onready var Timer_Wall_Jump = owner.get_node("State_Machines/State_Machine_Move/Timer_Wall_Jump")
+onready var Timer_Ledge_Grab = owner.get_node("State_Machines/State_Machine_Move/Timer_Ledge_Grab")
 
 onready var AnimStateMachineMotion = owner.get_node("AnimationTree").get("parameters/BlendTreeMotion/StateMachineMotion/playback")
 
 #Motion Flags
 var stop_on_slope = true
 var can_wall_jump = false
+var can_ledge_grab = true
 
 
 #Initializes state, changes animation, etc
@@ -124,6 +131,10 @@ func set_can_wall_jump(value):
 		Timer_Wall_Jump.start()
 
 
+func set_can_ledge_grab(value):
+	State_Machine_Move.current_state.can_ledge_grab = value
+
+
 ###MOTION VAR SETTER FUNCTIONS###
 func set_wall_col(collision):
 	State_Machine_Move.current_state.wall_col = collision
@@ -137,6 +148,7 @@ func store_initialized_values(init_values_dic):
 
 
 func connect_local_signals():
+	owner.get_node("Body/Ledge_Detector").connect("ledge_detected", self, "_on_ledge_detected")
 	owner.get_node("Camera_Rig").connect("camera_angle_changed", self, "_on_Camera_Rig_camera_angle_changed")
 	owner.get_node("State_Machines/State_Machine_Action_L").connect("action_l_state_changed", self, "_on_State_Machine_Action_L_state_changed")
 	owner.get_node("State_Machines/State_Machine_Action_R").connect("action_r_state_changed", self, "_on_State_Machine_Action_R_state_changed")
@@ -146,12 +158,13 @@ func connect_local_signals():
 	owner.get_node("State_Machines/State_Machine_Move/Timer_Aim").connect("timeout", self, "_on_Timer_Aim_timeout")
 	owner.get_node("State_Machines/State_Machine_Move/Timer_Move").connect("timeout", self, "_on_Timer_Move_timeout")
 	owner.get_node("State_Machines/State_Machine_Move/Timer_Wall_Jump").connect("timeout", self, "_on_Timer_Wall_Jump_timeout")
-	
+	owner.get_node("State_Machines/State_Machine_Move/Timer_Ledge_Grab").connect("timeout", self, "_on_Timer_Ledge_Grab_timeout")
 	
 	owner.get_node("AnimationPlayer").connect("animation_finished", self, "_on_animation_finished")
 
 
 func disconnect_local_signals():
+	owner.get_node("Body/Ledge_Detector").disconnect("ledge_detected", self, "_on_ledge_detected")
 	owner.get_node("Camera_Rig").disconnect("camera_angle_changed", self, "_on_Camera_Rig_camera_angle_changed")
 	owner.get_node("State_Machines/State_Machine_Action_L").disconnect("action_l_state_changed", self, "_on_State_Machine_Action_L_state_changed")
 	owner.get_node("State_Machines/State_Machine_Action_R").disconnect("action_r_state_changed", self, "_on_State_Machine_Action_R_state_changed")
@@ -161,11 +174,17 @@ func disconnect_local_signals():
 	owner.get_node("State_Machines/State_Machine_Move/Timer_Aim").disconnect("timeout", self, "_on_Timer_Aim_timeout")
 	owner.get_node("State_Machines/State_Machine_Move/Timer_Move").disconnect("timeout", self, "_on_Timer_Move_timeout")
 	owner.get_node("State_Machines/State_Machine_Move/Timer_Wall_Jump").disconnect("timeout", self, "_on_Timer_Wall_Jump_timeout")
+	owner.get_node("State_Machines/State_Machine_Move/Timer_Ledge_Grab").disconnect("timeout", self, "_on_Timer_Ledge_Grab_timeout")
 	
 	owner.get_node("AnimationPlayer").disconnect("animation_finished", self, "_on_animation_finished")
 
 
 ###LOCAL SIGNAL COMMS###
+func _on_ledge_detected(point, direction):
+	grab_point = point
+	grab_dir = direction
+
+
 func _on_State_Machine_Action_L_state_changed(action_l_state):
 	pass
 
@@ -180,6 +199,10 @@ func _on_Timer_Move_timeout():
 
 func _on_Timer_Aim_timeout():
 	set_aiming(false)
+
+
+func _on_Timer_Ledge_Grab_timeout():
+	set_can_ledge_grab(true)
 
 
 func _on_Timer_Wall_Jump_timeout():

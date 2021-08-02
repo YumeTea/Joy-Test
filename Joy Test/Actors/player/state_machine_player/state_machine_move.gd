@@ -10,9 +10,14 @@ var initialized_values = {
 	#Shared Nodes
 	"attached_obj": Node,
 	
+	#Motion Variables
+	"grab_point": Vector3(),
+	"grab_dir": Vector3(),
+	
 	#Motion Flags
 	"stop_on_slope": true,
 	"can_wall_jump": false,
+	"can_ledge_grab": true,
 	
 	#Shared Flags
 	"arm_l_occupied": false,
@@ -44,6 +49,7 @@ func _ready():
 		"wall_jump": $Shared/Motion/In_Air/Wall_Jump,
 		"stick_wall": $Shared/Motion/In_Air/Stick_Wall,
 		"stick_jump": $Shared/Motion/In_Air/Stick_Jump,
+		"ledge_hang": $Shared/Motion/In_Air/Ledge_Hang,
 		
 	#	"death": $Death,
 	#	"void": $Void

@@ -1,7 +1,6 @@
 extends "res://Actors/player/state_machine_player/shared/move/in_air/in_air.gd"
 
 
-
 func initialize_values(init_values_dic):
 	for value in init_values_dic:
 		self[value] = init_values_dic[value]
@@ -9,8 +8,8 @@ func initialize_values(init_values_dic):
 
 #Initializes state, changes animation, etc
 func enter():
-	anim_tree_play_anim("fall", AnimStateMachineMotion)
-	
+	snap_to_ledge(grab_point, grab_dir)
+	velocity = Vector3(0,0,0)
 	.enter()
 
 
@@ -21,28 +20,27 @@ func exit():
 
 #Creates output based on the input event passed in
 func handle_input(event):
+	if Input.is_action_just_pressed("cancel"):
+		set_can_ledge_grab(false)
+		Timer_Ledge_Grab.start()
+		emit_signal("state_switch", "fall")
+	
 	.handle_input(event)
 
 
 #Acts as the _process method would
 func update(delta):
-	if grab_point != null and can_ledge_grab:
-		emit_signal("state_switch", "ledge_hang")
-	
-	if is_aiming:
-		rotate_to_direction(Vector2(0,-1).rotated(-camera_angles.y))
-	
-	velocity = calc_aerial_velocity(velocity, delta)
-	
-	.update(delta)
-	
-	if owner.is_on_wall() and !can_wall_jump:
-		check_can_wall_jump()
-
-
-func _on_animation_finished(_anim_name):
 	return
 
 
+func _on_animation_finished(anim_name):
+	return
 
+
+func snap_to_ledge(grab_point, grab_dir):
+	rotate_to_direction(Vector2(grab_dir.x, grab_dir.z))
+	
+	var translate = grab_point - Ledge_Grab_Position.get_global_transform().origin
+	
+	owner.global_translate(translate)
 

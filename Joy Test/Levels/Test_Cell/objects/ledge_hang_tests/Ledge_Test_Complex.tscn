@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Levels/Test_Cell/objects/ledge_hang_tests/Complex_Ledge_Test.mesh" type="ArrayMesh" id=1]
+
+[sub_resource type="ConcavePolygonShape" id=1]
+data = PoolVector3Array( -0.7071, 0, -0.7071, 0.6888, 0.2641, -0.2808, -1, 0, 0, 0, 0, -1, 0.6888, 0.2641, -0.2808, -0.7071, 0, -0.7071, 0.7071, 0, -0.7071, 0.6888, 0.2641, -0.2808, 0, 0, -1, 1, 0, 0, 0.6888, 0.2641, -0.2808, 0.7071, 0, -0.7071, 0.7071, 0, 0.7071, 0.6888, 0.2641, -0.2808, 1, 0, 0, 0, 0, 1, 0.6888, 0.2641, -0.2808, 0.7071, 0, 0.7071, -0.7071, 0, 0.7071, 0.6888, 0.2641, -0.2808, 0, 0, 1, -1, 0, 0, 0.6888, 0.2641, -0.2808, -0.7071, 0, 0.7071, -0.6374, -0.6282, 0.3388, 0.7071, 0, 0.7071, 1, 0, 0, 0, 0, 1, 0.7071, 0, 0.7071, -0.6374, -0.6282, 0.3388, -0.7071, 0, 0.7071, 0, 0, 1, -0.6374, -0.6282, 0.3388, 1, 0, 0, 0.7071, 0, -0.7071, -0.6374, -0.6282, 0.3388, 0.7071, 0, -0.7071, 0, 0, -1, -0.6374, -0.6282, 0.3388, 0, 0, -1, -0.7071, 0, -0.7071, -0.6374, -0.6282, 0.3388, -0.7071, 0, -0.7071, -1, 0, 0, -0.6374, -0.6282, 0.3388, -1, 0, 0, -0.7071, 0, 0.7071, -0.6374, -0.6282, 0.3388 )
+
+[node name="Ledge_Complex" type="Spatial"]
+transform = Transform( 12, 0, 0, 0, 12, 0, 0, 0, 12, 0, 0, 0 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+mesh = ExtResource( 1 )
+material/0 = null
+
+[node name="StaticBody" type="StaticBody" parent="MeshInstance" groups=[
+"debug_solid",
+]]
+collision_layer = 262145
+
+[node name="CollisionShape" type="CollisionShape" parent="MeshInstance/StaticBody"]
+shape = SubResource( 1 )
