@@ -12,6 +12,8 @@ var initialized_values : Dictionary
 #Limits
 var run_speed_full = 24.0
 var run_full_time = 0.875
+var ledge_move_speed_full = 6.0
+var ledge_move_full_time = 0.875
 var air_speed_full = 8.0
 var speed_thresh_lower = 0.1
 
@@ -30,8 +32,11 @@ var snap_vector : Vector3
 var snap_vector_default = Vector3(0, -0.5, 0)
 
 var wall_col = null
-var grab_point = null
-var grab_dir = null
+var grab_data = {
+	"grab_obj": Node,
+	"grab_point": Vector3(),
+	"grab_dir": Vector3(),
+}
 
 #Node Storage
 onready var Ledge_Grab_Position = owner.get_node("Body/Position_Nodes/Ledge_Grab_Position")
@@ -93,8 +98,9 @@ func rotate_to_direction(direction): #Direction should be normalized
 		rot_final.y = -angle
 		
 		Body.set_rotation(rot_final)
+		return angle
 	else:
-		return
+		return null
 
 #Used for adding jab recoil velocity
 func add_velocity_ext(velocity, velocity_ext):
@@ -180,9 +186,8 @@ func disconnect_local_signals():
 
 
 ###LOCAL SIGNAL COMMS###
-func _on_ledge_detected(point, direction):
-	grab_point = point
-	grab_dir = direction
+func _on_ledge_detected(grab_dict):
+	grab_data = grab_dict
 
 
 func _on_State_Machine_Action_L_state_changed(action_l_state):

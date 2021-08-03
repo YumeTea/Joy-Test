@@ -48,6 +48,8 @@ material/1 = null
 [node name="Wood " type="StaticBody" parent="." groups=[
 "wood",
 ]]
+collision_layer = 262145
+collision_mask = 0
 
 [node name="shape0" type="CollisionShape" parent="Wood "]
 shape = SubResource( 2 )
@@ -55,6 +57,8 @@ shape = SubResource( 2 )
 [node name="Metal " type="StaticBody" parent="." groups=[
 "metal",
 ]]
+collision_layer = 262145
+collision_mask = 0
 
 [node name="shape0" type="CollisionShape" parent="Metal "]
 shape = SubResource( 3 )

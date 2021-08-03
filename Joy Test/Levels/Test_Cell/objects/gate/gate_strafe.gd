@@ -1,30 +1,22 @@
 extends Spatial
 
-var origin : Vector3
-var rot_origin : Vector3
 var time : float
 var theta_offset : float
-var offset : Vector3
-var rot_offset : Vector3
-var amplitude = 16
-var rot_amplitude = deg2rad(44)
+var rot : Vector3
+var rot_amplitude = deg2rad(23.5)
+
+var speed = 8
+var velocity : Vector3
 
 
-
-func _ready():
-	origin = self.translation
-	rot_origin = self.rotation
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _physics_process(delta):
 	time = float(OS.get_ticks_msec())
 	theta_offset = time / 2048
 	
 	#Translation
-	offset.x = (-amplitude / 2) + (amplitude * sin(theta_offset + PI))
+	velocity.x = speed * sin(theta_offset + PI) * delta
 	#Rotation
-	rot_offset.x = rot_amplitude + (rot_amplitude * sin(theta_offset + PI))
+	rot.x = rot_amplitude * sin(theta_offset + PI) * delta
 	
-	self.translation.x = origin.x + offset.x
-	self.rotation.x = rot_origin.x + rot_offset.x
+	self.translation.x += velocity.x
+#	self.rotate_x(rot.x)

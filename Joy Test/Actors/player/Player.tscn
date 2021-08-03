@@ -152,7 +152,7 @@ nodes/StateMachineActionL/position = Vector2( 240, 200 )
 nodes/TimeScaleActionL/node = SubResource( 18 )
 nodes/TimeScaleActionL/position = Vector2( 660, 200 )
 nodes/output/position = Vector2( 900, 200 )
-node_connections = [ "output", 0, "TimeScaleActionL", "SeekActionL", 0, "StateMachineActionL", "TimeScaleActionL", 0, "SeekActionL" ]
+node_connections = [ "output", 0, "TimeScaleActionL", "TimeScaleActionL", 0, "SeekActionL", "SeekActionL", 0, "StateMachineActionL" ]
 
 [sub_resource type="AnimationNodeTimeSeek" id=20]
 
@@ -183,7 +183,7 @@ nodes/StateMachineActionR/node = SubResource( 25 )
 nodes/StateMachineActionR/position = Vector2( -460, 120 )
 nodes/TimeScaleActionR/node = SubResource( 26 )
 nodes/TimeScaleActionR/position = Vector2( -40, 120 )
-node_connections = [ "output", 0, "TimeScaleActionR", "SeekActionR", 0, "StateMachineActionR", "TimeScaleActionR", 0, "SeekActionR" ]
+node_connections = [ "output", 0, "TimeScaleActionR", "TimeScaleActionR", 0, "SeekActionR", "SeekActionR", 0, "StateMachineActionR" ]
 
 [sub_resource type="AnimationNodeTimeSeek" id=28]
 
@@ -399,7 +399,7 @@ nodes/StateMachineMotion/node = SubResource( 82 )
 nodes/StateMachineMotion/position = Vector2( -460, 140 )
 nodes/TimeScaleMotion/node = SubResource( 83 )
 nodes/TimeScaleMotion/position = Vector2( 20, 140 )
-node_connections = [ "output", 0, "TimeScaleMotion", "TimeScaleMotion", 0, "SeekMotion", "SeekMotion", 0, "StateMachineMotion" ]
+node_connections = [ "output", 0, "TimeScaleMotion", "SeekMotion", 0, "StateMachineMotion", "TimeScaleMotion", 0, "SeekMotion" ]
 
 [sub_resource type="AnimationNodeBlend2" id=85]
 filter_enabled = true
@@ -422,7 +422,7 @@ nodes/MotionActionLBlend/position = Vector2( 500, 140 )
 nodes/MotionActionRBlend/node = SubResource( 86 )
 nodes/MotionActionRBlend/position = Vector2( 240, 40 )
 nodes/output/position = Vector2( 760, 140 )
-node_connections = [ "output", 0, "MotionActionLBlend", "MotionActionLBlend", 0, "MotionActionRBlend", "MotionActionLBlend", 1, "BlendTreeActionL", "MotionActionRBlend", 0, "BlendTreeMotion", "MotionActionRBlend", 1, "BlendTreeActionR" ]
+node_connections = [ "output", 0, "MotionActionLBlend", "MotionActionRBlend", 0, "BlendTreeMotion", "MotionActionRBlend", 1, "BlendTreeActionR", "MotionActionLBlend", 0, "MotionActionRBlend", "MotionActionLBlend", 1, "BlendTreeActionL" ]
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=88]
 
@@ -460,6 +460,12 @@ script = ExtResource( 2 )
 
 [node name="Skeleton" parent="Body/Armature" index="0"]
 transform = Transform( -1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 0, 0 )
+bones/1/bound_children = [ NodePath("TorsoController") ]
+bones/13/bound_children = [ NodePath("UpperChestBone") ]
+bones/16/bound_children = [ NodePath("LeftShoulderBone") ]
+bones/18/bound_children = [ NodePath("LeftArmController") ]
+bones/20/bound_children = [ NodePath("LeftHandBone") ]
+bones/42/bound_children = [ NodePath("RightArmController") ]
 
 [node name="Body" parent="Body/Armature/Skeleton" index="0"]
 skin = null
@@ -532,7 +538,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 0 )
 [node name="Position_Nodes" type="Spatial" parent="Body"]
 
 [node name="Ledge_Grab_Position" type="Position3D" parent="Body/Position_Nodes"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7, -1 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7, -1.25 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 3, 0 )

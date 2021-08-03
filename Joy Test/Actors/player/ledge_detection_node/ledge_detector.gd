@@ -1,7 +1,7 @@
 extends Spatial
 
 
-signal ledge_detected(grab_point, grab_direction)
+signal ledge_detected(grab_data)
 
 
 #Node Storage
@@ -21,8 +21,11 @@ const ledge_backslope_angle_max = 45
 const ledge_frontslope_angle_max = 10
 
 #Ledge Variables
-var grab_point
-var grab_dir
+var grab_data = {
+	"grab_obj": Node,
+	"grab_point": Vector3(),
+	"grab_dir": Vector3(),
+}
 
 ###DEBUG NODES###
 onready var Debug_Point = get_node("Debug_Point")
@@ -39,6 +42,9 @@ func _process(delta):
 	
 	if intersections.size() > 0:
 		var intersect_point = intersections[0]
+		for i in intersections.size():
+			if abs(intersections[i].z) <= abs(intersect_point.z) and abs(intersections[i].x) <= abs(intersect_point.x):
+				intersect_point = intersections[i]
 		
 		#Adjust raycasts to check if collision is at a valid ledge
 		#RayCast_Ledge
@@ -79,7 +85,7 @@ func _process(delta):
 				if backdotledge >= (1 - (deg2rad(90 + ledge_backslope_angle_max) / deg2rad(90))):
 					if backdotledge <= (1 - (deg2rad(90 - ledge_frontslope_angle_max) / deg2rad(90))):
 						#Check wall angle
-						if updotwall <= 0.0:
+						if updotwall <= 0.0 or is_equal_approx(updotwall, 0.0):
 							pass
 						else:
 							return
@@ -91,12 +97,13 @@ func _process(delta):
 				return
 			
 			#Calc ledge grab point for valid ledge
-			calc_grab_point()
-			emit_signal("ledge_detected", grab_point, grab_dir)
+			calc_grab_data()
+			emit_signal("ledge_detected", grab_data)
 	else:
-		grab_point = null
-		grab_dir = null
-		emit_signal("ledge_detected", grab_point, grab_dir)
+		grab_data["grab_obj"] = null
+		grab_data["grab_point"] = null
+		grab_data["grab_dir"] = null
+		emit_signal("ledge_detected", grab_data)
 
 
 func check_object_collisions():
@@ -120,13 +127,16 @@ func check_object_collisions():
 	return intersections
 
 
-func calc_grab_point():
+func calc_grab_data():
 	var l1 : Vector3
 	var l2 : Vector3
 	var w1 : Vector3
 	var w2 : Vector3
 	var lambda_wall : float
 	var mu_ledge : float
+	
+	var grab_point : Vector3
+	var grab_dir : Vector3
 	
 	RayCast_Ledge.force_raycast_update()
 	RayCast_Wall.force_raycast_update()
@@ -172,11 +182,16 @@ func calc_grab_point():
 	grab_dir.y = 0.0
 	grab_dir = grab_dir.normalized()
 	
+	#Set grab dict values
+	grab_data["grab_obj"] = RayCast_Ledge.get_collider()
+	grab_data["grab_point"] = grab_point
+	grab_data["grab_dir"] = grab_dir
+	
+	
 	#DEBUG
 	Debug_Point.global_transform.origin = w2
 	Debug_Point2.global_transform.origin = l2
 	Debug_Point3.global_transform.origin = grab_point
-	
 	
 	
 	

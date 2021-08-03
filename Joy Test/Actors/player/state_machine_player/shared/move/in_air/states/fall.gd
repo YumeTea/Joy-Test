@@ -26,7 +26,7 @@ func handle_input(event):
 
 #Acts as the _process method would
 func update(delta):
-	if grab_point != null and can_ledge_grab:
+	if grab_data["grab_point"] != null and can_ledge_grab:
 		emit_signal("state_switch", "ledge_hang")
 	
 	if is_aiming:

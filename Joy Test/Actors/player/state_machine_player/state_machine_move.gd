@@ -11,8 +11,7 @@ var initialized_values = {
 	"attached_obj": Node,
 	
 	#Motion Variables
-	"grab_point": Vector3(),
-	"grab_dir": Vector3(),
+	"grab_data": {},
 	
 	#Motion Flags
 	"stop_on_slope": true,
