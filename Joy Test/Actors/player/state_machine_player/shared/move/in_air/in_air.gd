@@ -117,6 +117,16 @@ func interp_aerial_velocity(input_direction, current_velocity, delta):
 	return new_vel
 
 
+###LEDGE HANG FUNCTIONS###
+func rotate_about_grab_point(grab_point, direction):
+	rotate_to_direction(direction)
+	
+	var translate = grab_point - Ledge_Grab_Position.get_global_transform().origin
+	
+	owner.translate(translate)
+
+
+###WALL JUMP FUNCTIONS###
 func check_can_wall_jump():
 	for slide_idx in owner.get_slide_count():
 		var collision = owner.get_slide_collision(slide_idx)

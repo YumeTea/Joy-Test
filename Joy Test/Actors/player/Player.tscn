@@ -1,4 +1,4 @@
-[gd_scene load_steps=164 format=2]
+[gd_scene load_steps=166 format=2]
 
 [ext_resource path="res://Actors/player/camera_rig/Camera_Rig.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Actors/player/Player.gd" type="Script" id=2]
@@ -69,6 +69,8 @@
 [ext_resource path="res://Actors/player/model/anim/anim_boneform/wall_jump_r.anim" type="Animation" id=67]
 [ext_resource path="res://Actors/player/state_machine_player/shared/move/in_air/states/ledge_hang.gd" type="Script" id=68]
 [ext_resource path="res://Actors/player/ledge_detection_node/Ledge_Detector.tscn" type="PackedScene" id=69]
+[ext_resource path="res://Actors/player/state_machine_player/shared/move/in_air/states/ledge_get_up.gd" type="Script" id=70]
+[ext_resource path="res://Actors/player/state_machine_player/shared/move/in_air/states/ledge_jump_back.gd" type="Script" id=71]
 
 [sub_resource type="SphereMesh" id=1]
 radius = 0.05
@@ -152,7 +154,7 @@ nodes/StateMachineActionL/position = Vector2( 240, 200 )
 nodes/TimeScaleActionL/node = SubResource( 18 )
 nodes/TimeScaleActionL/position = Vector2( 660, 200 )
 nodes/output/position = Vector2( 900, 200 )
-node_connections = [ "output", 0, "TimeScaleActionL", "TimeScaleActionL", 0, "SeekActionL", "SeekActionL", 0, "StateMachineActionL" ]
+node_connections = [ "output", 0, "TimeScaleActionL", "SeekActionL", 0, "StateMachineActionL", "TimeScaleActionL", 0, "SeekActionL" ]
 
 [sub_resource type="AnimationNodeTimeSeek" id=20]
 
@@ -183,7 +185,7 @@ nodes/StateMachineActionR/node = SubResource( 25 )
 nodes/StateMachineActionR/position = Vector2( -460, 120 )
 nodes/TimeScaleActionR/node = SubResource( 26 )
 nodes/TimeScaleActionR/position = Vector2( -40, 120 )
-node_connections = [ "output", 0, "TimeScaleActionR", "TimeScaleActionR", 0, "SeekActionR", "SeekActionR", 0, "StateMachineActionR" ]
+node_connections = [ "output", 0, "TimeScaleActionR", "SeekActionR", 0, "StateMachineActionR", "TimeScaleActionR", 0, "SeekActionR" ]
 
 [sub_resource type="AnimationNodeTimeSeek" id=28]
 
@@ -422,7 +424,7 @@ nodes/MotionActionLBlend/position = Vector2( 500, 140 )
 nodes/MotionActionRBlend/node = SubResource( 86 )
 nodes/MotionActionRBlend/position = Vector2( 240, 40 )
 nodes/output/position = Vector2( 760, 140 )
-node_connections = [ "output", 0, "MotionActionLBlend", "MotionActionRBlend", 0, "BlendTreeMotion", "MotionActionRBlend", 1, "BlendTreeActionR", "MotionActionLBlend", 0, "MotionActionRBlend", "MotionActionLBlend", 1, "BlendTreeActionL" ]
+node_connections = [ "output", 0, "MotionActionLBlend", "MotionActionLBlend", 0, "MotionActionRBlend", "MotionActionLBlend", 1, "BlendTreeActionL", "MotionActionRBlend", 0, "BlendTreeMotion", "MotionActionRBlend", 1, "BlendTreeActionR" ]
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=88]
 
@@ -471,11 +473,11 @@ bones/42/bound_children = [ NodePath("RightArmController") ]
 skin = null
 
 [node name="LeftArmController" type="BoneAttachment" parent="Body/Armature/Skeleton" index="1"]
-transform = Transform( -1, 7.10543e-15, 1.50996e-07, -1.42109e-14, 1, -1.19209e-07, -1.50996e-07, -1.78814e-07, -1, 0.516964, 4.867, -0.017916 )
+transform = Transform( -1, 7.10543e-15, 1.50996e-07, -1.42109e-14, 1, -1.19209e-07, -1.50996e-07, -1.78814e-07, -1, 0.505774, 3.40687, 0.512386 )
 bone_name = "LeftArmController"
 
 [node name="RightArmController" type="BoneAttachment" parent="Body/Armature/Skeleton" index="2"]
-transform = Transform( -1, -7.10543e-15, -1.50996e-07, 1.42109e-14, 1, -1.19209e-07, 1.50996e-07, -1.78814e-07, -1, -0.516964, 4.867, -0.017916 )
+transform = Transform( -1, -7.10543e-15, -1.50996e-07, 1.42109e-14, 1, -1.19209e-07, 1.50996e-07, -1.78814e-07, -1, -0.517019, 3.3449, 0.700043 )
 bone_name = "RightArmController"
 
 [node name="RayCast" type="RayCast" parent="Body/Armature/Skeleton/RightArmController"]
@@ -504,14 +506,14 @@ mesh = SubResource( 7 )
 material/0 = SubResource( 6 )
 
 [node name="LeftHandBone" type="BoneAttachment" parent="Body/Armature/Skeleton" index="3"]
-transform = Transform( -0.913356, 0.384396, -0.134238, -0.391725, -0.919517, 0.0322317, -0.111044, 0.0820242, 0.990425, 0.878881, 3.98796, -0.0650749 )
+transform = Transform( -0.935975, 0.0287458, -0.350888, -0.352017, -0.0925494, 0.931407, -0.00570002, 0.995294, 0.0967418, 0.6714, 2.60023, 0.0350854 )
 bone_name = "LeftLowerArmBone"
 
 [node name="Spell_Origin" type="Position3D" parent="Body/Armature/Skeleton/LeftHandBone"]
 transform = Transform( -1.56462e-07, -0.999999, 2.6077e-08, -7.45058e-09, -4.19095e-08, -0.999999, 1, -1.71363e-07, 0, -4.76837e-07, 0.853914, -7.45058e-09 )
 
 [node name="TorsoController" type="BoneAttachment" parent="Body/Armature/Skeleton" index="4"]
-transform = Transform( 1, 0, 0, 0, 0, 1, 0, -1, 0, -4.23473e-18, 3.41759, 0.00964467 )
+transform = Transform( 1, 0, 0, 0, 0, 1, 0, -1, 0, -4.23473e-18, 2.04732, 0.00964467 )
 bone_name = "TorsoController"
 
 [node name="LeftArmController_default" type="Position3D" parent="Body/Armature/Skeleton/TorsoController"]
@@ -521,13 +523,13 @@ transform = Transform( -0.268338, 0.941562, -0.203608, -0.962803, -0.255173, 0.0
 transform = Transform( 1, -5.50214e-08, 5.75614e-08, 5.50214e-08, -0.0450993, -0.998983, 5.75613e-08, 0.998983, -0.0450993, 8.88178e-16, 0.0958721, 1.15696 )
 
 [node name="UpperChestBone" type="BoneAttachment" parent="Body/Armature/Skeleton" index="5"]
-transform = Transform( 1, -5.50214e-08, 5.75614e-08, 5.75613e-08, 0.998983, -0.0450993, -5.50214e-08, 0.0450993, 0.998983, 5.2336e-16, 4.57455, -0.0862274 )
+transform = Transform( 0.943262, -7.36229e-08, 0.332049, 0.0813339, 0.969537, -0.231047, -0.321934, 0.244945, 0.914527, 3.96654e-15, 3.10161, 0.502227 )
 bone_name = "UpperChestBone"
 
 [node name="RightArmController_offset" type="Position3D" parent="Body/Armature/Skeleton/UpperChestBone"]
 
 [node name="LeftShoulderBone" type="BoneAttachment" parent="Body/Armature/Skeleton" index="6"]
-transform = Transform( -0.268338, 0.941562, -0.203608, 0.0317263, 0.219883, 0.97501, 0.962803, 0.255173, -0.0888751, 0.149277, 4.78114, -0.117562 )
+transform = Transform( -0.0708233, 0.969135, -0.236138, -0.203437, 0.217723, 0.954573, 0.976524, 0.115646, 0.181738, 0.12732, 3.32185, 0.467225 )
 bone_name = "LeftShoulderBone"
 
 [node name="LeftArmController_offset" type="Position3D" parent="Body/Armature/Skeleton/LeftShoulderBone"]
@@ -591,6 +593,12 @@ script = ExtResource( 63 )
 
 [node name="Ledge_Hang" type="Node" parent="State_Machines/State_Machine_Move/Shared/Motion/In_Air"]
 script = ExtResource( 68 )
+
+[node name="Ledge_Get_Up" type="Node" parent="State_Machines/State_Machine_Move/Shared/Motion/In_Air"]
+script = ExtResource( 70 )
+
+[node name="Ledge_Jump_Back" type="Node" parent="State_Machines/State_Machine_Move/Shared/Motion/In_Air"]
+script = ExtResource( 71 )
 
 [node name="In_Water" type="Node" parent="State_Machines/State_Machine_Move/Shared/Motion"]
 script = ExtResource( 14 )
@@ -743,9 +751,13 @@ visible = false
 mesh = SubResource( 92 )
 material/0 = SubResource( 94 )
 
+[connection signal="height_changed" from="." to="UI/Debug_UI" method="_on_Player_height_changed"]
 [connection signal="velocity_changed" from="." to="UI/Debug_UI" method="_on_Player_velocity_changed"]
 [connection signal="state_machine_camera_state_stack_changed" from="Camera_Rig" to="UI/Debug_UI" method="_on_Camera_Rig_state_machine_camera_state_stack_changed"]
 [connection signal="move_state_stack_changed" from="State_Machines/State_Machine_Move" to="UI/Debug_UI" method="_on_State_Machine_Move_move_state_stack_changed"]
+[connection signal="on_ledge" from="State_Machines/State_Machine_Move/Shared/Motion/In_Air/Ledge_Hang" to="Body/Ledge_Detector" method="_on_move_state_on_ledge"]
+[connection signal="on_ledge" from="State_Machines/State_Machine_Move/Shared/Motion/In_Air/Ledge_Get_Up" to="Body/Ledge_Detector" method="_on_move_state_on_ledge"]
+[connection signal="on_ledge" from="State_Machines/State_Machine_Move/Shared/Motion/In_Air/Ledge_Jump_Back" to="Body/Ledge_Detector" method="_on_move_state_on_ledge"]
 [connection signal="action_l_state_stack_changed" from="State_Machines/State_Machine_Action_L" to="UI/Debug_UI" method="_on_State_Machine_Action_L_action_l_state_stack_changed"]
 [connection signal="action_r_state_stack_changed" from="State_Machines/State_Machine_Action_R" to="UI/Debug_UI" method="_on_State_Machine_Action_R_action_r_state_stack_changed"]
 

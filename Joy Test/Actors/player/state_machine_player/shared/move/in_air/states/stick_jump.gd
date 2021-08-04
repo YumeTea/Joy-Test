@@ -57,8 +57,9 @@ func calc_air_speed(velocity):
 
 
 func jump():
-	velocity = add_jump_velocity(velocity)
-	set_jumped(true)
+	if !has_jumped:
+		velocity = add_jump_velocity(velocity)
+		set_jumped(true)
 
 
 #Call this function in future animation

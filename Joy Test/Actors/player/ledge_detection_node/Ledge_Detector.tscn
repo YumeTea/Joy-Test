@@ -41,14 +41,14 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
 shape = SubResource( 1 )
 
 [node name="RayCast_Ledge" type="RayCast" parent="Area"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.35 )
 enabled = true
-cast_to = Vector3( 0, -2, 0 )
+cast_to = Vector3( 0, -1.25, 0 )
 
 [node name="RayCast_Wall" type="RayCast" parent="Area"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.1, 0 )
 enabled = true
-cast_to = Vector3( 0, 0, -1 )
+cast_to = Vector3( 0, 0, -1.5 )
 
 [node name="Debug_Point" type="MeshInstance" parent="."]
 mesh = SubResource( 2 )

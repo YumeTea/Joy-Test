@@ -149,6 +149,14 @@ func get_joystick_input_l():
 	return(input)
 
 
+func get_input_dir_l():
+	var input_dir : Vector2
+	
+	input_dir = get_joystick_input_l().rotated(-camera_angles.y)
+	
+	return input_dir
+
+
 func get_joystick_input_r():
 	var input : Vector2
 	

@@ -49,6 +49,8 @@ func _ready():
 		"stick_wall": $Shared/Motion/In_Air/Stick_Wall,
 		"stick_jump": $Shared/Motion/In_Air/Stick_Jump,
 		"ledge_hang": $Shared/Motion/In_Air/Ledge_Hang,
+		"ledge_get_up": $Shared/Motion/In_Air/Ledge_Get_Up,
+		"ledge_jump_back": $Shared/Motion/In_Air/Ledge_Jump_Back,
 		
 	#	"death": $Death,
 	#	"void": $Void

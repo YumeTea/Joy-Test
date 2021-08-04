@@ -2,6 +2,7 @@ extends "res://Actors/player/state_machine_player/shared/shared.gd"
 
 
 signal velocity_changed(velocity)
+signal height_changed(height)
 
 
 #Initialized values storage
@@ -33,9 +34,10 @@ var snap_vector_default = Vector3(0, -0.5, 0)
 
 var wall_col = null
 var grab_data = {
-	"grab_obj": Node,
-	"grab_point": Vector3(),
-	"grab_dir": Vector3(),
+	"grab_obj": null,
+	"grab_point": null,
+	"grab_dir": null,
+	"ledge_move_dir": null,
 }
 
 #Node Storage
@@ -83,6 +85,7 @@ func update(delta):
 	
 	#DEBUG FOR UI
 	emit_signal("velocity_changed", velocity)
+	emit_signal("height_changed", owner.get_global_transform().origin.y)
 
 
 func _on_animation_finished(_anim_name):
@@ -91,6 +94,9 @@ func _on_animation_finished(_anim_name):
 
 ###MOTION FUNCTIONS###
 func rotate_to_direction(direction): #Direction should be normalized
+	if direction is Vector3:
+		direction = Vector2(direction.x, direction.z)
+	
 	if direction.length() > 0:
 		var angle = Vector2(0, 1).angle_to(-direction) #calc degree of player rotation on y axis
 		
@@ -101,6 +107,7 @@ func rotate_to_direction(direction): #Direction should be normalized
 		return angle
 	else:
 		return null
+
 
 #Used for adding jab recoil velocity
 func add_velocity_ext(velocity, velocity_ext):

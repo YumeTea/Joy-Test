@@ -68,8 +68,9 @@ func _on_animation_finished(anim_name):
 
 
 func jump():
-	velocity = calc_wall_jump_velocity((wall_col.travel + wall_col.remainder), wall_jump_direction)
-	set_wall_col(null)
+	if !has_jumped:
+		velocity = calc_wall_jump_velocity((wall_col.travel + wall_col.remainder), wall_jump_direction)
+		set_wall_col(null)
 
 
 func calc_wall_jump_direction(wall_collision : KinematicCollision):
