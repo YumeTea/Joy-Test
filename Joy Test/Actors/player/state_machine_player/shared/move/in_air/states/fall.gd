@@ -28,6 +28,7 @@ func handle_input(event):
 func update(delta):
 	if grab_data["grab_point"] != null and can_ledge_grab:
 		emit_signal("state_switch", "ledge_hang")
+		return
 	
 	if is_aiming:
 		rotate_to_direction(Vector2(0,-1).rotated(-camera_angles.y))

@@ -38,6 +38,7 @@ func handle_input(event):
 func update(delta):
 	if is_aiming == false:
 		emit_signal("state_switch", "idle")
+		return
 	
 	rotate_to_direction(null)
 	

@@ -45,14 +45,17 @@ func handle_input(event):
 	if Input.is_action_just_pressed("attack_right"):
 		if !is_aiming:
 			emit_signal("state_switch", "jab")
+			return
 		elif is_aiming:
 			emit_signal("state_switch", "jab_aim")
+			return
 
 
 #Acts as the _process method would
 func update(delta):
 	if arm_r_occupied:
 		emit_signal("state_switch", "occupied_r")
+		return
 	
 	AnimTree.set("parameters/MotionActionRBlend/blend_amount", blend_motionactionr)
 	

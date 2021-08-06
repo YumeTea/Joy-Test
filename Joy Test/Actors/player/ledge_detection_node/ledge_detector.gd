@@ -59,7 +59,7 @@ func _process(delta):
 	valid_ledge = false
 	intersections = check_object_collisions()
 	
-	if intersections.size() > 0:
+	if intersections.size() > 0 and !on_ledge:
 		var intersect_point = intersections[0]
 		for i in intersections.size():
 			if abs(intersections[i].z) <= abs(intersect_point.z) and abs(intersections[i].x) <= abs(intersect_point.x):

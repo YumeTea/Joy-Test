@@ -24,8 +24,10 @@ func handle_input(event):
 	
 	if Input.is_action_just_released("attack_left"):
 		emit_signal("state_switch", "none")
+		return
 	elif Input.is_action_just_pressed("aim_r") or is_aiming:
 		emit_signal("state_switch", "barrier_aim")
+		return
 
 
 #Acts as the _process method would

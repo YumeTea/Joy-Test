@@ -29,6 +29,7 @@ func handle_input(_event):
 func update(_delta):
 	if !arm_l_occupied:
 		emit_signal("state_switch", "none")
+		return
 
 
 func _on_animation_finished(_anim_name):

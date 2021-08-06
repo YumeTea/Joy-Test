@@ -20,6 +20,7 @@ func initialize_values(init_values_dic):
 func enter():
 	velocity = Vector3(0,0,0)
 	velocity_fasten = Vector3(0,0,0)
+	set_can_wall_jump(false)
 	
 	hang_obj = grab_data["grab_obj"]
 	attached_point = hang_obj.to_local(grab_data["grab_point"])
@@ -27,6 +28,8 @@ func enter():
 	snap_to_ledge(hang_obj, attached_point, grab_data["grab_dir"])
 	
 	emit_signal("on_ledge", true)
+	
+	anim_tree_play_anim("ledge_hang", AnimStateMachineMotion)
 	
 	.enter()
 
@@ -41,18 +44,22 @@ func handle_input(event):
 	if Input.is_action_just_pressed("jump"):
 		var facingdotinput = Vector2(grab_data["grab_dir"].x, grab_data["grab_dir"].z).dot(get_input_dir_l())
 		if facingdotinput >= 0.0:
-			emit_signal("state_switch", "ledge_jump_up")
+			emit_signal("state_switch", "ledge_get_up")
+			return
 		else:
 			emit_signal("state_switch", "ledge_jump_back")
+			return
 	elif Input.is_action_just_pressed("cancel"):
 		let_go_ledge()
 		emit_signal("state_switch", "fall")
+		return
 	
 	.handle_input(event)
 
 
 #Acts as the _process method would
 func update(delta):
+#	print(Vector2(grab_data["grab_dir"].x, grab_data["grab_dir"].z).dot(get_input_dir_l()))
 	if grab_data["grab_point"] == null:
 		let_go_ledge()
 		emit_signal("state_switch", "fall")

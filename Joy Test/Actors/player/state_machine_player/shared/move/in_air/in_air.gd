@@ -25,6 +25,7 @@ func handle_input(event):
 	if Input.is_action_just_pressed("jump"):
 		if can_wall_jump and !arm_l_occupied and !arm_r_occupied:
 			emit_signal("state_switch", "wall_jump")
+			return
 	
 	.handle_input(event)
 
@@ -37,8 +38,10 @@ func update(delta):
 		snap_vector = snap_vector_default
 		if is_b_sliding:
 			emit_signal("state_switch", "barrier_slide")
+			return
 		else:
 			emit_signal("state_switch", "idle")
+			return
 
 
 func _on_animation_finished(_anim_name):

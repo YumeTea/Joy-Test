@@ -41,6 +41,7 @@ var grab_data = {
 }
 
 #Node Storage
+onready var Ledge_Detector = owner.get_node("Body/Ledge_Detector")
 onready var Ledge_Grab_Position = owner.get_node("Body/Position_Nodes/Ledge_Grab_Position")
 
 onready var Timer_Move = owner.get_node("State_Machines/State_Machine_Move/Timer_Move")
@@ -142,6 +143,9 @@ func set_can_wall_jump(value):
 	
 	if value == true:
 		Timer_Wall_Jump.start()
+	elif value == false:
+		Timer_Wall_Jump.stop()
+		
 
 
 func set_can_ledge_grab(value):
@@ -232,6 +236,7 @@ func _on_jab_collision(collision):
 	elif col_material in GlobalValues.collision_materials_soft:
 		attached_obj = collision["collider"]
 		emit_signal("state_switch", "stick_wall")
+		return
 
 
 func _on_Camera_Rig_camera_angle_changed(angles):

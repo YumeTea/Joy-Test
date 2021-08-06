@@ -27,6 +27,7 @@ func handle_input(event):
 func update(delta):
 	if is_aiming:
 		emit_signal("state_switch", "aim")
+		return
 	
 	input_stick_r = get_joystick_input_r()
 	camera_input = get_camera_input(input_stick_r)

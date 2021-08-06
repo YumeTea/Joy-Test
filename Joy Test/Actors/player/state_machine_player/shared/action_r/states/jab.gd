@@ -1,6 +1,9 @@
 extends "res://Actors/player/state_machine_player/shared/action_r/action_r.gd"
 
 
+'realign anim with raycast'
+
+
 #Jab Variables
 var jab_strength = 56
 
@@ -46,6 +49,7 @@ func update(delta):
 func _on_animation_finished(anim_name):
 	if anim_name == "jab":
 		emit_signal("state_switch", "none")
+		return
 
 
 func _on_jab_collision(collision):
@@ -66,6 +70,7 @@ func _on_jab_collision(collision):
 			
 			emit_signal("jab_collision", collision)
 			emit_signal("state_switch", "jab_stick")
+			return
 	
 	set_hit_active(false)
 	set_hit(true)

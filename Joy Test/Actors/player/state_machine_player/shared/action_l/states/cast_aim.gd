@@ -48,6 +48,7 @@ func handle_input(event):
 	
 	if Input.is_action_just_pressed("cancel") or !is_aiming:
 		emit_signal("state_switch", "cast")
+		return
 	
 	#Cast charge input handling
 	if !is_casting:
@@ -87,6 +88,7 @@ func _on_animation_finished(anim_name):
 	
 	if anim_name == "cast":
 		emit_signal("state_switch", "none")
+		return
 	
 	._on_animation_finished(anim_name)
 
@@ -101,6 +103,7 @@ func cast_abort():
 	end_charging_anim()
 	set_charging(false)
 	emit_signal("state_switch", "none")
+	return
 
 
 func start_charging_anim(anim_scene):

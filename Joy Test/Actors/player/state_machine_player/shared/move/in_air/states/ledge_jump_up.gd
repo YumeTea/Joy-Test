@@ -40,6 +40,7 @@ func handle_input(event):
 	if Input.is_action_just_pressed("cancel"):
 		kick_off_ledge()
 		emit_signal("state_switch", "fall")
+		return
 	
 	.handle_input(event)
 

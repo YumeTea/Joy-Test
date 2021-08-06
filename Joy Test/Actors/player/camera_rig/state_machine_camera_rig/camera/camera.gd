@@ -256,4 +256,5 @@ func _on_restrict_aiming(value : bool):
 		
 		if State_Machine_Camera.current_state.name == "Aim":
 			emit_signal("state_switch", "default")
+			return
 

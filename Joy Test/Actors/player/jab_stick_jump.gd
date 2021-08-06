@@ -48,6 +48,7 @@ func update(delta):
 	if has_jumped:
 		if owner.get_global_transform().origin.y <= jump_position.y or owner.is_on_floor():
 			emit_signal("state_switch", "none")
+			return
 
 
 func _on_animation_finished(anim_name):
@@ -56,6 +57,7 @@ func _on_animation_finished(anim_name):
 	if anim_name == "jab":
 		reset_custom_pose_arm_r()
 		emit_signal("state_switch", "none")
+		return
 
 
 #Called from animation

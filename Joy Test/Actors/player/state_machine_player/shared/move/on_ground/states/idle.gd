@@ -32,6 +32,7 @@ func handle_input(event):
 func update(delta):
 	if is_b_sliding:
 		emit_signal("state_switch", "barrier_slide")
+		return
 	
 	if is_aiming:
 		rotate_to_direction(Vector2(0,-1).rotated(-camera_angles.y))

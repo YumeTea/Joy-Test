@@ -30,6 +30,7 @@ func exit():
 func handle_input(event):
 	if Input.is_action_just_pressed("jump"):
 		emit_signal("state_switch", "stick_jump")
+		return
 	elif Input.is_action_just_pressed("attack_right"):
 		exit_stick_state()
 	
@@ -69,4 +70,5 @@ func calc_stick_velocity(delta):
 
 func exit_stick_state():
 	emit_signal("state_switch", "fall")
+	return
 

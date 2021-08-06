@@ -46,6 +46,7 @@ func handle_input(event):
 func update(delta):
 	if arm_l_occupied:
 		emit_signal("state_switch", "occupied_l")
+		return
 	
 	Skel.set_bone_custom_pose(LeftArmController_idx, pose_blend)
 	AnimTree.set("parameters/MotionActionLBlend/blend_amount", blend_motionactionl)
@@ -67,13 +68,17 @@ func handle_held_input():
 			"projectile":
 				if !is_aiming:
 					emit_signal("state_switch", "cast")
+					return
 				elif is_aiming:
 					emit_signal("state_switch", "cast_aim")
+					return
 			"barrier":
 				if !is_aiming:
 					emit_signal("state_switch", "barrier")
+					return
 				elif is_aiming:
 					emit_signal("state_switch", "barrier_aim")
+					return
 			"held_affect":
 				pass
 	
@@ -85,6 +90,7 @@ func handle_held_input():
 					pass
 				"barrier":
 					emit_signal("state_switch", "barrier_ground")
+					return
 				"held_affect":
 					pass
 

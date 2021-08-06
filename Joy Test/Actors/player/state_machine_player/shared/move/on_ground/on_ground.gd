@@ -26,6 +26,7 @@ func update(delta):
 	
 	if !owner.is_on_floor():
 		emit_signal("state_switch", "fall")
+		return
 
 
 func _on_animation_finished(_anim_name):

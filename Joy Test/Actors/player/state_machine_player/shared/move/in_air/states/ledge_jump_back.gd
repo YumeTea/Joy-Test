@@ -7,7 +7,7 @@ extends "res://Actors/player/state_machine_player/shared/move/in_air/in_air.gd"
 signal on_ledge(on_ledge_flag)
 
 
-const ledge_jump_speed = 26.0
+const ledge_jump_speed = 32.0
 const ledge_jump_angle = 50.0
 
 var hang_obj : Node
@@ -30,8 +30,7 @@ func enter():
 	attached_point = hang_obj.to_local(grab_data["grab_point"])
 	attached_dir = hang_obj.to_local(grab_data["grab_dir"] + hang_obj.get_global_transform().origin)
 	
-	###DEBUG
-	jump()
+	anim_tree_play_anim("ledge_jump_back", AnimStateMachineMotion)
 	
 	.enter()
 
@@ -46,6 +45,7 @@ func handle_input(event):
 	if Input.is_action_just_pressed("cancel"):
 		let_go_ledge()
 		emit_signal("state_switch", "fall")
+		return
 	
 	.handle_input(event)
 

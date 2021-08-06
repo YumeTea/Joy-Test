@@ -38,6 +38,7 @@ func handle_input(event):
 func update(delta):
 	if is_aiming == false and has_jumped:
 		emit_signal("state_switch", "fall")
+		return
 	if velocity.y <= 0.0 and has_jumped:
 		emit_signal("state_switch", "fall_aim")
 		return

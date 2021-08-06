@@ -28,6 +28,7 @@ func handle_input(event):
 	if attached_obj != null:
 		if Input.is_action_just_pressed("jump"):
 			emit_signal("state_switch", "jab_stick_jump")
+			return
 		elif Input.is_action_just_pressed("attack_right"):
 			attached_obj = null #Clear attached object after letting go
 
@@ -51,6 +52,7 @@ func _on_animation_finished(anim_name):
 		AnimStateMachineActionR.start("none")
 		reset_custom_pose_arm_r()
 		emit_signal("state_switch", "none")
+		return
 
 
 #Rotates and moves player around RightArmController to face attach point

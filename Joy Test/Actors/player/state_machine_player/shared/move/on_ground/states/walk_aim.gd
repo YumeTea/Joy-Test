@@ -34,6 +34,7 @@ func handle_input(event):
 func update(delta):
 	if is_aiming == false:
 		emit_signal("state_switch", "walk")
+		return
 	
 	#Calc player velocity
 	velocity = calc_walk_velocity(velocity, delta)

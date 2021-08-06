@@ -73,6 +73,7 @@ func _on_animation_finished(anim_name):
 	
 	if anim_name == "cast":
 		emit_signal("state_switch", "none")
+		return
 	
 	._on_animation_finished(anim_name)
 
@@ -87,6 +88,7 @@ func cast_abort():
 	end_charging_anim()
 	set_charging(false)
 	emit_signal("state_switch", "none")
+	return
 
 
 func start_charging_anim(spell_resource):

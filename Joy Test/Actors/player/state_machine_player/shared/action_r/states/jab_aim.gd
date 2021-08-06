@@ -57,6 +57,7 @@ func _on_animation_finished(anim_name):
 	if anim_name == "jab":
 		reset_custom_pose_arm_r()
 		emit_signal("state_switch", "none")
+		return
 
 
 func aim_arm_transform(look_at_point):
@@ -118,6 +119,7 @@ func _on_jab_collision(collision):
 			
 			emit_signal("jab_collision", collision)
 			emit_signal("state_switch", "jab_stick")
+			return
 	
 	set_hit_active(false)
 	set_hit(true)

@@ -1,0 +1,36 @@
+[gd_resource type="Animation" format=2]
+
+[resource]
+resource_name = "ledge_get_up_positions"
+length = 0.533333
+step = 0.0166667
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("State_Machines/State_Machine_Move/Shared/Motion/In_Air/Ledge_Get_Up:translation:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.233333, 0.533333 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("State_Machines/State_Machine_Move/Shared/Motion/In_Air/Ledge_Get_Up:translation:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 0, -0.234, -6.783, 0.234, 6.783, 6.728, -0.055, -0.834, 0.055, 0.834, 6.85, -0.11, -0.196, 0.11, 0.196 ),
+"times": PoolRealArray( 0, 0.233333, 0.533333 )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("State_Machines/State_Machine_Move/Shared/Motion/In_Air/Ledge_Get_Up:translation:z")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( 0, -0.109, -0.293, 0.109, 0.293, 0, -0.078, 0.228, 0.078, -0.228, -1.143, -0.189, -0.122, 0.189, 0.122 ),
+"times": PoolRealArray( 0, 0.233333, 0.533333 )
+}

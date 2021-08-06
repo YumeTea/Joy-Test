@@ -26,6 +26,7 @@ func handle_input(event):
 	
 	if Input.is_action_just_released("attack_left_alt"):
 		emit_signal("state_switch", "none")
+		return
 
 
 #Acts as the _process method would
