@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Actors/player/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Actors/player/objects/anim_positioning_objects/Wall.tscn" type="PackedScene" id=2]
@@ -8,6 +8,8 @@
 [sub_resource type="AnimationNodeStateMachinePlayback" id=2]
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=3]
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=4]
 
 [node name="Spatial" type="Spatial"]
 
@@ -44,6 +46,8 @@ transform = Transform( -0.268338, 0.941562, -0.203608, 0.0317264, 0.219883, 0.97
 parameters/BlendTreeActionL/StateMachineActionL/playback = SubResource( 1 )
 parameters/BlendTreeActionR/StateMachineActionR/playback = SubResource( 2 )
 parameters/BlendTreeMotion/StateMachineMotion/playback = SubResource( 3 )
+parameters/BlendTreeMotion/StateMachineMotion/ledge_hang/playback = SubResource( 4 )
+parameters/BlendTreeMotion/StateMachineMotion/ledge_hang/ledge_move/blend_position = 0
 
 [node name="Wall" parent="." instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.85, -0.45 )

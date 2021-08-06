@@ -1,14 +1,25 @@
 extends "res://Actors/player/state_machine_player/shared/move/in_air/in_air.gd"
 
 
+'fasten velocity may be incorporating delta incorrectly; velocity may be too high'
+
+
 signal on_ledge(on_ledge_flag)
 
 
+#Node Storage
+onready var LedgeHangStateMachine = owner.get_node("AnimationTree").get("parameters/BlendTreeMotion/StateMachineMotion/ledge_hang/playback")
+
+#Ledge Hang Variables
 var hang_obj : Node
 var attached_point : Vector3
 var attached_dir : Vector3
 var ledge_up : Vector3
+var velocity_move : Vector3
 var velocity_fasten : Vector3
+
+#Ledge Hang Flags
+var moving = false
 
 
 func initialize_values(init_values_dic):
@@ -67,6 +78,8 @@ func update(delta):
 	
 	velocity = calc_ledge_velocity(delta)
 	
+	set_ledge_hang_anim_blend(velocity_move)
+	
 	.update(delta)
 
 
@@ -75,13 +88,12 @@ func _on_animation_finished(anim_name):
 
 
 func calc_ledge_velocity(delta):
-	var move_vel = Vector3(0,0,0)
 	var new_vel = Vector3(0,0,0)
 	
 	#Calc ledge movement velocity
-	move_vel = (velocity - velocity_fasten)
-	move_vel = interp_ledge_move_velocity(move_vel, delta)
-	new_vel = move_vel
+	velocity_move = (velocity - velocity_fasten)
+	velocity_move = interp_ledge_move_velocity(velocity_move, delta)
+	new_vel = velocity_move
 	
 	#Calc ledge attachment velocity
 	velocity_fasten = fasten_to_ledge(hang_obj, attached_point, grab_data["grab_dir"], delta)
@@ -199,4 +211,48 @@ func let_go_ledge():
 	set_can_ledge_grab(false)
 	Timer_Ledge_Grab.start()
 	emit_signal("on_ledge", false)
+
+
+###ANIMATION FUNCTIONS###
+func set_ledge_hang_anim_blend(current_velocity : Vector3):
+	var move_blend : float
+	var anim_speed : float
+	
+	#Determine idle/move blend
+	if current_velocity.length() > 0.0:
+		if LedgeHangStateMachine.is_playing():
+			LedgeHangStateMachine.travel("ledge_move")
+		else:
+			LedgeHangStateMachine.start("ledge_move")
+		moving = true
+	else:
+		#Reset motion anim time scale when going back to idle ledge hang
+		AnimTree.set("parameters/BlendTreeMotion/TimeScaleMotion/scale", 1.0)
+		
+		if LedgeHangStateMachine.is_playing():
+			LedgeHangStateMachine.travel("ledge_hang")
+		else:
+			LedgeHangStateMachine.start("ledge_hang")
+		moving = false
+	
+	#Set move blend if necessary
+	if moving:
+		move_blend = current_velocity.normalized().dot(grab_data["ledge_move_dir"])
+		
+		anim_speed = (current_velocity.length() / ledge_move_speed_full) * 1.675
+		
+		AnimTree.set("parameters/BlendTreeMotion/StateMachineMotion/ledge_hang/ledge_move/blend_position", move_blend)
+		AnimTree.set("parameters/BlendTreeMotion/TimeScaleMotion/scale", anim_speed)
+
+
+
+
+
+
+
+
+
+
+
+
 

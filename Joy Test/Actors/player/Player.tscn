@@ -1,4 +1,4 @@
-[gd_scene load_steps=182 format=2]
+[gd_scene load_steps=190 format=2]
 
 [ext_resource path="res://Actors/player/camera_rig/Camera_Rig.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Actors/player/Player.gd" type="Script" id=2]
@@ -76,6 +76,8 @@
 [ext_resource path="res://Actors/player/model/anim/anim_boneform/ledge_get_up_positions.tres" type="Animation" id=74]
 [ext_resource path="res://Actors/player/model/anim/anim_boneform/ledge_get_up.anim" type="Animation" id=75]
 [ext_resource path="res://Actors/player/model/anim/anim_boneform/ledge_jump_back.anim" type="Animation" id=76]
+[ext_resource path="res://Actors/player/model/anim/anim_boneform/ledge_move_r.anim" type="Animation" id=77]
+[ext_resource path="res://Actors/player/model/anim/anim_boneform/ledge_move_l.anim" type="Animation" id=78]
 
 [sub_resource type="SphereMesh" id=1]
 radius = 0.05
@@ -213,12 +215,32 @@ animation = "land"
 [sub_resource type="AnimationNodeAnimation" id=34]
 animation = "ledge_get_up"
 
-[sub_resource type="AnimationNodeAnimation" id=35]
+[sub_resource type="AnimationNodeAnimation" id=106]
 animation = "ledge_hang"
 
-[sub_resource type="AnimationNodeBlendSpace1D" id=36]
-blend_point_0/node = SubResource( 35 )
-blend_point_0/pos = 0.0
+[sub_resource type="AnimationNodeAnimation" id=107]
+animation = "ledge_move_l"
+
+[sub_resource type="AnimationNodeAnimation" id=108]
+animation = "ledge_move_r"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id=109]
+blend_point_0/node = SubResource( 107 )
+blend_point_0/pos = -1.0
+blend_point_1/node = SubResource( 108 )
+blend_point_1/pos = 1.0
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=110]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=111]
+xfade_time = 0.1
+
+[sub_resource type="AnimationNodeStateMachine" id=112]
+states/ledge_hang/node = SubResource( 106 )
+states/ledge_hang/position = Vector2( 337, 118 )
+states/ledge_move/node = SubResource( 109 )
+states/ledge_move/position = Vector2( 601, 118 )
+transitions = [ "ledge_hang", "ledge_move", SubResource( 110 ), "ledge_move", "ledge_hang", SubResource( 111 ) ]
 
 [sub_resource type="AnimationNodeAnimation" id=103]
 animation = "ledge_jump_back"
@@ -387,20 +409,19 @@ xfade_time = 0.2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=84]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=85]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=86]
-xfade_time = 0.2
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=87]
-
 [sub_resource type="AnimationNodeStateMachineTransition" id=88]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=89]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=104]
-
 [sub_resource type="AnimationNodeStateMachineTransition" id=105]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=113]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=114]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=115]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=116]
 
 [sub_resource type="AnimationNodeStateMachine" id=90]
 states/barrier_slide/node = SubResource( 29 )
@@ -415,7 +436,7 @@ states/land/node = SubResource( 33 )
 states/land/position = Vector2( 365, 190 )
 states/ledge_get_up/node = SubResource( 34 )
 states/ledge_get_up/position = Vector2( 749, 184 )
-states/ledge_hang/node = SubResource( 36 )
+states/ledge_hang/node = SubResource( 112 )
 states/ledge_hang/position = Vector2( 749, 111 )
 states/ledge_jump_back/node = SubResource( 103 )
 states/ledge_jump_back/position = Vector2( 749, 38 )
@@ -425,13 +446,13 @@ states/walkrun/node = SubResource( 56 )
 states/walkrun/position = Vector2( 628, 270 )
 states/wall_jump/node = SubResource( 59 )
 states/wall_jump/position = Vector2( 365, -98 )
-transitions = [ "idle", "walkrun", SubResource( 60 ), "walkrun", "idle", SubResource( 61 ), "idle", "jump", SubResource( 62 ), "walkrun", "jump", SubResource( 63 ), "jump", "fall", SubResource( 64 ), "walkrun", "fall", SubResource( 65 ), "idle", "fall", SubResource( 66 ), "fall", "land", SubResource( 67 ), "land", "idle", SubResource( 68 ), "land", "walkrun", SubResource( 69 ), "stick_jump", "fall", SubResource( 70 ), "jump", "stick_jump", SubResource( 71 ), "fall", "stick_jump", SubResource( 72 ), "idle", "barrier_slide", SubResource( 73 ), "walkrun", "barrier_slide", SubResource( 74 ), "barrier_slide", "walkrun", SubResource( 75 ), "barrier_slide", "idle", SubResource( 76 ), "barrier_slide", "jump", SubResource( 77 ), "jump", "barrier_slide", SubResource( 78 ), "fall", "barrier_slide", SubResource( 79 ), "jump", "land", SubResource( 80 ), "jump", "wall_jump", SubResource( 81 ), "stick_jump", "wall_jump", SubResource( 82 ), "fall", "wall_jump", SubResource( 83 ), "wall_jump", "fall", SubResource( 84 ), "fall", "ledge_hang", SubResource( 85 ), "ledge_hang", "fall", SubResource( 86 ), "ledge_hang", "ledge_get_up", SubResource( 87 ), "ledge_get_up", "fall", SubResource( 88 ), "ledge_get_up", "idle", SubResource( 89 ), "ledge_hang", "ledge_jump_back", SubResource( 104 ), "ledge_jump_back", "fall", SubResource( 105 ) ]
-graph_offset = Vector2( -139, -98 )
+transitions = [ "idle", "walkrun", SubResource( 60 ), "walkrun", "idle", SubResource( 61 ), "idle", "jump", SubResource( 62 ), "walkrun", "jump", SubResource( 63 ), "jump", "fall", SubResource( 64 ), "walkrun", "fall", SubResource( 65 ), "idle", "fall", SubResource( 66 ), "fall", "land", SubResource( 67 ), "land", "idle", SubResource( 68 ), "land", "walkrun", SubResource( 69 ), "stick_jump", "fall", SubResource( 70 ), "jump", "stick_jump", SubResource( 71 ), "fall", "stick_jump", SubResource( 72 ), "idle", "barrier_slide", SubResource( 73 ), "walkrun", "barrier_slide", SubResource( 74 ), "barrier_slide", "walkrun", SubResource( 75 ), "barrier_slide", "idle", SubResource( 76 ), "barrier_slide", "jump", SubResource( 77 ), "jump", "barrier_slide", SubResource( 78 ), "fall", "barrier_slide", SubResource( 79 ), "jump", "land", SubResource( 80 ), "jump", "wall_jump", SubResource( 81 ), "stick_jump", "wall_jump", SubResource( 82 ), "fall", "wall_jump", SubResource( 83 ), "wall_jump", "fall", SubResource( 84 ), "ledge_get_up", "fall", SubResource( 88 ), "ledge_get_up", "idle", SubResource( 89 ), "ledge_jump_back", "fall", SubResource( 105 ), "ledge_hang", "ledge_get_up", SubResource( 113 ), "ledge_hang", "ledge_jump_back", SubResource( 114 ), "fall", "ledge_hang", SubResource( 115 ), "ledge_hang", "fall", SubResource( 116 ) ]
+graph_offset = Vector2( -2, -15 )
 
 [sub_resource type="AnimationNodeTimeScale" id=91]
 
 [sub_resource type="AnimationNodeBlendTree" id=92]
-graph_offset = Vector2( -613, -66 )
+graph_offset = Vector2( -581, 18 )
 nodes/SeekMotion/node = SubResource( 28 )
 nodes/SeekMotion/position = Vector2( -200, 140 )
 nodes/StateMachineMotion/node = SubResource( 90 )
@@ -469,6 +490,8 @@ node_connections = [ "output", 0, "MotionActionLBlend", "MotionActionLBlend", 0,
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=98]
 
+[sub_resource type="AnimationNodeStateMachinePlayback" id=117]
+
 [sub_resource type="Animation" id=99]
 
 [sub_resource type="SphereMesh" id=100]
@@ -499,22 +522,16 @@ script = ExtResource( 2 )
 
 [node name="Skeleton" parent="Body/Armature" index="0"]
 transform = Transform( -1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 0, 0 )
-bones/1/bound_children = [ NodePath("TorsoController") ]
-bones/13/bound_children = [ NodePath("UpperChestBone") ]
-bones/16/bound_children = [ NodePath("LeftShoulderBone") ]
-bones/18/bound_children = [ NodePath("LeftArmController") ]
-bones/20/bound_children = [ NodePath("LeftHandBone") ]
-bones/42/bound_children = [ NodePath("RightArmController") ]
 
 [node name="Body" parent="Body/Armature/Skeleton" index="0"]
 skin = null
 
 [node name="LeftArmController" type="BoneAttachment" parent="Body/Armature/Skeleton" index="1"]
-transform = Transform( -1, 7.10543e-15, 1.50996e-07, -1.42109e-14, 1, -1.19209e-07, -1.50996e-07, -1.78814e-07, -1, 0.346376, 4.81923, 0.18358 )
+transform = Transform( -1, 7.10543e-15, 1.50996e-07, -1.42109e-14, 1, -1.19209e-07, -1.50996e-07, -1.78814e-07, -1, 0.516964, 4.867, -0.017916 )
 bone_name = "LeftArmController"
 
 [node name="RightArmController" type="BoneAttachment" parent="Body/Armature/Skeleton" index="2"]
-transform = Transform( -1, -7.10543e-15, -1.50996e-07, 1.42109e-14, 1, -1.19209e-07, 1.50996e-07, -1.78814e-07, -1, -0.632413, 4.56842, 0.485679 )
+transform = Transform( -1, -7.10543e-15, -1.50996e-07, 1.42109e-14, 1, -1.19209e-07, 1.50996e-07, -1.78814e-07, -1, -0.516964, 4.867, -0.017916 )
 bone_name = "RightArmController"
 
 [node name="RayCast" type="RayCast" parent="Body/Armature/Skeleton/RightArmController"]
@@ -543,7 +560,7 @@ mesh = SubResource( 7 )
 material/0 = SubResource( 6 )
 
 [node name="LeftHandBone" type="BoneAttachment" parent="Body/Armature/Skeleton" index="3"]
-transform = Transform( 0.304425, 0.752592, -0.583893, -0.884581, -0.00401326, -0.466366, -0.353327, 0.658476, 0.664508, 1.15141, 4.84138, -0.323723 )
+transform = Transform( -0.913356, 0.384396, -0.134238, -0.391725, -0.919517, 0.0322317, -0.111044, 0.0820242, 0.990425, 0.878881, 3.98796, -0.0650749 )
 bone_name = "LeftLowerArmBone"
 
 [node name="Spell_Origin" type="Position3D" parent="Body/Armature/Skeleton/LeftHandBone"]
@@ -560,13 +577,13 @@ transform = Transform( -0.268338, 0.941562, -0.203608, -0.962803, -0.255173, 0.0
 transform = Transform( 1, -5.50214e-08, 5.75614e-08, 5.50214e-08, -0.0450993, -0.998983, 5.75613e-08, 0.998983, -0.0450993, 8.88178e-16, 0.0958721, 1.15696 )
 
 [node name="UpperChestBone" type="BoneAttachment" parent="Body/Armature/Skeleton" index="5"]
-transform = Transform( 0.988203, 0.0998752, 0.116106, -0.0402473, 0.900814, -0.432336, -0.147769, 0.422562, 0.894207, -0.167587, 4.52915, 0.299207 )
+transform = Transform( 1, -5.50214e-08, 5.75614e-08, 5.75613e-08, 0.998983, -0.0450993, -5.50214e-08, 0.0450993, 0.998983, 5.2336e-16, 4.57455, -0.0862274 )
 bone_name = "UpperChestBone"
 
 [node name="RightArmController_offset" type="Position3D" parent="Body/Armature/Skeleton/UpperChestBone"]
 
 [node name="LeftShoulderBone" type="BoneAttachment" parent="Body/Armature/Skeleton" index="6"]
-transform = Transform( 0.423301, 0.898042, -0.11974, -0.244399, 0.240452, 0.939389, 0.872403, -0.368379, 0.321264, -0.00431648, 4.72534, 0.327435 )
+transform = Transform( -0.268338, 0.941562, -0.203608, 0.0317263, 0.219883, 0.97501, 0.962803, 0.255173, -0.0888751, 0.149277, 4.78114, -0.117562 )
 bone_name = "LeftShoulderBone"
 
 [node name="LeftArmController_offset" type="Position3D" parent="Body/Armature/Skeleton/LeftShoulderBone"]
@@ -742,7 +759,8 @@ parameters/BlendTreeActionR/StateMachineActionR/playback = SubResource( 97 )
 parameters/BlendTreeActionR/TimeScaleActionR/scale = 1.0
 parameters/BlendTreeMotion/SeekMotion/seek_position = -1.0
 parameters/BlendTreeMotion/StateMachineMotion/playback = SubResource( 98 )
-parameters/BlendTreeMotion/StateMachineMotion/ledge_hang/blend_position = Vector2( 0, 0 )
+parameters/BlendTreeMotion/StateMachineMotion/ledge_hang/playback = SubResource( 117 )
+parameters/BlendTreeMotion/StateMachineMotion/ledge_hang/ledge_move/blend_position = 0
 parameters/BlendTreeMotion/StateMachineMotion/walkrun/blend_position = -0.000766277
 parameters/BlendTreeMotion/StateMachineMotion/walkrun/0/blend_position = Vector2( 0, 0 )
 parameters/BlendTreeMotion/StateMachineMotion/walkrun/1/blend_position = Vector2( -0.103673, -0.00862074 )
@@ -766,6 +784,8 @@ anims/ledge_get_up_positioning = ExtResource( 73 )
 anims/ledge_get_up_positions = ExtResource( 74 )
 anims/ledge_hang = ExtResource( 72 )
 anims/ledge_jump_back = ExtResource( 76 )
+anims/ledge_move_l = ExtResource( 78 )
+anims/ledge_move_r = ExtResource( 77 )
 anims/none = SubResource( 99 )
 anims/none_l = ExtResource( 24 )
 anims/run_back = ExtResource( 47 )
