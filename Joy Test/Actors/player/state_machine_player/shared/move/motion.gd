@@ -26,13 +26,23 @@ var walk_deaccel = 16
 var air_accel = 1.375
 var air_deaccel = 1.375
 
-#Variables
+##Motion Variables##
 var velocity : Vector3
 var velocity_ext : Vector3 #used for adding velocity applied from out of state machine scripts
 var snap_vector : Vector3
 var snap_vector_default = Vector3(0, -0.5, 0)
 
+#Floor Fasten variables
+var attached_pos = null #attached point local to object player is standing on
+var attached_dir = null
+var attached_dir_prev = null
+var attached_floor = null
+var velocity_fasten : Vector3
+
+#Wall Jump Variables
 var wall_col = null
+
+#Ledge Hang Variables
 var grab_data = {
 	"grab_obj": null,
 	"grab_point": null,
@@ -41,8 +51,12 @@ var grab_data = {
 }
 
 #Node Storage
+onready var Collision = owner.get_node("CollisionShape")
+
 onready var Ledge_Detector = owner.get_node("Body/Ledge_Detector")
 onready var Ledge_Grab_Position = owner.get_node("Body/Position_Nodes/Ledge_Grab_Position")
+
+onready var RayCast_Floor = owner.get_node("CollisionShape/RayCast_Floor")
 
 onready var Timer_Move = owner.get_node("State_Machines/State_Machine_Move/Timer_Move")
 onready var Timer_Wall_Jump = owner.get_node("State_Machines/State_Machine_Move/Timer_Wall_Jump")
@@ -52,6 +66,7 @@ onready var AnimStateMachineMotion = owner.get_node("AnimationTree").get("parame
 
 #Motion Flags
 var stop_on_slope = true
+var fasten_to_floor = true
 var can_wall_jump = false
 var can_ledge_grab = true
 
@@ -85,6 +100,9 @@ func update(delta):
 	
 	#Move player
 	velocity = owner.move_and_slide_with_snap(velocity, snap_vector, Vector3(0, 1, 0), stop_on_slope, 4, deg2rad(50))
+	
+	#Get new ground fasten point and dir
+	set_fasten_vectors()
 	
 	#DEBUG FOR UI
 	emit_signal("velocity_changed", velocity)
@@ -140,6 +158,10 @@ func set_stop_on_slope(value : bool):
 	State_Machine_Move.current_state.stop_on_slope = value
 
 
+func set_fasten_to_floor(value : bool):
+	State_Machine_Move.current_state.fasten_to_floor = value
+
+
 func set_can_wall_jump(value):
 	State_Machine_Move.current_state.can_wall_jump = value
 	
@@ -157,6 +179,27 @@ func set_can_ledge_grab(value):
 ###MOTION VAR SETTER FUNCTIONS###
 func set_wall_col(collision):
 	State_Machine_Move.current_state.wall_col = collision
+
+
+func set_fasten_vectors():
+	attached_pos = null
+	attached_dir = null
+	attached_floor = null
+	
+	RayCast_Floor.force_raycast_update()
+	
+	if RayCast_Floor.is_colliding() and owner.is_on_floor():
+		var collision : KinematicCollision
+		
+		for col_idx in owner.get_slide_count():
+			collision = owner.get_slide_collision(col_idx)
+			
+			if collision.collider == RayCast_Floor.get_collider():
+				attached_floor = collision.collider
+				attached_pos = attached_floor.to_local(RayCast_Floor.get_collision_point())
+				attached_dir = attached_floor.to_local(get_facing_direction_horizontal(Body))
+				attached_dir_prev = attached_floor.to_global(attached_dir) - attached_floor.get_global_transform().origin
+				return
 
 
 #Stores values of the current state in the top level state machine's dict, for transfer to another state

@@ -15,6 +15,7 @@ var initialized_values = {
 	
 	#Motion Flags
 	"stop_on_slope": true,
+	"fasten_to_floor": true,
 	"can_wall_jump": false,
 	"can_ledge_grab": true,
 	
@@ -25,13 +26,18 @@ var initialized_values = {
 	"is_aiming": false,
 	"is_b_sliding": false,
 	
-	#Motion
+	##Motion
 	"velocity": Vector3(),
 	"wall_col": Vector3(),
 	"camera_angles": Vector3(),
 	"camera_look_at_point": Vector3(),
 	
-	
+	#Fasten Variables
+	"attached_pos": Vector3(),
+	"attached_dir": Vector3(),
+	"attached_dir_prev": Vector3(),
+	"attached_floor": null,
+	"velocity_fasten": Vector3(),
 }
 
 

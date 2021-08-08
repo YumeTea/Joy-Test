@@ -9,6 +9,7 @@ func initialize_values(init_values_dic):
 #Initializes state, changes animation, etc
 func enter():
 	set_stop_on_slope(false)
+	set_fasten_to_floor(false)
 	
 	anim_tree_play_anim("barrier_slide", AnimStateMachineMotion)
 	.enter()
@@ -17,6 +18,7 @@ func enter():
 #Cleans up state, reinitializes values like timers
 func exit():
 	set_stop_on_slope(true)
+	set_fasten_to_floor(true)
 	
 	.exit()
 

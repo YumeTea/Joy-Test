@@ -92,6 +92,13 @@ func set_arm_r_occupied(value : bool):
 	State_Machine_Action_R.current_state.arm_r_occupied = value
 
 
+#func right_arm_is_unoccupied():
+#	if State_Machine_Action_R.current_state.name == "None":
+#		return true
+#	else:
+#		return false
+
+
 func set_can_aim(value : bool):
 	if value == false:
 		State_Machine_Move.current_state.set_aiming(false)

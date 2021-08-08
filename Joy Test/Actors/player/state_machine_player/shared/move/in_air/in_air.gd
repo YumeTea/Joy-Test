@@ -129,6 +129,14 @@ func rotate_about_grab_point(grab_point, direction):
 	owner.translate(translate)
 
 
+func let_go_ledge():
+	velocity_fasten = Vector3(0,0,0)
+	set_can_ledge_grab(false)
+	set_arm_r_occupied(false)
+	Timer_Ledge_Grab.start()
+	emit_signal("on_ledge", false)
+
+
 ###WALL JUMP FUNCTIONS###
 func check_can_wall_jump():
 	for slide_idx in owner.get_slide_count():

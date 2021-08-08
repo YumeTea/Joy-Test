@@ -11,10 +11,10 @@ const ledge_jump_speed = 32.0
 const ledge_jump_angle = 50.0
 
 var hang_obj : Node
-var attached_point : Vector3
-var attached_dir : Vector3
+var hang_point : Vector3
+var hang_dir : Vector3
 var ledge_up : Vector3
-var velocity_fasten : Vector3
+#var velocity_fasten : Vector3
 
 
 func initialize_values(init_values_dic):
@@ -27,8 +27,8 @@ func enter():
 	set_jumped(false)
 	
 	hang_obj = grab_data["grab_obj"]
-	attached_point = hang_obj.to_local(grab_data["grab_point"])
-	attached_dir = hang_obj.to_local(grab_data["grab_dir"] + hang_obj.get_global_transform().origin)
+	hang_point = hang_obj.to_local(grab_data["grab_point"])
+	hang_dir = hang_obj.to_local(grab_data["grab_dir"] + hang_obj.get_global_transform().origin)
 	
 	anim_tree_play_anim("ledge_jump_back", AnimStateMachineMotion)
 	
@@ -74,7 +74,7 @@ func calc_ledge_velocity(delta):
 	var new_vel = Vector3(0,0,0)
 	
 	#Calc ledge attachment velocity
-	velocity_fasten = fasten_to_ledge(hang_obj, attached_point, grab_data["grab_dir"], delta)
+	velocity_fasten = fasten_to_ledge(hang_obj, hang_point, grab_data["grab_dir"], delta)
 	new_vel += velocity_fasten
 	
 	#Counteract gravity
@@ -84,14 +84,14 @@ func calc_ledge_velocity(delta):
 
 
 #Applies velocity while following ledge grab point
-func fasten_to_ledge(hang_obj, attached_point, face_dir, delta):
+func fasten_to_ledge(hang_obj, hang_point, face_dir, delta):
 	var grab_point : Vector3
 	var grab_dir : Vector3
 	var vel_new : Vector3
 	var angle : float
 	
-	grab_point = hang_obj.to_global(attached_point)
-	grab_dir = hang_obj.to_global(attached_dir) - hang_obj.get_global_transform().origin
+	grab_point = hang_obj.to_global(hang_point)
+	grab_dir = hang_obj.to_global(hang_dir) - hang_obj.get_global_transform().origin
 	
 	rotate_about_grab_point(grab_point, Vector2(grab_dir.x, grab_dir.z))
 	
@@ -100,15 +100,9 @@ func fasten_to_ledge(hang_obj, attached_point, face_dir, delta):
 	return vel_new
 
 
-func let_go_ledge():
-	set_can_ledge_grab(false)
-	Timer_Ledge_Grab.start()
-	emit_signal("on_ledge", false)
-
-
 func jump():
 	if !has_jumped:
-		var grab_dir = hang_obj.to_global(attached_dir) - hang_obj.get_global_transform().origin
+		var grab_dir = hang_obj.to_global(hang_dir) - hang_obj.get_global_transform().origin
 		
 		velocity += calc_ledge_jump_velocity()
 		set_jumped(true)
@@ -121,7 +115,7 @@ func jump():
 func calc_ledge_jump_velocity():
 	var jump_vel : Vector3
 	
-	var grab_dir = hang_obj.to_global(attached_dir) - hang_obj.get_global_transform().origin
+	var grab_dir = hang_obj.to_global(hang_dir) - hang_obj.get_global_transform().origin
 	var rot_axis = -grab_dir.cross(Vector3(0,1,0)).normalized()
 	jump_vel = -grab_dir.rotated(rot_axis, deg2rad(ledge_jump_angle)) * ledge_jump_speed
 	

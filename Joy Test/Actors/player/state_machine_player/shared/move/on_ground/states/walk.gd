@@ -32,6 +32,8 @@ func update(delta):
 		emit_signal("state_switch", "barrier_slide")
 		return
 	
+	#Remove fasten v from total v
+	velocity -= velocity_fasten
 	
 	#Calc player velocity
 	velocity = calc_walk_velocity(velocity, delta)
@@ -41,7 +43,7 @@ func update(delta):
 	
 	.update(delta)
 	
-	if velocity.length() < speed_thresh_lower and get_joystick_input_l().length() == 0.0:
+	if (velocity - velocity_fasten).length() < speed_thresh_lower and get_joystick_input_l().length() == 0.0:
 		emit_signal("state_switch", "idle")
 		return
 	

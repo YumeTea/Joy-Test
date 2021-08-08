@@ -9,10 +9,10 @@ signal on_ledge(on_ledge_flag)
 
 
 var hang_obj : Node
-var attached_point : Vector3
-var attached_dir : Vector3
+var hang_point : Vector3
+var hang_dir : Vector3
 var ledge_up : Vector3
-var velocity_fasten : Vector3
+#var velocity_fasten : Vector3
 
 var ledge_detector_default : Vector3
 var ledge_grab_position_default : Vector3
@@ -35,8 +35,8 @@ func enter():
 	climb_velocity = Vector3(0,0,0)
 	
 	hang_obj = grab_data["grab_obj"]
-	attached_point = hang_obj.to_local(grab_data["grab_point"])
-	attached_dir = hang_obj.to_local(grab_data["grab_dir"] + hang_obj.get_global_transform().origin)
+	hang_point = hang_obj.to_local(grab_data["grab_point"])
+	hang_dir = hang_obj.to_local(grab_data["grab_dir"] + hang_obj.get_global_transform().origin)
 	
 	anim_tree_play_anim("ledge_get_up", AnimStateMachineMotion)
 	
@@ -46,6 +46,10 @@ func enter():
 #Cleans up state, reinitializes values like timers
 func exit():
 	reset_ledge_detection()
+	
+	#REPLACE LATER IF KICKING OFF LEDGE DUE TO COLLISION
+	velocity_fasten = Vector3(0,0,0)
+	set_arm_r_occupied(false)
 	emit_signal("on_ledge", false)
 	
 	.exit()
@@ -54,7 +58,7 @@ func exit():
 #Creates output based on the input event passed in
 func handle_input(event):
 	if Input.is_action_just_pressed("cancel"):
-		kick_off_ledge()
+		let_go_ledge()
 		emit_signal("state_switch", "fall")
 		return
 	
@@ -64,8 +68,7 @@ func handle_input(event):
 #Acts as the _process method would
 func update(delta):
 	if grab_data["grab_point"] == null:
-		print("lost grab point")
-		kick_off_ledge()
+		let_go_ledge()
 		emit_signal("state_switch", "fall")
 		return
 	
@@ -84,7 +87,7 @@ func calc_ledge_velocity(delta):
 	var new_vel = Vector3(0,0,0)
 	
 	#Calc ledge attachment velocity
-	velocity_fasten = fasten_to_ledge(hang_obj, attached_point, grab_data["grab_dir"], delta)
+	velocity_fasten = fasten_to_ledge(hang_obj, hang_point, grab_data["grab_dir"], delta)
 	new_vel += velocity_fasten
 	
 	#Counteract gravity
@@ -94,26 +97,20 @@ func calc_ledge_velocity(delta):
 
 
 #Applies velocity while following ledge grab point
-func fasten_to_ledge(hang_obj, attached_point, face_dir, delta):
+func fasten_to_ledge(hang_obj, hang_point, face_dir, delta):
 	var grab_point : Vector3
 	var grab_dir : Vector3
 	var vel_new : Vector3
 	var angle : float
 	
-	grab_point = hang_obj.to_global(attached_point)
-	grab_dir = hang_obj.to_global(attached_dir) - hang_obj.get_global_transform().origin
+	grab_point = hang_obj.to_global(hang_point)
+	grab_dir = hang_obj.to_global(hang_dir) - hang_obj.get_global_transform().origin
 	
 	rotate_about_grab_point(grab_point, Vector2(grab_dir.x, grab_dir.z))
 	
 	vel_new = (grab_point - Ledge_Grab_Position.get_global_transform().origin) / delta
 	
 	return vel_new
-
-
-func kick_off_ledge():
-	set_can_ledge_grab(false)
-	Timer_Ledge_Grab.start()
-	emit_signal("on_ledge", false)
 
 
 func reset_ledge_detection():

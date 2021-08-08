@@ -9,6 +9,7 @@ data = PoolVector3Array( -0.7071, 0, -0.7071, 0.6888, 0.2641, -0.2808, -1, 0, 0,
 transform = Transform( 12, 0, 0, 0, 12, 0, 0, 0, 12, 0, 0, 0 )
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( 10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0 )
 mesh = ExtResource( 1 )
 material/0 = null
 
@@ -16,6 +17,7 @@ material/0 = null
 "debug_solid",
 ]]
 collision_layer = 262145
+collision_mask = 0
 
 [node name="CollisionShape" type="CollisionShape" parent="MeshInstance/StaticBody"]
 shape = SubResource( 1 )

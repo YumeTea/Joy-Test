@@ -37,6 +37,10 @@ func update(delta):
 	if is_aiming:
 		rotate_to_direction(Vector2(0,-1).rotated(-camera_angles.y))
 	
+	#Remove fasten v from total v
+	velocity -= velocity_fasten
+	
+	#Calc idle velocity
 	velocity = calc_idle_velocity(velocity, delta)
 	
 	.update(delta)

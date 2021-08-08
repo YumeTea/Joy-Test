@@ -1,9 +1,6 @@
 extends "res://Actors/player/state_machine_player/shared/move/in_air/in_air.gd"
 
 
-'fasten velocity may be incorporating delta incorrectly; velocity may be too high'
-
-
 signal on_ledge(on_ledge_flag)
 
 
@@ -12,11 +9,11 @@ onready var LedgeHangStateMachine = owner.get_node("AnimationTree").get("paramet
 
 #Ledge Hang Variables
 var hang_obj : Node
-var attached_point : Vector3
-var attached_dir : Vector3
+var hang_point : Vector3
+var hang_dir : Vector3
 var ledge_up : Vector3
 var velocity_move : Vector3
-var velocity_fasten : Vector3
+#var velocity_fasten : Vector3
 
 #Ledge Hang Flags
 var moving = false
@@ -29,17 +26,21 @@ func initialize_values(init_values_dic):
 
 #Initializes state, changes animation, etc
 func enter():
+	#Set initial values
 	velocity = Vector3(0,0,0)
 	velocity_fasten = Vector3(0,0,0)
 	set_can_wall_jump(false)
+	set_arm_r_occupied(true)
 	
 	hang_obj = grab_data["grab_obj"]
-	attached_point = hang_obj.to_local(grab_data["grab_point"])
+	hang_point = hang_obj.to_local(grab_data["grab_point"])
 	
-	snap_to_ledge(hang_obj, attached_point, grab_data["grab_dir"])
+	#Move player to ledge hang position
+	snap_to_ledge(hang_obj, hang_point, grab_data["grab_dir"])
 	
 	emit_signal("on_ledge", true)
 	
+	#Start anim
 	anim_tree_play_anim("ledge_hang", AnimStateMachineMotion)
 	
 	.enter()
@@ -70,7 +71,6 @@ func handle_input(event):
 
 #Acts as the _process method would
 func update(delta):
-#	print(Vector2(grab_data["grab_dir"].x, grab_data["grab_dir"].z).dot(get_input_dir_l()))
 	if grab_data["grab_point"] == null:
 		let_go_ledge()
 		emit_signal("state_switch", "fall")
@@ -93,10 +93,13 @@ func calc_ledge_velocity(delta):
 	#Calc ledge movement velocity
 	velocity_move = (velocity - velocity_fasten)
 	velocity_move = interp_ledge_move_velocity(velocity_move, delta)
+	#Move grab point by move velocity
+	hang_point += hang_obj.to_local((velocity_move * delta) + hang_obj.get_global_transform().origin)
+	#Assign move velocity to total velocity
 	new_vel = velocity_move
 	
 	#Calc ledge attachment velocity
-	velocity_fasten = fasten_to_ledge(hang_obj, attached_point, grab_data["grab_dir"], delta)
+	velocity_fasten = fasten_to_ledge(hang_obj, hang_point, grab_data["grab_dir"], delta)
 	new_vel += velocity_fasten
 	
 	#Counteract gravity
@@ -169,18 +172,18 @@ func interp_ledge_move_velocity(current_move_vel, delta):
 	elif veldotmove < 0.0:
 		new_vel = new_vel.length() * -move_vec
 	
-	#Move grab point by velocity
-	attached_point += hang_obj.to_local((new_vel * delta) + hang_obj.get_global_transform().origin)
+#	#Move grab point by velocity
+#	hang_point += hang_obj.to_local((new_vel * delta) + hang_obj.get_global_transform().origin)
 	
 	return new_vel
 
 
 #Does not apply velocity when snapping to ledge grab point
-func snap_to_ledge(hang_obj, attached_point, face_dir):
+func snap_to_ledge(hang_obj, hang_point, face_dir):
 	var grab_point : Vector3
 	var grab_dir : Vector3
 	
-	grab_point = hang_obj.to_global(attached_point)
+	grab_point = hang_obj.to_global(hang_point)
 	grab_dir = face_dir
 	
 	rotate_to_direction(Vector2(grab_dir.x, grab_dir.z))
@@ -191,13 +194,13 @@ func snap_to_ledge(hang_obj, attached_point, face_dir):
 
 
 #Applies velocity while following ledge grab point
-func fasten_to_ledge(hang_obj, attached_point, face_dir, delta):
+func fasten_to_ledge(hang_obj, hang_point, face_dir, delta):
 	var grab_point : Vector3
 	var grab_dir : Vector3
 	var vel_new : Vector3
 	var angle : float
 	
-	grab_point = hang_obj.to_global(attached_point)
+	grab_point = hang_obj.to_global(hang_point)
 	grab_dir = face_dir
 	
 	rotate_about_grab_point(grab_point, Vector2(grab_dir.x, grab_dir.z))
@@ -205,12 +208,6 @@ func fasten_to_ledge(hang_obj, attached_point, face_dir, delta):
 	vel_new = (grab_point - Ledge_Grab_Position.get_global_transform().origin) / delta
 	
 	return vel_new
-
-
-func let_go_ledge():
-	set_can_ledge_grab(false)
-	Timer_Ledge_Grab.start()
-	emit_signal("on_ledge", false)
 
 
 ###ANIMATION FUNCTIONS###
