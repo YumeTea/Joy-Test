@@ -13,6 +13,8 @@ func initialize_values(init_values_dic):
 
 #Initializes state, changes animation, etc
 func enter():
+	set_fasten_to_floor(true)
+	
 	#Animation must be started on player first being in scene
 	anim_tree_play_anim("idle", AnimStateMachineMotion)
 	.enter()

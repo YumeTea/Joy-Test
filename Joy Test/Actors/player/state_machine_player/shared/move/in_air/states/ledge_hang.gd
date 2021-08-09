@@ -1,22 +1,22 @@
 extends "res://Actors/player/state_machine_player/shared/move/in_air/in_air.gd"
 
 
+'player will not attach firmly if colliding with ledge while hanging'
+
+
 signal on_ledge(on_ledge_flag)
 
 
 #Node Storage
 onready var LedgeHangStateMachine = owner.get_node("AnimationTree").get("parameters/BlendTreeMotion/StateMachineMotion/ledge_hang/playback")
 
-#Ledge Hang Variables
-var hang_obj : Node
-var hang_point : Vector3
-var hang_dir : Vector3
-var ledge_up : Vector3
-var velocity_move : Vector3
-#var velocity_fasten : Vector3
 
 #Ledge Hang Flags
 var moving = false
+
+###DEBUG
+onready var RayCast_Ledge = owner.get_node("Body/Ledge_Detector/Area/RayCast_Ledge")
+onready var RayCast_Wall = owner.get_node("Body/Ledge_Detector/Area/RayCast_Wall")
 
 
 func initialize_values(init_values_dic):
@@ -29,6 +29,7 @@ func enter():
 	#Set initial values
 	velocity = Vector3(0,0,0)
 	velocity_fasten = Vector3(0,0,0)
+	set_fasten_to_ledge(true)
 	set_can_wall_jump(false)
 	set_arm_r_occupied(true)
 	
@@ -76,9 +77,11 @@ func update(delta):
 		emit_signal("state_switch", "fall")
 		return
 	
-	velocity = calc_ledge_velocity(delta)
+	#Remove fasten v from total v
+	velocity -= velocity_fasten
 	
-	set_ledge_hang_anim_blend(velocity_move)
+	#Calc player velocity
+	velocity = calc_ledge_velocity(delta)
 	
 	.update(delta)
 
@@ -87,23 +90,22 @@ func _on_animation_finished(anim_name):
 	return
 
 
+#Calcs next move v, rotates player to face ledge, and sets anim pos/time scale
 func calc_ledge_velocity(delta):
 	var new_vel = Vector3(0,0,0)
 	
 	#Calc ledge movement velocity
-	velocity_move = (velocity - velocity_fasten)
-	velocity_move = interp_ledge_move_velocity(velocity_move, delta)
-	#Move grab point by move velocity
-	hang_point += hang_obj.to_local((velocity_move * delta) + hang_obj.get_global_transform().origin)
-	#Assign move velocity to total velocity
-	new_vel = velocity_move
+	new_vel = interp_ledge_move_velocity(velocity, delta)
 	
-	#Calc ledge attachment velocity
-	velocity_fasten = fasten_to_ledge(hang_obj, hang_point, grab_data["grab_dir"], delta)
-	new_vel += velocity_fasten
+	set_ledge_hang_anim_blend(new_vel)
 	
 	#Counteract gravity
 	new_vel.y -= (gravity * weight * delta)
+	
+	#Rotate player
+	var grab_dir = grab_data["grab_dir"]
+	
+	rotate_about_grab_point(grab_data["grab_point"], Vector2(grab_dir.x, grab_dir.z))
 	
 	return new_vel
 
@@ -172,9 +174,6 @@ func interp_ledge_move_velocity(current_move_vel, delta):
 	elif veldotmove < 0.0:
 		new_vel = new_vel.length() * -move_vec
 	
-#	#Move grab point by velocity
-#	hang_point += hang_obj.to_local((new_vel * delta) + hang_obj.get_global_transform().origin)
-	
 	return new_vel
 
 
@@ -193,21 +192,21 @@ func snap_to_ledge(hang_obj, hang_point, face_dir):
 	owner.global_translate(translate)
 
 
-#Applies velocity while following ledge grab point
-func fasten_to_ledge(hang_obj, hang_point, face_dir, delta):
-	var grab_point : Vector3
-	var grab_dir : Vector3
-	var vel_new : Vector3
-	var angle : float
-	
-	grab_point = hang_obj.to_global(hang_point)
-	grab_dir = face_dir
-	
-	rotate_about_grab_point(grab_point, Vector2(grab_dir.x, grab_dir.z))
-	
-	vel_new = (grab_point - Ledge_Grab_Position.get_global_transform().origin) / delta
-	
-	return vel_new
+##Applies velocity while following ledge grab point
+#func fasten_to_ledge(hang_obj, hang_point, face_dir, delta):
+#	var grab_point : Vector3
+#	var grab_dir : Vector3
+#	var vel_new : Vector3
+#	var angle : float
+#
+#	grab_point = hang_obj.to_global(hang_point)
+#	grab_dir = face_dir
+#
+#	rotate_about_grab_point(grab_point, Vector2(grab_dir.x, grab_dir.z))
+#
+#	vel_new = (grab_point - Ledge_Grab_Position.get_global_transform().origin) / delta
+#
+#	return vel_new
 
 
 ###ANIMATION FUNCTIONS###

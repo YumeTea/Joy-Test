@@ -13,6 +13,9 @@ func initialize_values(init_values_dic):
 
 #Initializes state, changes animation, etc
 func enter():
+	#Zero out fasten velocity in states where player is not fastened
+	velocity_fasten = Vector3(0,0,0)
+	
 	#Force exit aim state if in aim state
 	set_can_aim(false)
 	set_arm_l_occupied(true)

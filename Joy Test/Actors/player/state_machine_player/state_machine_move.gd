@@ -16,6 +16,7 @@ var initialized_values = {
 	#Motion Flags
 	"stop_on_slope": true,
 	"fasten_to_floor": true,
+	"fasten_to_ledge": false,
 	"can_wall_jump": false,
 	"can_ledge_grab": true,
 	

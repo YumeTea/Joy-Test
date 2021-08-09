@@ -10,12 +10,6 @@ signal on_ledge(on_ledge_flag)
 const ledge_jump_speed = 32.0
 const ledge_jump_angle = 50.0
 
-var hang_obj : Node
-var hang_point : Vector3
-var hang_dir : Vector3
-var ledge_up : Vector3
-#var velocity_fasten : Vector3
-
 
 func initialize_values(init_values_dic):
 	for value in init_values_dic:
@@ -60,44 +54,18 @@ func update(delta):
 		emit_signal("state_switch", "fall")
 		return
 	
-	if !has_jumped:
-		velocity = calc_ledge_velocity(delta)
+	#Remove fasten v from total v
+	velocity -= velocity_fasten
+	
+	#Counteract gravity
+	velocity = Vector3(0,0,0)
+	velocity.y = weight * gravity * delta
 	
 	.update(delta)
 
 
 func _on_animation_finished(anim_name):
 	return
-
-
-func calc_ledge_velocity(delta):
-	var new_vel = Vector3(0,0,0)
-	
-	#Calc ledge attachment velocity
-	velocity_fasten = fasten_to_ledge(hang_obj, hang_point, grab_data["grab_dir"], delta)
-	new_vel += velocity_fasten
-	
-	#Counteract gravity
-	new_vel.y -= (gravity * weight * delta)
-	
-	return new_vel
-
-
-#Applies velocity while following ledge grab point
-func fasten_to_ledge(hang_obj, hang_point, face_dir, delta):
-	var grab_point : Vector3
-	var grab_dir : Vector3
-	var vel_new : Vector3
-	var angle : float
-	
-	grab_point = hang_obj.to_global(hang_point)
-	grab_dir = hang_obj.to_global(hang_dir) - hang_obj.get_global_transform().origin
-	
-	rotate_about_grab_point(grab_point, Vector2(grab_dir.x, grab_dir.z))
-	
-	vel_new = (grab_point - Ledge_Grab_Position.get_global_transform().origin) / delta
-	
-	return vel_new
 
 
 func jump():

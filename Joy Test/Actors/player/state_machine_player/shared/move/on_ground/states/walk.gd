@@ -12,6 +12,8 @@ func initialize_values(init_values_dic):
 
 #Initializes state, changes animation, etc
 func enter():
+	set_fasten_to_floor(true)
+	
 	anim_tree_play_anim("walkrun", AnimStateMachineMotion)
 	.enter()
 

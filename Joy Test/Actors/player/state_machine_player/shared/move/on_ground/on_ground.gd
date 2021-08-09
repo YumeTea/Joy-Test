@@ -22,23 +22,15 @@ func handle_input(event):
 
 #Acts as the _process method would
 func update(delta):
-	#Calc fasten velocity
-	velocity_fasten = calc_fasten_velocity(delta)
+	if fasten_to_floor:
+		#Calc fasten velocity
+		velocity_fasten = calc_fasten_velocity(delta)
 	
-	#Fasten player
-	velocity_fasten = owner.move_and_slide_with_snap(velocity_fasten, snap_vector, Vector3(0, 1, 0), stop_on_slope, 4, deg2rad(50))
+		#Fasten player
+		velocity_fasten = owner.move_and_slide_with_snap(velocity_fasten, snap_vector, Vector3(0, 1, 0), stop_on_slope, 4, deg2rad(50))
 	
 	#Run upper level velocity calcs
 	.update(delta)
-	
-	#Set total velocity
-	velocity += velocity_fasten
-	
-#	#Get new ground fasten point and dir
-#	set_fasten_vectors()
-	
-	
-	
 	
 	if !owner.is_on_floor():
 		emit_signal("state_switch", "fall")

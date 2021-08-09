@@ -9,6 +9,9 @@ func initialize_values(init_values_dic):
 
 #Initializes state, changes animation, etc
 func enter():
+	#Zero out fasten velocity in states where player is not fastened
+	velocity_fasten = Vector3(0,0,0)
+	
 	anim_tree_play_anim("fall", AnimStateMachineMotion)
 	
 	.enter()

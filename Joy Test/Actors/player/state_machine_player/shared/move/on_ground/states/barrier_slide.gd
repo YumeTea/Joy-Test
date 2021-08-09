@@ -8,10 +8,14 @@ func initialize_values(init_values_dic):
 
 #Initializes state, changes animation, etc
 func enter():
+	#Zero out fasten velocity in states where player is not fastened
+	velocity_fasten = Vector3(0,0,0)
 	set_stop_on_slope(false)
 	set_fasten_to_floor(false)
 	
+	#Start anim
 	anim_tree_play_anim("barrier_slide", AnimStateMachineMotion)
+	
 	.enter()
 
 

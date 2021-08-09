@@ -16,6 +16,8 @@ func initialize_values(init_values_dic):
 #Initializes state, changes animation, etc
 func enter():
 	velocity = Vector3(0,0,0)
+	#Zero out fasten velocity in states where player is not fastened
+	velocity_fasten = Vector3(0,0,0)
 	attached_arm_pos = attached_obj.to_local(RightArmController.get_global_transform().origin)
 	
 	.enter()

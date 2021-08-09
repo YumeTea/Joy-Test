@@ -1,22 +1,15 @@
 extends "res://Actors/player/state_machine_player/shared/move/in_air/in_air.gd"
 
 
-'can animate position in jump/climb up animation'
 'kick_off_ledge needs to abort anims'
+'needs more testing on fast moving platforms'
 
 
 signal on_ledge(on_ledge_flag)
 
-
-var hang_obj : Node
-var hang_point : Vector3
-var hang_dir : Vector3
-var ledge_up : Vector3
-#var velocity_fasten : Vector3
-
 var ledge_detector_default : Vector3
 var ledge_grab_position_default : Vector3
-export var translation : Vector3
+export var translation : Vector3 #value is animated by animplayer
 var translation_last : Vector3
 var climb_velocity : Vector3
 
@@ -28,6 +21,8 @@ func initialize_values(init_values_dic):
 
 #Initializes state, changes animation, etc
 func enter():
+	velocity = Vector3(0,0,0)
+	velocity_fasten = Vector3(0,0,0)
 	ledge_detector_default = Ledge_Detector.get_translation()
 	ledge_grab_position_default = Ledge_Grab_Position.get_translation()
 	translation = Vector3(0,0,0)
@@ -48,7 +43,9 @@ func exit():
 	reset_ledge_detection()
 	
 	#REPLACE LATER IF KICKING OFF LEDGE DUE TO COLLISION
+	velocity = Vector3(0,0,0)
 	velocity_fasten = Vector3(0,0,0)
+	set_fasten_to_ledge(false)
 	set_arm_r_occupied(false)
 	emit_signal("on_ledge", false)
 	
@@ -72,45 +69,21 @@ func update(delta):
 		emit_signal("state_switch", "fall")
 		return
 	
+	#Apply translation sent from animation
 	translate_ledge_get_up(translation)
 	
-	velocity = calc_ledge_velocity(delta)
+	#Remove fasten v from total v
+	velocity -= velocity_fasten
+	
+	#Counteract gravity
+	velocity = Vector3(0,0,0)
+	velocity.y = weight * gravity * delta
 	
 	.update(delta)
 
 
 func _on_animation_finished(anim_name):
 	return
-
-
-func calc_ledge_velocity(delta):
-	var new_vel = Vector3(0,0,0)
-	
-	#Calc ledge attachment velocity
-	velocity_fasten = fasten_to_ledge(hang_obj, hang_point, grab_data["grab_dir"], delta)
-	new_vel += velocity_fasten
-	
-	#Counteract gravity
-	new_vel.y -= (gravity * weight * delta)
-	
-	return new_vel
-
-
-#Applies velocity while following ledge grab point
-func fasten_to_ledge(hang_obj, hang_point, face_dir, delta):
-	var grab_point : Vector3
-	var grab_dir : Vector3
-	var vel_new : Vector3
-	var angle : float
-	
-	grab_point = hang_obj.to_global(hang_point)
-	grab_dir = hang_obj.to_global(hang_dir) - hang_obj.get_global_transform().origin
-	
-	rotate_about_grab_point(grab_point, Vector2(grab_dir.x, grab_dir.z))
-	
-	vel_new = (grab_point - Ledge_Grab_Position.get_global_transform().origin) / delta
-	
-	return vel_new
 
 
 func reset_ledge_detection():

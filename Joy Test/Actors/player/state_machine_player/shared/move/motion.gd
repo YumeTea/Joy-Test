@@ -67,6 +67,7 @@ onready var AnimStateMachineMotion = owner.get_node("AnimationTree").get("parame
 #Motion Flags
 var stop_on_slope = true
 var fasten_to_floor = true
+var fasten_to_ledge = false
 var can_wall_jump = false
 var can_ledge_grab = true
 
@@ -100,6 +101,9 @@ func update(delta):
 	
 	#Move player
 	velocity = owner.move_and_slide_with_snap(velocity, snap_vector, Vector3(0, 1, 0), stop_on_slope, 4, deg2rad(50))
+	
+	#Set total velocity for readouts
+	velocity += velocity_fasten
 	
 	#Get new ground fasten point and dir
 	set_fasten_vectors()
@@ -160,6 +164,10 @@ func set_stop_on_slope(value : bool):
 
 func set_fasten_to_floor(value : bool):
 	State_Machine_Move.current_state.fasten_to_floor = value
+
+
+func set_fasten_to_ledge(value : bool):
+	State_Machine_Move.current_state.fasten_to_ledge = value
 
 
 func set_can_wall_jump(value):

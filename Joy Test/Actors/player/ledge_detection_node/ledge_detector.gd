@@ -209,7 +209,7 @@ func calc_grab_data():
 	ledge_move_dir = (RayCast_Ledge.get_collision_normal().cross(RayCast_Wall.get_collision_normal())).normalized()
 	
 	#Set grab dict values
-	grab_data["grab_obj"] = RayCast_Ledge.get_collider()
+	grab_data["grab_obj"] = RayCast_Wall.get_collider()
 	grab_data["grab_point"] = grab_point
 	grab_data["grab_dir"] = grab_dir
 	grab_data["ledge_move_dir"] = ledge_move_dir
