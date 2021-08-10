@@ -1,6 +1,8 @@
 extends Node
 
 
+var Player : Node
+
 
 func _ready():
 	OS.set_window_fullscreen(true)
@@ -22,7 +24,11 @@ func _process(delta):
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 
+#SetGet Functions
+func get_player():
+	return Player
 
 
-
+func set_player(node : Node):
+	Player = node
 

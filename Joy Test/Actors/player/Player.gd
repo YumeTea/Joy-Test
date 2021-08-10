@@ -11,6 +11,9 @@ var inventory = inventory_resource.new()
 
 
 func _ready():
+	###DEBUG?###
+	Global.set_player(self)
+	
 	connect_motion_signals()
 	
 	###DEBUG
