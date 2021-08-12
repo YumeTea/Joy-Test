@@ -25,9 +25,17 @@ func update(delta):
 	if fasten_to_floor:
 		#Calc fasten velocity
 		velocity_fasten = calc_fasten_velocity(delta)
-	
+		
+#		print(velocity_fasten)
+		
 		#Fasten player
 		velocity_fasten = owner.move_and_slide_with_snap(velocity_fasten, snap_vector, Vector3(0, 1, 0), stop_on_slope, 4, deg2rad(50))
+		
+#		if owner.get_slide_count() > 0:
+#			for col_idx in owner.get_slide_count():
+#				var collision = owner.get_slide_collision(col_idx)
+				
+				
 	
 	#Run upper level velocity calcs
 	.update(delta)
@@ -99,6 +107,9 @@ func calc_fasten_velocity(delta):
 	var new_vel : Vector3
 	
 	if attached_floor != null:
+		print(attached_floor.name)
+		print(owner.is_on_floor())
+		
 		#Calc fasten vel
 		new_vel = (attached_floor.to_global(attached_pos) - owner.get_global_transform().origin) / delta
 		new_vel.y += 0.000015 / delta

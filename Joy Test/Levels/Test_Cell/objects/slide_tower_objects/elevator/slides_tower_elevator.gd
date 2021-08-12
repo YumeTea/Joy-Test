@@ -49,6 +49,7 @@ func _physics_process(delta):
 	
 	self.force_update_transform()
 
+
 func set_is_ascending(value : bool):
 	is_ascending = value
 

@@ -193,7 +193,7 @@ nodes/StateMachineActionR/node = SubResource( 25 )
 nodes/StateMachineActionR/position = Vector2( -460, 120 )
 nodes/TimeScaleActionR/node = SubResource( 26 )
 nodes/TimeScaleActionR/position = Vector2( -40, 120 )
-node_connections = [ "output", 0, "TimeScaleActionR", "SeekActionR", 0, "StateMachineActionR", "TimeScaleActionR", 0, "SeekActionR" ]
+node_connections = [ "output", 0, "TimeScaleActionR", "TimeScaleActionR", 0, "SeekActionR", "SeekActionR", 0, "StateMachineActionR" ]
 
 [sub_resource type="AnimationNodeTimeSeek" id=28]
 
@@ -601,9 +601,9 @@ transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 3, 0
 shape = SubResource( 8 )
 
 [node name="RayCast_Floor" type="RayCast" parent="CollisionShape"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.31134e-07, -3 )
+process_priority = -1
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -3 )
 enabled = true
-cast_to = Vector3( 0, -0.5, 0 )
 
 [node name="Camera_Rig" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0 )

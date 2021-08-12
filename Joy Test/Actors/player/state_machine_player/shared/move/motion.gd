@@ -30,7 +30,7 @@ var air_deaccel = 1.375
 var velocity : Vector3
 var velocity_ext : Vector3 #used for adding velocity applied from out of state machine scripts
 var snap_vector : Vector3
-var snap_vector_default = Vector3(0, -0.5, 0)
+var snap_vector_default = Vector3(0, -1, 0)
 
 #Floor Fasten variables
 var attached_pos = null #attached point local to object player is standing on
