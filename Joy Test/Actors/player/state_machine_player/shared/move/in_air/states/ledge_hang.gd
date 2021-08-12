@@ -1,7 +1,8 @@
 extends "res://Actors/player/state_machine_player/shared/move/in_air/in_air.gd"
 
 
-'player will not attach firmly if colliding with ledge while hanging'
+'player will not initially attach firmly if colliding with ledge while hanging'
+'position slides slightly on rotating objects'
 
 
 signal on_ledge(on_ledge_flag)
@@ -35,9 +36,11 @@ func enter():
 	
 	hang_obj = grab_data["grab_obj"]
 	hang_point = hang_obj.to_local(grab_data["grab_point"])
+	hang_dir = hang_obj.to_local(grab_data["grab_dir"] + hang_obj.get_global_transform().origin)
+	hang_dir_prev = grab_data["grab_dir"]
 	
 	#Move player to ledge hang position
-	snap_to_ledge(hang_obj, hang_point, grab_data["grab_dir"])
+	snap_to_ledge(hang_obj, hang_point, hang_dir)
 	
 	emit_signal("on_ledge", true)
 	
@@ -90,7 +93,7 @@ func _on_animation_finished(anim_name):
 	return
 
 
-#Calcs next move v, rotates player to face ledge, and sets anim pos/time scale
+#Calcs next move v, and sets anim pos/time scale
 func calc_ledge_velocity(delta):
 	var new_vel = Vector3(0,0,0)
 	
@@ -105,6 +108,7 @@ func calc_ledge_velocity(delta):
 	#Rotate player
 	var grab_dir = grab_data["grab_dir"]
 	
+	#This function also moves player to Ledge_Detector's grab_point instead of local stored hang_point
 	rotate_about_grab_point(grab_data["grab_point"], Vector2(grab_dir.x, grab_dir.z))
 	
 	return new_vel
@@ -178,18 +182,22 @@ func interp_ledge_move_velocity(current_move_vel, delta):
 
 
 #Does not apply velocity when snapping to ledge grab point
-func snap_to_ledge(hang_obj, hang_point, face_dir):
+func snap_to_ledge(hang_obj, hang_point, hang_dir):
 	var grab_point : Vector3
 	var grab_dir : Vector3
 	
+	#Rotate player
 	grab_point = hang_obj.to_global(hang_point)
-	grab_dir = face_dir
+	grab_dir = hang_obj.to_global(hang_dir) - hang_obj.get_global_transform().origin
 	
 	rotate_to_direction(Vector2(grab_dir.x, grab_dir.z))
 	
+	#Translate player
 	var translate = grab_point - Ledge_Grab_Position.get_global_transform().origin
 	
 	owner.global_translate(translate)
+	
+	Ledge_Grab_Position.force_update_transform()
 
 
 ##Applies velocity while following ledge grab point

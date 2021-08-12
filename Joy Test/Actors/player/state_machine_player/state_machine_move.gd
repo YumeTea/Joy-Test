@@ -39,6 +39,12 @@ var initialized_values = {
 	"attached_dir_prev": Vector3(),
 	"attached_floor": null,
 	"velocity_fasten": Vector3(),
+	
+	#In Air
+	"hang_obj": null,
+	"hang_point": Vector3(),
+	"hang_dir": Vector3(),
+	"hang_dir_prev": Vector3(),
 }
 
 

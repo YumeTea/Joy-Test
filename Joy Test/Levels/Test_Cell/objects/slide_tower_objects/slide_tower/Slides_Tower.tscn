@@ -64,7 +64,9 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 16 )
 mesh = SubResource( 1 )
 material/0 = null
 
-[node name="Slide_02" type="StaticBody" parent="Slide_02"]
+[node name="Slide_02" type="StaticBody" parent="Slide_02" groups=[
+"debug_solid",
+]]
 
 [node name="shape0" type="CollisionShape" parent="Slide_02/Slide_02"]
 shape = SubResource( 2 )
@@ -74,7 +76,9 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 16 )
 mesh = SubResource( 3 )
 material/0 = null
 
-[node name="Slide_03" type="StaticBody" parent="Slide_03"]
+[node name="Slide_03" type="StaticBody" parent="Slide_03" groups=[
+"debug_solid",
+]]
 
 [node name="shape0" type="CollisionShape" parent="Slide_03/Slide_03"]
 shape = SubResource( 4 )
@@ -83,7 +87,9 @@ shape = SubResource( 4 )
 mesh = SubResource( 5 )
 material/0 = null
 
-[node name="Tower" type="StaticBody" parent="Tower"]
+[node name="Tower" type="StaticBody" parent="Tower" groups=[
+"debug_solid",
+]]
 
 [node name="shape0" type="CollisionShape" parent="Tower/Tower"]
 shape = SubResource( 6 )

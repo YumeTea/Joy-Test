@@ -20,9 +20,9 @@ func initialize_values(init_values_dic):
 func enter():
 	set_jumped(false)
 	
-	hang_obj = grab_data["grab_obj"]
-	hang_point = hang_obj.to_local(grab_data["grab_point"])
-	hang_dir = hang_obj.to_local(grab_data["grab_dir"] + hang_obj.get_global_transform().origin)
+#	hang_obj = grab_data["grab_obj"]
+#	hang_point = hang_obj.to_local(grab_data["grab_point"])
+#	hang_dir = hang_obj.to_local(grab_data["grab_dir"] + hang_obj.get_global_transform().origin)
 	
 	anim_tree_play_anim("ledge_jump_back", AnimStateMachineMotion)
 	

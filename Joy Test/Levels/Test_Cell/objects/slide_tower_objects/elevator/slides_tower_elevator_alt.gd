@@ -54,7 +54,6 @@ func _physics_process(delta):
 			else:
 				self.translation += velocity
 	
-	print(velocity)
 	self.force_update_transform()
 
 func set_is_ascending(value : bool):

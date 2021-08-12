@@ -29,9 +29,9 @@ func enter():
 	translation_last = Vector3(0,0,0)
 	climb_velocity = Vector3(0,0,0)
 	
-	hang_obj = grab_data["grab_obj"]
-	hang_point = hang_obj.to_local(grab_data["grab_point"])
-	hang_dir = hang_obj.to_local(grab_data["grab_dir"] + hang_obj.get_global_transform().origin)
+#	hang_obj = grab_data["grab_obj"]
+#	hang_point = hang_obj.to_local(grab_data["grab_point"])
+#	hang_dir = hang_obj.to_local(grab_data["grab_dir"] + hang_obj.get_global_transform().origin)
 	
 	anim_tree_play_anim("ledge_get_up", AnimStateMachineMotion)
 	
@@ -54,10 +54,10 @@ func exit():
 
 #Creates output based on the input event passed in
 func handle_input(event):
-	if Input.is_action_just_pressed("cancel"):
-		let_go_ledge()
-		emit_signal("state_switch", "fall")
-		return
+#	if Input.is_action_just_pressed("cancel"):
+#		let_go_ledge()
+#		emit_signal("state_switch", "fall")
+#		return
 	
 	.handle_input(event)
 
@@ -77,13 +77,14 @@ func update(delta):
 	
 	#Counteract gravity
 	velocity = Vector3(0,0,0)
-	velocity.y = weight * gravity * delta
+	velocity.y -= (weight * gravity * delta)
 	
 	.update(delta)
 
 
 func _on_animation_finished(anim_name):
-	return
+	if anim_name == "ledge_get_up":
+		emit_signal("state_switch", "idle")
 
 
 func reset_ledge_detection():

@@ -20,3 +20,5 @@ func _physics_process(delta):
 	
 	self.translation.x += velocity.x
 #	self.rotate_x(rot.x)
+	
+	self.force_update_transform()

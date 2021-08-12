@@ -1,17 +1,9 @@
 extends "res://Actors/player/state_machine_player/shared/move/motion.gd"
 
 
-
 #Wall Jump Values
 #var wall_angle_variance = deg2rad(18)
 var wall_angle_variance = deg2rad(75)
-
-#Ledge Hang Variables
-var hang_obj : Node
-var hang_point : Vector3 #point is local to hang_obj
-var hang_dir : Vector3
-var hang_dir_prev : Vector3
-var ledge_up : Vector3
 
 #In Air bools
 var has_jumped = true
@@ -42,11 +34,26 @@ func update(delta):
 	if fasten_to_ledge:
 		#Calc fasten velocity
 		velocity_fasten = calc_fasten_velocity(delta)
-	
+		
 		#Fasten player
 		velocity_fasten = owner.move_and_slide_with_snap(velocity_fasten, snap_vector, Vector3(0, 1, 0), stop_on_slope, 4, deg2rad(50))
+		
+		print(velocity_fasten)
+		
+		#Check if player collided, if so let go
+		for col_idx in owner.get_slide_count():
+			var collision = owner.get_slide_collision(col_idx)
+			if collision.collider != hang_obj:
+				let_go_ledge()
+				emit_signal("state_switch", "fall")
+				return
+		
 	
 	.update(delta)
+	
+	#Get new ledge grab point if ledge hanging
+	if fasten_to_ledge:
+		hang_point = hang_obj.to_local(Ledge_Grab_Position.get_global_transform().origin)
 	
 	if owner.is_on_floor() and has_jumped: #check has_jumped to allow jump squat to play out
 		snap_vector = snap_vector_default
@@ -135,13 +142,13 @@ func interp_aerial_velocity(input_direction, current_velocity, delta):
 
 
 ###LEDGE HANG FUNCTIONS###
-#Applies velocity while following ledge grab point
+#Calculates velocity to grab point if hang_obj moved, also rotates velocity if hang_obj moved
 func calc_fasten_velocity(delta):
 	var new_vel : Vector3
 	
 	if hang_obj != null:
 		#Calc fasten vel
-		new_vel = (grab_data["grab_point"] - Ledge_Grab_Position.get_global_transform().origin) / delta
+		new_vel = (hang_obj.to_global(hang_point) - Ledge_Grab_Position.get_global_transform().origin) / delta
 		
 		#Rotate player
 		var dir = hang_obj.to_global(hang_dir) - hang_obj.get_global_transform().origin
@@ -151,6 +158,9 @@ func calc_fasten_velocity(delta):
 		
 		Body.rotate_y(angle)
 		
+		#Rotate velocity
+		velocity = velocity.rotated(Vector3(0,1,0), angle)
+		
 		#Set new prev facing dir for next frame
 		hang_dir_prev = dir
 	else:
@@ -159,12 +169,24 @@ func calc_fasten_velocity(delta):
 	return new_vel
 
 
+#Essentially same as snap_to_ledge
 func rotate_about_grab_point(grab_point, direction):
+	#Rotate player
 	rotate_to_direction(direction)
 	
+	#Rotate hang_dir and hang_dir_prev if necessary
+	var grab_dir = hang_obj.to_global(hang_dir) - hang_obj.get_global_transform().origin
+	var angle = Vector2(grab_dir.x, grab_dir.z).angle_to(Vector2(direction.x, direction.y))
+	
+	hang_dir = hang_dir.rotated(Vector3(0,1,0), angle)
+	hang_dir_prev = hang_dir_prev.rotated(Vector3(0,1,0), angle)
+	
+	#Translate player to grab_point
 	var translate = grab_point - Ledge_Grab_Position.get_global_transform().origin
 	
 	owner.translate(translate)
+	
+	Ledge_Grab_Position.force_update_transform()
 
 
 func let_go_ledge():

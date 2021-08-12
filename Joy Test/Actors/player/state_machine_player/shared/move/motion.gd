@@ -1,5 +1,6 @@
 extends "res://Actors/player/state_machine_player/shared/shared.gd"
 
+'figure out why is_on_floor isnt set on rising platforms'
 
 signal velocity_changed(velocity)
 signal height_changed(height)
@@ -49,6 +50,11 @@ var grab_data = {
 	"grab_dir": null,
 	"ledge_move_dir": null,
 }
+var hang_obj : Node
+var hang_point : Vector3 #point is local to hang_obj
+var hang_dir : Vector3
+var hang_dir_prev : Vector3
+var ledge_up : Vector3
 
 #Node Storage
 onready var Collision = owner.get_node("CollisionShape")
@@ -102,6 +108,9 @@ func update(delta):
 	#Move player
 	velocity = owner.move_and_slide_with_snap(velocity, snap_vector, Vector3(0, 1, 0), stop_on_slope, 4, deg2rad(50))
 	
+	print(owner.get_slide_count())
+	print(owner.is_on_floor())
+	
 	#Set total velocity for readouts
 	velocity += velocity_fasten
 	
@@ -123,13 +132,13 @@ func rotate_to_direction(direction): #Direction should be normalized
 		direction = Vector2(direction.x, direction.z)
 	
 	if direction.length() > 0:
-		var angle = Vector2(0, 1).angle_to(-direction) #calc degree of player rotation on y axis
+		var angle_y = Vector2(0, 1).angle_to(-direction) #calc degree of player rotation on y axis
 		
 		var rot_final = Body.get_rotation()
-		rot_final.y = -angle
+		rot_final.y = -angle_y
 		
 		Body.set_rotation(rot_final)
-		return angle
+		return angle_y
 	else:
 		return null
 

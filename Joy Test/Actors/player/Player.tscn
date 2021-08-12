@@ -162,7 +162,7 @@ nodes/StateMachineActionL/position = Vector2( 240, 200 )
 nodes/TimeScaleActionL/node = SubResource( 18 )
 nodes/TimeScaleActionL/position = Vector2( 660, 200 )
 nodes/output/position = Vector2( 900, 200 )
-node_connections = [ "output", 0, "TimeScaleActionL", "TimeScaleActionL", 0, "SeekActionL", "SeekActionL", 0, "StateMachineActionL" ]
+node_connections = [ "output", 0, "TimeScaleActionL", "SeekActionL", 0, "StateMachineActionL", "TimeScaleActionL", 0, "SeekActionL" ]
 
 [sub_resource type="AnimationNodeTimeSeek" id=20]
 
@@ -193,7 +193,7 @@ nodes/StateMachineActionR/node = SubResource( 25 )
 nodes/StateMachineActionR/position = Vector2( -460, 120 )
 nodes/TimeScaleActionR/node = SubResource( 26 )
 nodes/TimeScaleActionR/position = Vector2( -40, 120 )
-node_connections = [ "output", 0, "TimeScaleActionR", "TimeScaleActionR", 0, "SeekActionR", "SeekActionR", 0, "StateMachineActionR" ]
+node_connections = [ "output", 0, "TimeScaleActionR", "SeekActionR", 0, "StateMachineActionR", "TimeScaleActionR", 0, "SeekActionR" ]
 
 [sub_resource type="AnimationNodeTimeSeek" id=28]
 
@@ -459,7 +459,7 @@ nodes/StateMachineMotion/node = SubResource( 98 )
 nodes/StateMachineMotion/position = Vector2( -460, 140 )
 nodes/TimeScaleMotion/node = SubResource( 99 )
 nodes/TimeScaleMotion/position = Vector2( 20, 140 )
-node_connections = [ "output", 0, "TimeScaleMotion", "SeekMotion", 0, "StateMachineMotion", "TimeScaleMotion", 0, "SeekMotion" ]
+node_connections = [ "output", 0, "TimeScaleMotion", "TimeScaleMotion", 0, "SeekMotion", "SeekMotion", 0, "StateMachineMotion" ]
 
 [sub_resource type="AnimationNodeBlend2" id=101]
 filter_enabled = true
@@ -522,6 +522,12 @@ script = ExtResource( 2 )
 
 [node name="Skeleton" parent="Body/Armature" index="0"]
 transform = Transform( -1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 0, 0 )
+bones/1/bound_children = [ NodePath("TorsoController") ]
+bones/13/bound_children = [ NodePath("UpperChestBone") ]
+bones/16/bound_children = [ NodePath("LeftShoulderBone") ]
+bones/18/bound_children = [ NodePath("LeftArmController") ]
+bones/20/bound_children = [ NodePath("LeftHandBone") ]
+bones/42/bound_children = [ NodePath("RightArmController") ]
 
 [node name="Body" parent="Body/Armature/Skeleton" index="0"]
 skin = null
@@ -655,7 +661,7 @@ script = ExtResource( 68 )
 
 [node name="Ledge_Get_Up" type="Node" parent="State_Machines/State_Machine_Move/Shared/Motion/In_Air"]
 script = ExtResource( 70 )
-translation = Vector3( 0, 6.5219, 0.0433128 )
+translation = Vector3( 0, 6.85, -1.143 )
 
 [node name="Ledge_Jump_Back" type="Node" parent="State_Machines/State_Machine_Move/Shared/Motion/In_Air"]
 script = ExtResource( 71 )
