@@ -1,6 +1,7 @@
 extends "res://Actors/player/state_machine_player/shared/shared.gd"
 
 'figure out why is_on_floor isnt set on rising platforms'
+'player slides while standing on and fastened to moving kinematicbodies'
 
 signal velocity_changed(velocity)
 signal height_changed(height)
@@ -108,8 +109,8 @@ func update(delta):
 	#Move player
 	velocity = owner.move_and_slide_with_snap(velocity, snap_vector, Vector3(0, 1, 0), stop_on_slope, 4, deg2rad(50))
 	
-	print(owner.get_slide_count())
-	print(owner.is_on_floor())
+#	print(owner.get_slide_count())
+#	print(owner.is_on_floor())
 	
 	#Set total velocity for readouts
 	velocity += velocity_fasten

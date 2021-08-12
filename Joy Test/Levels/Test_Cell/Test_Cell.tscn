@@ -9,7 +9,7 @@
 [ext_resource path="res://Levels/Test_Cell/objects/slope/Slope.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Levels/Test_Cell/objects/ledge_hang_tests/Ledges.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Levels/Test_Cell/objects/gate/Gate.tscn" type="PackedScene" id=9]
-[ext_resource path="res://Levels/Test_Cell/objects/gate/Gate_Strafe.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Levels/Test_Cell/objects/gate/Gate_Strafe_Alt.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Levels/Test_Cell/objects/gate/Gate_Rotate.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Levels/Test_Cell/objects/gate/Gate_Spin.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Levels/Test_Cell/objects/gate/Gate_Rotate_Full.tscn" type="PackedScene" id=13]
@@ -59,7 +59,7 @@ transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 152, 48
 [node name="gate_rotate" parent="Objects/Jab Objects" instance=ExtResource( 11 )]
 transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 120, 24, -24 )
 
-[node name="gate_strafe" parent="Objects/Jab Objects" instance=ExtResource( 10 )]
+[node name="gate_strafe2" parent="Objects/Jab Objects" instance=ExtResource( 10 )]
 transform = Transform( -1, 8.74228e-08, 0, 3.82137e-15, 4.37114e-08, -1, -8.74228e-08, -1, -4.37114e-08, 84, 10, 37 )
 
 [node name="gate" parent="Objects/Jab Objects" instance=ExtResource( 9 )]

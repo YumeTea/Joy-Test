@@ -25,6 +25,9 @@ func update(delta):
 	if fasten_to_floor:
 		#Calc fasten velocity
 		velocity_fasten = calc_fasten_velocity(delta)
+#		velocity_fasten = owner.get_floor_velocity() * delta
+		
+#		print("fasten velocity: " + str(velocity_fasten))
 		
 		#Fasten player
 		velocity_fasten = owner.move_and_slide_with_snap(velocity_fasten, snap_vector, Vector3(0, 1, 0), stop_on_slope, 4, deg2rad(50))
@@ -48,7 +51,6 @@ func interp_walk_velocity(input_direction, current_velocity, delta):
 	
 	temp_vel.x = current_velocity.x
 	temp_vel.z = current_velocity.z
-	
 	
 	#Get portion of velocity that is pointing in input direction
 	var dirdotvel = input_direction.normalized().dot(Vector2(temp_vel.x, temp_vel.z).normalized())
@@ -100,7 +102,7 @@ func calc_fasten_velocity(delta):
 	
 	if attached_floor != null:
 		#Calc fasten vel
-		new_vel = (attached_floor.to_global(attached_pos) - owner.get_global_transform().origin) / delta
+		new_vel = (attached_floor.to_global(attached_pos) - owner.get_global_transform().origin)
 		new_vel.y += 0.000015 / delta
 		
 		#Rotate player
