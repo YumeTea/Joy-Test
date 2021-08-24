@@ -25,12 +25,10 @@ func update(delta):
 	if fasten_to_floor:
 		#Calc fasten velocity
 		velocity_fasten = calc_fasten_velocity(delta)
-#		velocity_fasten = owner.get_floor_velocity() * delta
-		
-#		print("fasten velocity: " + str(velocity_fasten))
+#		velocity_fasten = get_floor_velocity(attached_floor, delta)
 		
 		#Fasten player
-		velocity_fasten = owner.move_and_slide_with_snap(velocity_fasten, snap_vector, Vector3(0, 1, 0), stop_on_slope, 4, deg2rad(50))
+		velocity_fasten = owner.move_and_slide_with_snap(velocity_fasten, snap_vector, Vector3(0, 1, 0), stop_on_slope, 4, floor_angle_max)
 	
 	#Run upper level velocity calcs
 	.update(delta)
@@ -101,44 +99,26 @@ func calc_fasten_velocity(delta):
 	var new_vel : Vector3
 	
 	if attached_floor != null:
-		#Calc fasten vel
-		new_vel = (attached_floor.to_global(attached_pos) - owner.get_global_transform().origin)
-		new_vel.y += 0.000015 / delta
+		if attached_floor is StaticBody:
+			#Calc fasten vel
+			new_vel = ((attached_floor.to_global(attached_pos) - owner.get_global_transform().origin)) / delta
+#			new_vel.y += 0.000015 / delta
+			
+			#Rotate player
+			var dir = attached_floor.to_global(attached_dir) - attached_floor.get_global_transform().origin
+			var dir_prev = attached_dir_prev
+			
+			var angle = Vector2(dir.x, dir.z).angle_to(Vector2(dir_prev.x, dir_prev.z))
+			
+			Body.rotate_y(angle)
+			
+			#Set new prev facing dir for next frame
+			attached_dir_prev = dir
+			
+			return new_vel
 		
-		#Rotate player
-		var dir = attached_floor.to_global(attached_dir) - attached_floor.get_global_transform().origin
-		var dir_prev = attached_dir_prev
-		
-		var angle = Vector2(dir.x, dir.z).angle_to(Vector2(dir_prev.x, dir_prev.z))
-		
-		Body.rotate_y(angle)
-		
-		#Set new prev facing dir for next frame
-		attached_dir_prev = dir
-	else:
-		new_vel = Vector3(0,0,0)
-	
+	new_vel = Vector3(0,0,0)
 	return new_vel
-
-
-#func set_fasten_vectors():
-#	attached_pos = null
-#	attached_dir = null
-#	attached_floor = null
-#
-#	RayCast_Floor.force_raycast_update()
-#
-#	if RayCast_Floor.is_colliding() and owner.is_on_floor():
-#		var collision : KinematicCollision
-#
-#		for col_idx in owner.get_slide_count():
-#			collision = owner.get_slide_collision(col_idx)
-#
-#			if collision.collider == RayCast_Floor.get_collider():
-#				attached_floor = collision.collider
-#				attached_pos = attached_floor.to_local(RayCast_Floor.get_collision_point())
-#				attached_dir = attached_floor.to_local(get_facing_direction_horizontal(Body))
-#				return
 
 
 #Original walk velocity calc

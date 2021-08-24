@@ -45,7 +45,8 @@ func update(delta):
 	
 	.update(delta)
 	
-	if (velocity - velocity_fasten).length() < speed_thresh_lower and get_joystick_input_l().length() == 0.0:
+	var vel_move = velocity - velocity_fasten
+	if Vector2(vel_move.x, vel_move.z).length() < speed_thresh_lower and get_joystick_input_l().length() == 0.0:
 		emit_signal("state_switch", "idle")
 		return
 	

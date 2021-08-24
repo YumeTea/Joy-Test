@@ -2,7 +2,7 @@ extends KinematicBody
 
 
 signal velocity_changed(velocity)
-signal height_changed(height)
+signal position_changed(position)
 
 
 #Inventory Variables
@@ -28,12 +28,12 @@ func connect_motion_signals():
 			move_state.connect("velocity_changed", self, "_on_velocity_changed")
 	for area_state in motion_state.get_children():
 		for move_state in area_state.get_children():
-			move_state.connect("height_changed", self, "_on_height_changed")
+			move_state.connect("position_changed", self, "_on_position_changed")
 
 
 func _on_velocity_changed(velocity):
 	emit_signal("velocity_changed", velocity)
 
 
-func _on_height_changed(height):
-	emit_signal("height_changed", height)
+func _on_position_changed(position):
+	emit_signal("position_changed", position)

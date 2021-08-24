@@ -14,7 +14,7 @@ extents = Vector3( 8.5, 0.75, 5.5 )
 script = ExtResource( 2 )
 
 [node name="Elevator" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, 0.99, 0, 0, 0, 1, 0, 1, 0 )
+transform = Transform( 1, 0, 0, 0, 0.99, 0, 0, 0, 1, 0, 0, 0 )
 mesh = ExtResource( 1 )
 material/0 = null
 material/1 = null

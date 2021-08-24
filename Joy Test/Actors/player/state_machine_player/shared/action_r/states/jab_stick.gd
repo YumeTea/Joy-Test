@@ -91,7 +91,7 @@ func rotate_arm():
 #	reset_custom_pose_arm_r()
 	
 	#Orient look at point
-	look_at_point = attached_obj.to_global(stick_point)
+	look_at_point = attached_obj.to_global(stick_point - attached_obj.translation)
 	look_at_point -= RightArmController.get_global_transform().origin #Set look at point to local terms of arm controller
 	look_at_point = look_at_point.rotated(Vector3(0,1,0), -Body.get_rotation().y)
 	

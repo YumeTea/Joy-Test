@@ -3,42 +3,45 @@
 [ext_resource path="res://Levels/Test_Cell/objects/slide_tower_objects/elevator/Elevator.mesh" type="ArrayMesh" id=1]
 [ext_resource path="res://Levels/Test_Cell/objects/slide_tower_objects/elevator/Metal.shape" type="Shape" id=2]
 [ext_resource path="res://Levels/Test_Cell/objects/slide_tower_objects/elevator/slides_tower_elevator.gd" type="Script" id=3]
+[ext_resource path="res://Levels/Test_Cell/objects/slide_tower_objects/elevator/Wood.shape" type="Shape" id=4]
 
-[sub_resource type="ConcavePolygonShape" id=1]
-data = PoolVector3Array( -8.1875, 0, -4.1875, -8.1875, 0, -2.1875, -8.1875, 0, -3.1875, -8.1875, 0, -1.1875, -8.1875, 0, 0.125, -8.1875, 0, -0.125, -8.1875, 0, -4.1875, -8.1875, 0, -1.1875, -8.1875, 0, -2.1875, -8.1875, 0, 0.125, -4.1875, 0, 5.1875, -8.1875, 0, 1.1875, -8.1875, 0, -4.1875, -8.1875, 0, 0.125, -8.1875, 0, -1.1875, -8.1875, 0, 0.125, -3.1563, 0, 5.1875, -4.1875, 0, 5.1875, -3.0312, 0, 5.1875, -0.9687, 0, 5.1875, -2, 0, 5.1875, -8.1875, 0, 0.125, -3.0312, 0, 5.1875, -3.1563, 0, 5.1875, -7.1562, 0, -5.1875, -8.1875, 0, -4.1875, -8.1875, 0, -5.1875, -8.1875, 0, -4.1875, -3.0312, 0, 5.1875, -8.1875, 0, 0.125, -0.9687, 0, 5.1875, 1.0938, 0, 5.1875, 0.0625, 0, 5.1875, -8.1875, 0, -4.1875, -0.9687, 0, 5.1875, -3.0312, 0, 5.1875, -6.125, 0, -5.1875, -8.1875, 0, -4.1875, -7.1562, 0, -5.1875, -3.0312, 0, -5.1875, -5.0937, 0, -5.1875, -4.0625, 0, -5.1875, -5.0937, 0, -5.1875, -8.1875, 0, -4.1875, -6.125, 0, -5.1875, -8.1875, 0, -4.1875, 1.0938, 0, 5.1875, -0.9687, 0, 5.1875, 2.125, 0, 5.1875, 4.1875, 0, 5.1875, 3.1563, 0, 5.1875, -8.1875, 0, -4.1875, 2.125, 0, 5.1875, 1.0938, 0, 5.1875, -3.0312, 0, -5.1875, -8.1875, 0, -4.1875, -5.0937, 0, -5.1875, 0.0625, 0, -5.1875, -2, 0, -5.1875, -0.9687, 0, -5.1875, -2, 0, -5.1875, -8.1875, 0, -4.1875, -3.0312, 0, -5.1875, -8.1875, 0, -4.1875, 4.1875, 0, 5.1875, 2.125, 0, 5.1875, 5.1875, 0, 5.1875, 7.1875, 0, 5.1875, 6.1875, 0, 5.1875, -8.1875, 0, -4.1875, 5.1875, 0, 5.1875, 4.1875, 0, 5.1875, 0.0625, 0, -5.1875, -8.1875, 0, -4.1875, -2, 0, -5.1875, 3.1563, 0, -5.1875, 1.0938, 0, -5.1875, 2.125, 0, -5.1875, 1.0938, 0, -5.1875, -8.1875, 0, -4.1875, 0.0625, 0, -5.1875, -8.1875, 0, -4.1875, 7.1875, 0, 5.1875, 5.1875, 0, 5.1875, 7.1875, 0, 5.1875, 8.1875, 0, 4.125, 8.1875, 0, 5.1875, 8.1875, 0, 4.125, 8.1875, 0, 2, 8.1875, 0, 3.0625, 8.1875, 0, 2, 8.1875, 0, -0.125, 8.1875, 0, 0.9375, 7.1875, 0, 5.1875, 8.1875, 0, 2, 8.1875, 0, 4.125, 1.0938, 0, -5.1875, 7.1875, 0, 5.1875, -8.1875, 0, -4.1875, 8.1875, 0, -1.1875, 3.1563, 0, -5.1875, 4.1875, 0, -5.1875, 3.1563, 0, -5.1875, 7.1875, 0, 5.1875, 1.0938, 0, -5.1875, 7.1875, 0, 5.1875, 8.1875, 0, -0.125, 8.1875, 0, 2, 8.1875, 0, -0.125, 3.1563, 0, -5.1875, 8.1875, 0, -1.1875, 7.1875, 0, 5.1875, 3.1563, 0, -5.1875, 8.1875, 0, -0.125 )
-
-[sub_resource type="BoxShape" id=2]
+[sub_resource type="BoxShape" id=1]
 extents = Vector3( 8.5, 0.75, 5.5 )
 
 [node name="Slides_Tower_Elevator" type="Spatial"]
 script = ExtResource( 3 )
 
-[node name="Elevator" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, 0.99, 0, 0, 0, 1, 0, 1, 0 )
+[node name="Mesh" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.99, 0, 0, 0, 1, 0, 0, 0 )
 mesh = ExtResource( 1 )
 material/0 = null
 material/1 = null
-
-[node name="Metal_Railing" type="StaticBody" parent="Elevator" groups=[
-"metal",
-]]
-
-[node name="shape0" type="CollisionShape" parent="Elevator/Metal_Railing"]
-shape = ExtResource( 2 )
-
-[node name="Wood_Floor" type="StaticBody" parent="Elevator" groups=[
-"wood",
-]]
-transform = Transform( 1, 0, 0, 0, 1.0101, 0, 0, 0, 1, 0, 0, 0 )
-
-[node name="shape0" type="CollisionShape" parent="Elevator/Wood_Floor"]
-shape = SubResource( 1 )
 
 [node name="Area" type="Area" parent="."]
 
 [node name="CollisionShape" type="CollisionShape" parent="Area"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0 )
-shape = SubResource( 2 )
+shape = SubResource( 1 )
+
+[node name="Wood" type="StaticBody" parent="." groups=[
+"wood",
+]]
+
+[node name="woodshape0" type="CollisionShape" parent="Wood" groups=[
+"wood",
+]]
+transform = Transform( 1, 0, 0, 0, 0.999999, 0, 0, 0, 1, 0, 0, 0 )
+shape = ExtResource( 4 )
+
+[node name="Metal" type="StaticBody" parent="." groups=[
+"metal",
+]]
+
+[node name="metalshape0" type="CollisionShape" parent="Metal" groups=[
+"metal",
+]]
+transform = Transform( 1, 0, 0, 0, 0.99, 0, 0, 0, 1, 0, 0, 0 )
+shape = ExtResource( 2 )
 
 [connection signal="body_entered" from="Area" to="." method="_on_Area_body_entered"]
 [connection signal="body_exited" from="Area" to="." method="_on_Area_body_exited"]

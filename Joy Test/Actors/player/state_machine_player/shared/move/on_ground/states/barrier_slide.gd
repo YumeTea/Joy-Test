@@ -1,6 +1,13 @@
 extends "res://Actors/player/state_machine_player/shared/move/on_ground/on_ground.gd"
 
 
+#const turn_angle_max : float = 0.02
+const turn_angle_min : float = 0.006
+const turn_angle_max : float = 0.05
+const slide_turn_bound_lower : float = 0.0
+const slide_turn_bound_upper : float = 32.0
+
+
 func initialize_values(init_values_dic):
 	for value in init_values_dic:
 		self[value] = init_values_dic[value]
@@ -22,7 +29,7 @@ func enter():
 #Cleans up state, reinitializes values like timers
 func exit():
 	set_stop_on_slope(true)
-	set_fasten_to_floor(true)
+#	set_fasten_to_floor(true)
 	
 	.exit()
 
@@ -38,6 +45,8 @@ func update(delta):
 		emit_signal("state_switch", "walk")
 		return
 	
+	velocity = calc_slide_velocity(velocity, owner.get_floor_normal(), delta)
+	
 	.update(delta)
 	
 	###SIMULATED BUFFERING###
@@ -49,3 +58,57 @@ func update(delta):
 
 func _on_animation_finished(anim_name):
 	._on_animation_finished(anim_name)
+
+
+func calc_slide_velocity(current_velocity, floor_normal, delta):
+	var input : Vector2
+	var input_dir : Vector2
+	var input_angle : float
+	var turn_angle : float
+	var vel_temp : Vector3
+	
+	#Store temp velocity
+	vel_temp = current_velocity
+	
+	#Get input
+	input = get_joystick_input_l()
+	
+	#Get direction
+	input_dir = input.rotated(-camera_angles.y)
+	
+	#Get angle between facing and input
+	input_angle = Vector2(vel_temp.x, vel_temp.z).angle_to(input_dir)
+	
+	#Rotate player
+	if !is_aiming:
+		pass
+	elif is_aiming:
+		rotate_to_direction(Vector2(0,-1).rotated(-camera_angles.y))
+	
+	#Interpolate turn angle based on velocity
+#	turn_angle = turn_angle_max * -input.x
+	var vel_value = vel_temp.length() - slide_turn_bound_lower
+	var interp = 1.0 - (vel_value / (slide_turn_bound_upper - slide_turn_bound_lower))
+	interp = clamp(interp, turn_angle_min/turn_angle_max, 1.0)
+	
+	turn_angle = turn_angle_max * interp * input.length() * sign(-input_angle)
+	
+	#Rotate temp vel
+	vel_temp = vel_temp.rotated(floor_normal, turn_angle)
+	
+	return vel_temp
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+

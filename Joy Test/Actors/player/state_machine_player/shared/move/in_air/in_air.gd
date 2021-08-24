@@ -11,6 +11,8 @@ var has_jumped = true
 
 #Initializes state, changes animation, etc
 func enter():
+	set_fasten_to_floor(false)
+	
 	.enter()
 
 
@@ -37,8 +39,6 @@ func update(delta):
 		
 		#Fasten player
 		velocity_fasten = owner.move_and_slide_with_snap(velocity_fasten, snap_vector, Vector3(0, 1, 0), stop_on_slope, 4, deg2rad(50))
-		
-		print(velocity_fasten)
 		
 		#Check if player collided, if so let go
 		for col_idx in owner.get_slide_count():

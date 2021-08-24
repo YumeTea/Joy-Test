@@ -4,7 +4,7 @@ extends "res://Actors/player/state_machine_player/shared/shared.gd"
 'player slides while standing on and fastened to moving kinematicbodies'
 
 signal velocity_changed(velocity)
-signal height_changed(height)
+signal position_changed(position)
 
 
 #Initialized values storage
@@ -29,6 +29,9 @@ var air_accel = 1.375
 var air_deaccel = 1.375
 
 ##Motion Variables##
+#Motion Constants
+const floor_angle_max = deg2rad(50.0)
+
 var velocity : Vector3
 var velocity_ext : Vector3 #used for adding velocity applied from out of state machine scripts
 var snap_vector : Vector3
@@ -107,20 +110,16 @@ func update(delta):
 	velocity.y += (gravity * weight * delta)
 	
 	#Move player
-	velocity = owner.move_and_slide_with_snap(velocity, snap_vector, Vector3(0, 1, 0), stop_on_slope, 4, deg2rad(50))
+	velocity = owner.move_and_slide_with_snap(velocity, snap_vector, Vector3(0, 1, 0), stop_on_slope, 4, floor_angle_max)
 	
-#	print(owner.get_slide_count())
-#	print(owner.is_on_floor())
-	
-	#Set total velocity for readouts
 	velocity += velocity_fasten
 	
 	#Get new ground fasten point and dir
 	set_fasten_vectors()
 	
 	#DEBUG FOR UI
+	emit_signal("position_changed", owner.get_global_transform().origin)
 	emit_signal("velocity_changed", velocity)
-	emit_signal("height_changed", owner.get_global_transform().origin.y)
 
 
 func _on_animation_finished(_anim_name):
@@ -165,6 +164,14 @@ func add_velocity_ext(velocity, velocity_ext):
 
 func clear_velocity_ext():
 	velocity_ext = Vector3(0,0,0)
+
+
+func get_floor_velocity(attached_floor, delta):
+	if attached_floor:
+		if attached_floor.name == "gate_strafe":
+			return -attached_floor.velocity / delta
+	return Vector3(0,0,0)
+			
 
 
 ###MOTION FLAG FUNCTIONS###

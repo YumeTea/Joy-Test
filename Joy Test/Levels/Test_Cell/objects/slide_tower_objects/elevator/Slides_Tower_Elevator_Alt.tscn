@@ -1,15 +1,14 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Levels/Test_Cell/objects/slide_tower_objects/elevator/Elevator.mesh" type="ArrayMesh" id=1]
-[ext_resource path="res://Levels/Test_Cell/objects/slide_tower_objects/elevator/slides_tower_elevator_alt.gd" type="Script" id=2]
+[ext_resource path="res://Levels/Test_Cell/objects/slide_tower_objects/elevator/slides_tower_elevator.gd" type="Script" id=2]
 [ext_resource path="res://Levels/Test_Cell/objects/slide_tower_objects/elevator/Metal.shape" type="Shape" id=3]
 [ext_resource path="res://Levels/Test_Cell/objects/slide_tower_objects/elevator/Wood.shape" type="Shape" id=4]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 8.5, 0.75, 5.5 )
 
-[node name="Slides_Tower_Elevator_Alt" type="KinematicBody"]
-process_priority = -1
+[node name="Slides_Tower_Elevator" type="StaticBody"]
 script = ExtResource( 2 )
 
 [node name="Elevator" type="MeshInstance" parent="."]
@@ -24,13 +23,17 @@ material/1 = null
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0 )
 shape = SubResource( 1 )
 
-[node name="MetalCollision" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, 0.99, 0, 0, 0, 1, 0, 0, 0 )
-shape = ExtResource( 3 )
-
-[node name="WoodCollision" type="CollisionShape" parent="."]
+[node name="woodshape0" type="CollisionShape" parent="." groups=[
+"wood",
+]]
 transform = Transform( 1, 0, 0, 0, 0.999999, 0, 0, 0, 1, 0, 0, 0 )
 shape = ExtResource( 4 )
+
+[node name="metalshape0" type="CollisionShape" parent="." groups=[
+"metal",
+]]
+transform = Transform( 1, 0, 0, 0, 0.99, 0, 0, 0, 1, 0, 0, 0 )
+shape = ExtResource( 3 )
 
 [connection signal="body_entered" from="Area" to="." method="_on_Area_body_entered"]
 [connection signal="body_exited" from="Area" to="." method="_on_Area_body_exited"]

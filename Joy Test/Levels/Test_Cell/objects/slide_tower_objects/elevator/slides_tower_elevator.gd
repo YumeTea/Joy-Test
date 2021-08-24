@@ -19,35 +19,38 @@ func _ready():
 
 
 func _physics_process(delta):
+	self.translate(velocity)
+	
 	if is_ascending:
 		velocity += move_dir * accel * delta
-		if velocity.length() >= max_speed:
-			velocity += move_dir * max_speed * delta
+		if (velocity/delta).length() >= max_speed:
+			velocity = move_dir * max_speed * delta
 		
 		var next_pos = self.translation + velocity
-		if (stop_pos - next_pos).dot(move_dir) > 0.0:
-			self.translation += velocity
-#			$Elevator/Metal_Railing.constant_linear_velocity = velocity
-#			$Elevator/Wood_Floor.constant_linear_velocity = velocity
+		#Check if next position is before stop pos
+		if !((stop_pos - next_pos).dot(move_dir) >= 0.0):
+			velocity = (stop_pos - self.translation)
+	elif !is_ascending:
+		if velocity.dot(move_dir) > 0.0:
+			velocity -= move_dir * deaccel * delta
 		else:
-			self.translation = stop_pos
-#			$Elevator/Metal_Railing.constant_linear_velocity = Vector3(0,0,0)
-#			$Elevator/Wood_Floor.constant_linear_velocity = Vector3(0,0,0)
-#	elif !is_ascending:
-#		if velocity.dot(move_dir) > 0.0:
-#			velocity -= move_dir * deaccel * delta
-#		else:
-#			velocity -= move_dir * accel * delta
-#			if velocity.length() >= max_speed:
-#				velocity -= -move_dir * max_speed * delta
-#
-#		var next_pos = self.translation + velocity
-#		if (start_pos - next_pos).dot(-move_dir) > 0.0:
-#			self.translation += velocity
-#		else:
-#			self.translation = start_pos
+			velocity -= move_dir * accel * delta
+			if (velocity/delta).length() >= max_speed:
+				velocity = -move_dir * max_speed * delta
+		
+		var next_pos = self.translation + velocity
+		#Check if past stop_pos
+		if velocity.dot(move_dir) > 0.0:
+			if (stop_pos - next_pos).dot(move_dir) < 0.0:
+				velocity = (stop_pos - self.translation)
+		#Checi if past start_pos
+		elif velocity.dot(-move_dir) > 0.0:
+			if (start_pos - next_pos).dot(-move_dir) < 0.0:
+				velocity = (start_pos - self.translation)
 	
-	self.force_update_transform()
+	#Move platform
+	$Wood.set_translation(velocity)
+	$Metal.set_translation(velocity)
 
 
 func set_is_ascending(value : bool):

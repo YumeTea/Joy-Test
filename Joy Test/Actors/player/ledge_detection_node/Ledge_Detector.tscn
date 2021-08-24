@@ -51,13 +51,16 @@ enabled = true
 cast_to = Vector3( 0, 0, -0.8 )
 
 [node name="Debug_Point" type="MeshInstance" parent="."]
+visible = false
 mesh = SubResource( 2 )
 material/0 = SubResource( 3 )
 
 [node name="Debug_Point2" type="MeshInstance" parent="."]
+visible = false
 mesh = SubResource( 2 )
 material/0 = SubResource( 3 )
 
 [node name="Debug_Point3" type="MeshInstance" parent="."]
+visible = false
 mesh = SubResource( 4 )
 material/0 = SubResource( 5 )

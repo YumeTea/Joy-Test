@@ -2,7 +2,7 @@ extends Spatial
 
 var time : float
 var theta_offset : float
-var rot : Vector3
+var rot : Vector3 = Vector3()
 var rot_amplitude = deg2rad(20)
 
 
@@ -15,3 +15,17 @@ func _physics_process(delta):
 	
 	self.rotate_x(rot.x)
 	
+	$Wood.set_rotation(rot)
+	$Metal.set_rotation(rot)
+
+
+
+
+
+
+
+
+
+
+
+

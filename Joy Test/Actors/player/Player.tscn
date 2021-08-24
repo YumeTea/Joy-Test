@@ -119,7 +119,7 @@ height = 1.0
 
 [sub_resource type="CapsuleShape" id=8]
 radius = 0.4
-height = 5.19703
+height = 5.2
 
 [sub_resource type="AnimationNodeTimeSeek" id=9]
 
@@ -515,6 +515,7 @@ emission_operator = 0
 emission_on_uv2 = false
 
 [node name="Player" type="KinematicBody"]
+process_priority = -1
 collision_layer = 2
 script = ExtResource( 2 )
 
@@ -602,8 +603,9 @@ shape = SubResource( 8 )
 
 [node name="RayCast_Floor" type="RayCast" parent="CollisionShape"]
 process_priority = -1
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -3 )
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -2.95 )
 enabled = true
+cast_to = Vector3( 0, -1.05, 0 )
 
 [node name="Camera_Rig" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0 )
@@ -820,7 +822,7 @@ visible = false
 mesh = SubResource( 109 )
 material/0 = SubResource( 111 )
 
-[connection signal="height_changed" from="." to="UI/Debug_UI" method="_on_Player_height_changed"]
+[connection signal="position_changed" from="." to="UI/Debug_UI" method="_on_Player_position_changed"]
 [connection signal="velocity_changed" from="." to="UI/Debug_UI" method="_on_Player_velocity_changed"]
 [connection signal="state_machine_camera_state_stack_changed" from="Camera_Rig" to="UI/Debug_UI" method="_on_Camera_Rig_state_machine_camera_state_stack_changed"]
 [connection signal="move_state_stack_changed" from="State_Machines/State_Machine_Move" to="UI/Debug_UI" method="_on_State_Machine_Move_move_state_stack_changed"]
@@ -831,4 +833,3 @@ material/0 = SubResource( 111 )
 [connection signal="action_r_state_stack_changed" from="State_Machines/State_Machine_Action_R" to="UI/Debug_UI" method="_on_State_Machine_Action_R_action_r_state_stack_changed"]
 
 [editable path="Body"]
-[editable path="Body/Ledge_Detector"]

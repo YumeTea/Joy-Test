@@ -62,8 +62,7 @@ func calc_stick_velocity(delta):
 	var velocity : Vector3
 	
 	arm_pos_current = RightArmController.get_global_transform().origin
-	arm_pos_next = attached_obj.to_global(attached_arm_pos)
-	
+	arm_pos_next = attached_obj.to_global(attached_arm_pos - attached_obj.translation)
 	
 	velocity = (arm_pos_next - arm_pos_current) / delta
 	

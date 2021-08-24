@@ -22,7 +22,7 @@ func _ready():
 
 
 func _process(delta):
-#	camera_obstruct_correct()
+	camera_obstruct_correct()
 	update_camera_raycast()
 
 

@@ -1,2 +1,23 @@
 -set default variables for move_and_slide calls
 -make respawn player function
+-change jab collision detection to check shape group instead of body group
+-use acceleration * delta on static bods?
+
+-IDEAS FOR FLOOR ATTACHMENT FIX
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-Angelic oot soundfont/cardinal dancer angelic soundfont

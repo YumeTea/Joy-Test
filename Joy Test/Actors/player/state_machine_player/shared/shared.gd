@@ -130,6 +130,7 @@ func anim_tree_play_anim(anim_name, anim_tree_node_playback):
 
 
 ###INPUT FUNCTIONS###
+#Normalizes input
 func get_joystick_input_l():
 	var input : Vector2
 	

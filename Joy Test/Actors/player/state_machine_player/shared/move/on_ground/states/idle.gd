@@ -1,7 +1,7 @@
 extends "res://Actors/player/state_machine_player/shared/move/on_ground/on_ground.gd"
 
 #Idle variables
-var deaccel = 8
+var deaccel = 18
 
 var ground_speed_thresh_lower = 0.1
 
@@ -67,9 +67,11 @@ func calc_idle_velocity(current_velocity, delta):
 	var new_vel = Vector3(0,0,0)
 	
 	temp_vel.x = current_velocity.x
+	temp_vel.y = current_velocity.y
 	temp_vel.z = current_velocity.z
 	
 	target_vel.x = 0
+	target_vel.y = 0
 	target_vel.z = 0
 	
 	new_vel = temp_vel.linear_interpolate(target_vel, deaccel * delta)

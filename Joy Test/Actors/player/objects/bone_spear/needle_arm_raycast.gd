@@ -98,4 +98,12 @@ func get_col_normal(raycast_node):
 	return col_normal
 
 
+###UTILITY FUNCTIONS###
+func raycast_query(from : Vector3, to : Vector3, exclude : Array):
+	var space_state = owner.get_world().direct_space_state
+	var result = space_state.intersect_ray(from, to, exclude, 0x1, true, false)
+	return result
+
+
+
 

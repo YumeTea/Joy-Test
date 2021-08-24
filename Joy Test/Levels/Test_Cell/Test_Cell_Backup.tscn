@@ -1,0 +1,113 @@
+[gd_scene load_steps=21 format=2]
+
+[ext_resource path="res://default_env.tres" type="Environment" id=1]
+[ext_resource path="res://Levels/Test_Cell/objects/target/Target_Small.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Levels/Test_Cell/objects/gate/Gate_Rotate.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Levels/Test_Cell/objects/target/Target.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Levels/Test_Cell/objects/gate/Gate_Spin.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Levels/Test_Cell/objects/slide_tower_objects/slide_tower/Slides_Tower.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Levels/Test_Cell/objects/ramp/Ramp.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Levels/Test_Cell/objects/slope/Slope.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Levels/Test_Cell/level_geometry/Test_Cell_Geometry.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Levels/Test_Cell/objects/wall/Wall_Jump_Corridor.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Levels/Test_Cell/objects/ledge_hang_tests/Ledges.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Levels/Test_Cell/objects/gate/Gate.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Levels/Test_Cell/objects/gate/Gate_Strafe_Alt.tscn" type="PackedScene" id=13]
+[ext_resource path="res://Levels/Test_Cell/objects/gate/Gate_Rotate_Full.tscn" type="PackedScene" id=14]
+[ext_resource path="res://Levels/Test_Cell/objects/slope/Slope_Steep.tscn" type="PackedScene" id=15]
+[ext_resource path="res://Levels/Test_Cell/objects/ledge_hang_tests/Ledge_Test_Complex.tscn" type="PackedScene" id=16]
+[ext_resource path="res://Levels/Test_Cell/objects/ledge_hang_tests/Ledge_Slant_Test.tscn" type="PackedScene" id=17]
+[ext_resource path="res://Levels/Test_Cell/objects/slope/Slope_Huge.tscn" type="PackedScene" id=18]
+[ext_resource path="res://Levels/Test_Cell/objects/target/Target_Large.tscn" type="PackedScene" id=19]
+[ext_resource path="res://Levels/Test_Cell/objects/slide_tower_objects/elevator/Slides_Tower_Elevator_Alt.tscn" type="PackedScene" id=20]
+
+[node name="Level" type="Spatial"]
+
+[node name="Level_Mesh" parent="." instance=ExtResource( 9 )]
+
+[node name="Objects" type="Node" parent="."]
+
+[node name="Prism" parent="Objects" instance=ExtResource( 7 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -144.5, 1, -18.5 )
+
+[node name="Slope_Steep" parent="Objects" instance=ExtResource( 15 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -130, 0, 17.5 )
+
+[node name="Slope" parent="Objects" instance=ExtResource( 8 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -155, 0, -17.5 )
+
+[node name="Slope2" parent="Objects" instance=ExtResource( 8 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -134, 0, -17.5 )
+
+[node name="Slope_Huge" parent="Objects" instance=ExtResource( 18 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -77, 0, -18 )
+
+[node name="Slope_Huge2" parent="Objects" instance=ExtResource( 18 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -77, 0, 18 )
+
+[node name="Jab Objects" type="Spatial" parent="Objects"]
+
+[node name="gate_rotate_full" parent="Objects/Jab Objects" instance=ExtResource( 14 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 188, 24, 0 )
+
+[node name="gate_spin" parent="Objects/Jab Objects" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 152, 10, 25 )
+
+[node name="gate_rotate2" parent="Objects/Jab Objects" instance=ExtResource( 3 )]
+transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 152, 48, -24 )
+
+[node name="gate_rotate" parent="Objects/Jab Objects" instance=ExtResource( 3 )]
+transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 120, 24, -24 )
+
+[node name="gate_strafe2" parent="Objects/Jab Objects" instance=ExtResource( 13 )]
+transform = Transform( -1, 8.74228e-08, 0, 3.82137e-15, 4.37114e-08, -1, -8.74228e-08, -1, -4.37114e-08, 84, 10, 37 )
+
+[node name="gate" parent="Objects/Jab Objects" instance=ExtResource( 12 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 84, 0, -24 )
+
+[node name="Statues" type="Spatial" parent="Objects"]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -24, 0, -20 )
+
+[node name="Target_Small" parent="Objects/Statues" instance=ExtResource( 2 )]
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -7, 0, -3 )
+
+[node name="Target" parent="Objects/Statues" instance=ExtResource( 4 )]
+
+[node name="Target_Large" parent="Objects/Statues" instance=ExtResource( 19 )]
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 7, 0, -3 )
+
+[node name="Wall_Jump_Test" type="Spatial" parent="Objects"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 42 )
+
+[node name="Wall_Jump_Corridor" parent="Objects/Wall_Jump_Test" instance=ExtResource( 10 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -76 )
+
+[node name="Ledge_Tests" type="Spatial" parent="Objects"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 56, 0, -46 )
+
+[node name="Ledges" parent="Objects/Ledge_Tests" instance=ExtResource( 11 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -36 )
+
+[node name="Ledge_Complex" parent="Objects/Ledge_Tests" instance=ExtResource( 16 )]
+transform = Transform( 7.54979e-08, 0, 1, 0, 1, 0, -1, 0, 7.54979e-08, 28, 11, 27 )
+
+[node name="Spatial" parent="Objects/Ledge_Tests" instance=ExtResource( 17 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 33, 9, -17 )
+
+[node name="Slides_Tower" parent="Objects" instance=ExtResource( 6 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 216 )
+
+[node name="Slides_Tower_Elevator_Alt" parent="Objects/Slides_Tower" instance=ExtResource( 20 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -22, 0, -164 )
+start_pos = Vector3( -22, 0, -164 )
+stop_pos = Vector3( -22, 283.544, -164 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 0.707107, -0.541675, 0.454519, 0, 0.642788, 0.766044, -0.707107, -0.541675, 0.454519, 0, 45, 0 )
+light_energy = 0.8
+shadow_enabled = true
+shadow_color = Color( 0.815686, 0.815686, 0.815686, 1 )
+directional_shadow_normal_bias = 0.2
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource( 1 )

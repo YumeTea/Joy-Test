@@ -169,26 +169,26 @@ margin_bottom = 168.0
 margin_right = 65.0
 margin_bottom = 42.0
 
-[node name="Velocity_Value" type="Label" parent="Debug_Values/Physics_Values/Control"]
+[node name="Position_Value" type="Label" parent="Debug_Values/Physics_Values/Control"]
 margin_right = 65.0
 margin_bottom = 19.0
-text = "Velocity: "
-script = ExtResource( 8 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Height_Value" type="Label" parent="Debug_Values/Physics_Values/Control"]
-margin_top = 23.0
-margin_right = 65.0
-margin_bottom = 42.0
 text = "Height: "
 script = ExtResource( 9 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[connection signal="player_height_changed" from="." to="Debug_Values/Physics_Values/Control/Height_Value" method="_on_Debug_UI_player_height_changed"]
+[node name="Velocity_Value" type="Label" parent="Debug_Values/Physics_Values/Control"]
+margin_top = 23.0
+margin_right = 65.0
+margin_bottom = 42.0
+text = "Velocity: "
+script = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="player_position_changed" from="." to="Debug_Values/Physics_Values/Control/Position_Value" method="_on_Debug_UI_player_position_changed"]
 [connection signal="player_velocity_changed" from="." to="Debug_Values/Physics_Values/Control/Velocity_Value" method="_on_Debug_UI_player_velocity_changed"]
 [connection signal="state_machine_action_l_stack_changed" from="." to="Debug_Values/State_Stacks/Action_L_State_Stack2/Stack_Values" method="_on_Debug_UI_state_machine_action_l_stack_changed"]
 [connection signal="state_machine_action_r_stack_changed" from="." to="Debug_Values/State_Stacks/Action_R_State_Stack/Stack_Values" method="_on_Debug_UI_state_machine_action_r_stack_changed"]

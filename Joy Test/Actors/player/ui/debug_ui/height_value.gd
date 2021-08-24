@@ -1,12 +1,14 @@
 extends Label
 
 
-func update_display(height):
-	self.text = "Height: " + str(height)
+func update_display(position):
+	self.text = "Position: " + str(position)
 
 
-func _on_Debug_UI_player_height_changed(height):
-	update_display(height)
+func _on_Debug_UI_player_position_changed(position):
+	update_display(position)
+
+
 
 
 
