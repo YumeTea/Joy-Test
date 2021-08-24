@@ -49,8 +49,8 @@ func _physics_process(delta):
 				velocity = (start_pos - self.translation)
 	
 	#Move platform
-	$Wood.set_translation(velocity)
-	$Metal.set_translation(velocity)
+	$Wood.set_translation(Vector3(0.0, velocity.y, 0.0))
+	$Metal.set_translation(Vector3(0.0, velocity.y, 0.0))
 
 
 func set_is_ascending(value : bool):

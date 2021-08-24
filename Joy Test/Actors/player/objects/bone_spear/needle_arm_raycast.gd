@@ -32,6 +32,11 @@ func get_collision_values(raycast_node):
 		"recoil_vel": Vector3(),
 	}
 	
+	#DEBUG
+#	var query = raycast_query(raycast_node.get_global_transform().origin, raycast_node.to_global(raycast_node.cast_to), [owner])
+#	if query.size() > 0:
+#		print(query["shape"])
+	
 	###COLLIDER
 	collision["collider"] = raycast_node.get_collider()
 	

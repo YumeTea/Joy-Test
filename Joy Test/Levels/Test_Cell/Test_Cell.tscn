@@ -61,9 +61,16 @@ transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 152, 48
 transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 120, 24, -24 )
 
 [node name="gate_strafe" parent="Objects/Jab Objects" instance=ExtResource( 21 )]
-transform = Transform( -1, 8.74228e-08, 0, 3.82137e-15, 4.37114e-08, -1, -8.74228e-08, -1, -4.37114e-08, 84, 10, 37 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 84, 10, 37 )
+move_dir = Vector3( -1, 0, 0 )
+speed_peak = 8.0
 
-[node name="gate_strafe2" parent="Objects/Jab Objects" instance=ExtResource( 10 )]
+[node name="gate_strafe(updown)" parent="Objects/Jab Objects" instance=ExtResource( 21 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 4, 37 )
+move_dir = Vector3( -1, 1, 0 )
+speed_peak = 24.0
+
+[node name="gate_strafe(kinematic)" parent="Objects/Jab Objects" instance=ExtResource( 10 )]
 transform = Transform( -1, 8.74228e-08, 0, 3.82137e-15, 4.37114e-08, -1, -8.74228e-08, -1, -4.37114e-08, 84, 10, 69 )
 
 [node name="gate" parent="Objects/Jab Objects" instance=ExtResource( 9 )]

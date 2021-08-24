@@ -1,9 +1,8 @@
 extends "res://Actors/player/state_machine_player/shared/move/on_ground/on_ground.gd"
 
 
-#const turn_angle_max : float = 0.02
 const turn_angle_min : float = 0.006
-const turn_angle_max : float = 0.05
+const turn_angle_max : float = 0.02
 const slide_turn_bound_lower : float = 0.0
 const slide_turn_bound_upper : float = 32.0
 

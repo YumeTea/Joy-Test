@@ -10,6 +10,7 @@ signal ledge_detected(grab_data)
 onready var collider_shape = $Area/CollisionShape.shape
 onready var RayCast_Ledge = $Area/RayCast_Ledge
 onready var RayCast_Wall = $Area/RayCast_Wall
+onready var RayCast_Ceiling = $Area/RayCast_Ceiling
 
 #Raycast Default Values
 var raycast_ledge_trans_def : Vector3
@@ -59,7 +60,7 @@ func _process(delta):
 	valid_ledge = false
 	intersections = check_object_collisions()
 	
-	if intersections.size() > 0 and !on_ledge:
+	if intersections.size() > 0 and !on_ledge and !RayCast_Ceiling.is_colliding():
 		var intersect_point = intersections[0]
 		for i in intersections.size():
 			if abs(intersections[i].z) <= abs(intersect_point.z) and abs(intersections[i].x) <= abs(intersect_point.x):
@@ -101,12 +102,29 @@ func _process(delta):
 	if valid_ledge:
 		#Calc ledge grab point for valid ledge
 		calc_grab_data()
+		#Check if headspace is clear above grab point
+		var offset : Vector3 = RayCast_Ledge.to_local(grab_data["grab_point"])
+		offset.y = 0.0
+		print(offset)
+		offset = offset - (offset.normalized() * raycast_ledge_trans_def.z)
+		RayCast_Ceiling.translation.x = offset.x
+		RayCast_Ceiling.translation.z = offset.z
+		RayCast_Ceiling.force_raycast_update()
+		if RayCast_Ceiling.is_colliding():
+			grab_data["grab_obj"] = null
+			grab_data["grab_point"] = null
+			grab_data["grab_dir"] = null
+			grab_data["ledge_up"] = null
+		RayCast_Ceiling.translation.x = 0.0
+		RayCast_Ceiling.translation.z = 0.0
+		#Emit grab point data
 		emit_signal("ledge_detected", grab_data)
 	else:
 		grab_data["grab_obj"] = null
 		grab_data["grab_point"] = null
 		grab_data["grab_dir"] = null
 		grab_data["ledge_up"] = null
+		#Emit grab point data
 		emit_signal("ledge_detected", grab_data)
 
 
