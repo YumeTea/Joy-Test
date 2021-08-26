@@ -6,7 +6,7 @@ var turn_radius = deg2rad(12)
 
 #Initializes state, changes animation, etc
 func enter():
-	snap_vector = snap_vector_default
+	set_snap_vector(snap_vector_default)
 	.enter()
 
 

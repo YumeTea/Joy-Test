@@ -18,7 +18,7 @@
 [ext_resource path="res://Levels/Test_Cell/objects/ledge_hang_tests/Ledge_Slant_Test.tscn" type="PackedScene" id=16]
 [ext_resource path="res://Levels/Test_Cell/objects/target/Target_Large.tscn" type="PackedScene" id=17]
 [ext_resource path="res://Levels/Test_Cell/objects/slope/Slope_Huge.tscn" type="PackedScene" id=18]
-[ext_resource path="res://Levels/Test_Cell/objects/slide_tower_objects/slide_tower/Slides_Tower.tscn" type="PackedScene" id=20]
+[ext_resource path="res://Levels/Test_Cell/objects/slide_tower_objects/slide_tower/Slides_Tower.tscn" type="PackedScene" id=19]
 [ext_resource path="res://Levels/Test_Cell/objects/gate/Gate_Strafe.tscn" type="PackedScene" id=21]
 [ext_resource path="res://Levels/Test_Cell/objects/slide_tower_objects/elevator/Slides_Tower_Elevator.tscn" type="PackedScene" id=22]
 
@@ -105,13 +105,13 @@ transform = Transform( 7.54979e-08, 0, 1, 0, 1, 0, -1, 0, 7.54979e-08, 28, 11, 2
 [node name="Spatial" parent="Objects/Ledge_Tests" instance=ExtResource( 16 )]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 33, 9, -17 )
 
-[node name="Slides_Tower" parent="Objects" instance=ExtResource( 20 )]
+[node name="Slides_Tower" parent="Objects" instance=ExtResource( 19 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 216 )
 
 [node name="Slides_Tower_Elevator" parent="Objects/Slides_Tower" instance=ExtResource( 22 )]
-transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -22, 0, -164 )
-start_pos = Vector3( -22, 0, -164 )
-stop_pos = Vector3( -22, 283.5, -164 )
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -36, 0, -164 )
+start_pos = Vector3( -36, 0, -164 )
+stop_pos = Vector3( -36, 283.5, -164 )
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( 0.707107, -0.541675, 0.454519, 0, 0.642788, 0.766044, -0.707107, -0.541675, 0.454519, 0, 45, 0 )

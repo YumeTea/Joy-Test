@@ -28,6 +28,8 @@ var initialized_values = {
 	"is_b_sliding": false,
 	
 	##Motion
+	"floor_angle_max": 0.0,
+	
 	"velocity": Vector3(),
 	"wall_col": Vector3(),
 	"camera_angles": Vector3(),

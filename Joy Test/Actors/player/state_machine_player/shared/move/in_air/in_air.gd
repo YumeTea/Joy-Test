@@ -56,7 +56,7 @@ func update(delta):
 		hang_point = hang_obj.to_local(Ledge_Grab_Position.get_global_transform().origin)
 	
 	if owner.is_on_floor() and has_jumped: #check has_jumped to allow jump squat to play out
-		snap_vector = snap_vector_default
+		set_snap_vector(snap_vector_default)
 		if is_b_sliding:
 			emit_signal("state_switch", "barrier_slide")
 			return

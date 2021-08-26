@@ -1,7 +1,5 @@
 extends "res://Actors/player/state_machine_player/shared/shared.gd"
 
-'figure out why is_on_floor isnt set on rising platforms'
-'player slides while standing on and fastened to moving kinematicbodies'
 
 signal velocity_changed(velocity)
 signal position_changed(position)
@@ -30,12 +28,14 @@ var air_deaccel = 1.375
 
 ##Motion Variables##
 #Motion Constants
-const floor_angle_max = deg2rad(50.0)
+const floor_angle_max_default = deg2rad(50.0)
+var floor_angle_max = floor_angle_max_default
+const snap_vector_default = Vector3(0, -1, 0)
+const RayCast_Floor_offset_def = Vector3(0,0,-2.95)
+var snap_vector = snap_vector_default
 
 var velocity : Vector3
 var velocity_ext : Vector3 #used for adding velocity applied from out of state machine scripts
-var snap_vector : Vector3
-var snap_vector_default = Vector3(0, -1, 0)
 
 #Floor Fasten variables
 var attached_pos = null #attached point local to object player is standing on
@@ -166,14 +166,6 @@ func clear_velocity_ext():
 	velocity_ext = Vector3(0,0,0)
 
 
-func get_floor_velocity(attached_floor, delta):
-	if attached_floor:
-		if attached_floor.name == "gate_strafe":
-			return -attached_floor.velocity / delta
-	return Vector3(0,0,0)
-			
-
-
 ###MOTION FLAG FUNCTIONS###
 func set_stop_on_slope(value : bool):
 	State_Machine_Move.current_state.stop_on_slope = value
@@ -202,6 +194,15 @@ func set_can_ledge_grab(value):
 
 
 ###MOTION VAR SETTER FUNCTIONS###
+func set_snap_vector(value : Vector3):
+	State_Machine_Move.current_state.snap_vector = value
+	RayCast_Floor.cast_to.y = value.y - (owner.get_node("CollisionShape").translation.y + RayCast_Floor.translation.z)
+
+
+func set_floor_angle_max(value : float):
+	State_Machine_Move.current_state.floor_angle_max = value
+
+
 func set_wall_col(collision):
 	State_Machine_Move.current_state.wall_col = collision
 

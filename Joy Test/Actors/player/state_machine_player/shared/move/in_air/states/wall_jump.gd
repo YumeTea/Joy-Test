@@ -104,7 +104,7 @@ func calc_wall_jump_velocity(current_velocity, wall_jump_direction):
 	temp_vel = wall_jump_direction * wall_jump_velocity
 	temp_vel = temp_vel.rotated(rot_axis, deg2rad(-40))
 	
-	snap_vector = Vector3(0,0,0) #disable snap vector so player can leave floor
+	set_snap_vector(Vector3(0,0,0)) #disable snap vector so player can leave floor
 #	set_jumped(true)
 	
 	return temp_vel

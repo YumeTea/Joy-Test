@@ -66,7 +66,7 @@ func jump():
 #Call this function in future animation
 func add_jump_velocity(velocity):
 	velocity.y = jump_velocity
-	snap_vector = Vector3(0,0,0) #disable snap vector so player can leave floor
+	set_snap_vector(Vector3(0,0,0)) #disable snap vector so player can leave floor
 	set_jumped(true)
 	
 	return velocity

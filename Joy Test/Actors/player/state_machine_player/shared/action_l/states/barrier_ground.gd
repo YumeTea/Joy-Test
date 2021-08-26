@@ -1,6 +1,9 @@
 extends "res://Actors/player/state_machine_player/shared/action_l/action_l.gd"
 
 
+'should not be able to do this while ledge hanging'
+
+
 func initialize_values(init_values_dic):
 	for value in init_values_dic:
 		self[value] = init_values_dic[value]

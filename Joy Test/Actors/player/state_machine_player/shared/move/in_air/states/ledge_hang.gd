@@ -1,7 +1,6 @@
 extends "res://Actors/player/state_machine_player/shared/move/in_air/in_air.gd"
 
 
-'player will not initially attach firmly if colliding with ledge while hanging'
 'position slides slightly on rotating objects'
 
 

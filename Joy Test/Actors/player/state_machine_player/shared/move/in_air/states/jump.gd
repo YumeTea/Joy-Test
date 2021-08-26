@@ -57,7 +57,7 @@ func _on_animation_finished(_anim_name):
 func jump():
 	if !has_jumped:
 		velocity += calc_jump_velocity()
-		snap_vector = Vector3(0,0,0) #disable snap vector so player can leave floor
+		set_snap_vector(Vector3(0,0,0))
 		set_jumped(true)
 
 

@@ -1,10 +1,16 @@
 extends "res://Actors/player/state_machine_player/shared/move/on_ground/on_ground.gd"
 
 
+#const turn_angle_min : float = 0.006
 const turn_angle_min : float = 0.006
 const turn_angle_max : float = 0.02
 const slide_turn_bound_lower : float = 0.0
 const slide_turn_bound_upper : float = 32.0
+
+#const snap_vector_slide = Vector3(0,-2,0)
+const floor_angle_slide = deg2rad(85.0)
+
+var floor_stick_normal : Vector3
 
 
 func initialize_values(init_values_dic):
@@ -17,7 +23,10 @@ func enter():
 	#Zero out fasten velocity in states where player is not fastened
 	velocity_fasten = Vector3(0,0,0)
 	set_stop_on_slope(false)
+	set_floor_angle_max(floor_angle_slide)
 	set_fasten_to_floor(false)
+	
+	floor_stick_normal = owner.get_floor_normal()
 	
 	#Start anim
 	anim_tree_play_anim("barrier_slide", AnimStateMachineMotion)
@@ -28,6 +37,7 @@ func enter():
 #Cleans up state, reinitializes values like timers
 func exit():
 	set_stop_on_slope(true)
+	set_floor_angle_max(floor_angle_max_default)
 #	set_fasten_to_floor(true)
 	
 	.exit()
@@ -84,8 +94,7 @@ func calc_slide_velocity(current_velocity, floor_normal, delta):
 	elif is_aiming:
 		rotate_to_direction(Vector2(0,-1).rotated(-camera_angles.y))
 	
-	#Interpolate turn angle based on velocity
-#	turn_angle = turn_angle_max * -input.x
+	#Interpolate turn angle based on velocity (easier to turn at lower velocity)
 	var vel_value = vel_temp.length() - slide_turn_bound_lower
 	var interp = 1.0 - (vel_value / (slide_turn_bound_upper - slide_turn_bound_lower))
 	interp = clamp(interp, turn_angle_min/turn_angle_max, 1.0)
@@ -96,11 +105,6 @@ func calc_slide_velocity(current_velocity, floor_normal, delta):
 	vel_temp = vel_temp.rotated(floor_normal, turn_angle)
 	
 	return vel_temp
-	
-	
-	
-	
-	
 	
 	
 	

@@ -3,8 +3,8 @@
 -change jab collision detection to check shape group instead of body group
 -use acceleration * delta on static bods?
 
--IDEAS FOR FLOOR ATTACHMENT FIX
 
+Ideas:
 
 
 

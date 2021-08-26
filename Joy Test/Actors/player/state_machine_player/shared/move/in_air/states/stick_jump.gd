@@ -73,7 +73,7 @@ func add_jump_velocity(velocity):
 	jump_velocity = jump_velocity.rotated(Vector3(0,1,0), Body.get_rotation().y)
 	
 	velocity += jump_velocity
-	snap_vector = Vector3(0,0,0) #disable snap vector so player can leave floor
+	set_snap_vector(Vector3(0,0,0)) #disable snap vector so player can leave floor
 	
 	return velocity
 
