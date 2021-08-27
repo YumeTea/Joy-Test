@@ -1,12 +1,7 @@
-extends Node
+extends "res://Scripts/state_machine/state_default.gd"
 
 
-signal state_switch(next_state_name)
-
-
-#func initialize_values(init_values_dic):
-#	for value in init_values_dic:
-#		self[value] = init_values_dic[value]
+signal move_dir_changed(move_dir)
 
 
 #Initializes state, changes animation, etc
@@ -31,4 +26,3 @@ func update(_delta):
 
 func _on_animation_finished(_anim_name):
 	return
-

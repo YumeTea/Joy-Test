@@ -1,17 +1,14 @@
-extends Node
+extends "res://Actors/enemies/_standing/state_machine_enemy_standing/ai/ai.gd"
 
 
-signal state_switch(next_state_name)
-
-
-#func initialize_values(init_values_dic):
-#	for value in init_values_dic:
-#		self[value] = init_values_dic[value]
+func initialize_values(init_values_dic):
+	for value in init_values_dic:
+		self[value] = init_values_dic[value]
 
 
 #Initializes state, changes animation, etc
 func enter():
-	return
+	conne
 
 
 #Cleans up state, reinitializes values like timers
@@ -31,4 +28,3 @@ func update(_delta):
 
 func _on_animation_finished(_anim_name):
 	return
-

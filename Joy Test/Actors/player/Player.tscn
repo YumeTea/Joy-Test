@@ -162,7 +162,7 @@ nodes/StateMachineActionL/position = Vector2( 240, 200 )
 nodes/TimeScaleActionL/node = SubResource( 18 )
 nodes/TimeScaleActionL/position = Vector2( 660, 200 )
 nodes/output/position = Vector2( 900, 200 )
-node_connections = [ "output", 0, "TimeScaleActionL", "SeekActionL", 0, "StateMachineActionL", "TimeScaleActionL", 0, "SeekActionL" ]
+node_connections = [ "output", 0, "TimeScaleActionL", "TimeScaleActionL", 0, "SeekActionL", "SeekActionL", 0, "StateMachineActionL" ]
 
 [sub_resource type="AnimationNodeTimeSeek" id=20]
 
@@ -459,7 +459,7 @@ nodes/StateMachineMotion/node = SubResource( 98 )
 nodes/StateMachineMotion/position = Vector2( -460, 140 )
 nodes/TimeScaleMotion/node = SubResource( 99 )
 nodes/TimeScaleMotion/position = Vector2( 20, 140 )
-node_connections = [ "output", 0, "TimeScaleMotion", "TimeScaleMotion", 0, "SeekMotion", "SeekMotion", 0, "StateMachineMotion" ]
+node_connections = [ "output", 0, "TimeScaleMotion", "SeekMotion", 0, "StateMachineMotion", "TimeScaleMotion", 0, "SeekMotion" ]
 
 [sub_resource type="AnimationNodeBlend2" id=101]
 filter_enabled = true
@@ -523,12 +523,6 @@ script = ExtResource( 2 )
 
 [node name="Skeleton" parent="Body/Armature" index="0"]
 transform = Transform( -1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 0, 0 )
-bones/1/bound_children = [ NodePath("TorsoController") ]
-bones/13/bound_children = [ NodePath("UpperChestBone") ]
-bones/16/bound_children = [ NodePath("LeftShoulderBone") ]
-bones/18/bound_children = [ NodePath("LeftArmController") ]
-bones/20/bound_children = [ NodePath("LeftHandBone") ]
-bones/42/bound_children = [ NodePath("RightArmController") ]
 
 [node name="Body" parent="Body/Armature/Skeleton" index="0"]
 skin = null
@@ -567,7 +561,7 @@ mesh = SubResource( 7 )
 material/0 = SubResource( 6 )
 
 [node name="LeftHandBone" type="BoneAttachment" parent="Body/Armature/Skeleton" index="3"]
-transform = Transform( -0.913356, 0.384396, -0.134238, -0.391725, -0.919517, 0.0322317, -0.111044, 0.0820242, 0.990425, 0.878881, 3.98796, -0.0650749 )
+transform = Transform( -0.740517, 0.384396, -0.551245, -0.360177, -0.919517, -0.157353, -0.567366, 0.0820245, 0.819371, 0.878881, 3.98796, -0.0650747 )
 bone_name = "LeftLowerArmBone"
 
 [node name="Spell_Origin" type="Position3D" parent="Body/Armature/Skeleton/LeftHandBone"]
@@ -584,13 +578,13 @@ transform = Transform( -0.268338, 0.941562, -0.203608, -0.962803, -0.255173, 0.0
 transform = Transform( 1, -5.50214e-08, 5.75614e-08, 5.50214e-08, -0.0450993, -0.998983, 5.75613e-08, 0.998983, -0.0450993, 8.88178e-16, 0.0958721, 1.15696 )
 
 [node name="UpperChestBone" type="BoneAttachment" parent="Body/Armature/Skeleton" index="5"]
-transform = Transform( 1, -5.50214e-08, 5.75614e-08, 5.75613e-08, 0.998983, -0.0450993, -5.50214e-08, 0.0450993, 0.998983, 5.2336e-16, 4.57455, -0.0862274 )
+transform = Transform( 1, -5.50214e-08, 5.75614e-08, 5.75614e-08, 0.998983, -0.0450993, -5.50214e-08, 0.0450993, 0.998983, 5.2336e-16, 4.57455, -0.0862274 )
 bone_name = "UpperChestBone"
 
 [node name="RightArmController_offset" type="Position3D" parent="Body/Armature/Skeleton/UpperChestBone"]
 
 [node name="LeftShoulderBone" type="BoneAttachment" parent="Body/Armature/Skeleton" index="6"]
-transform = Transform( -0.268338, 0.941562, -0.203608, 0.0317263, 0.219883, 0.97501, 0.962803, 0.255173, -0.0888751, 0.149277, 4.78114, -0.117562 )
+transform = Transform( -0.268338, 0.941562, -0.203608, 0.0317264, 0.219883, 0.975011, 0.962803, 0.255173, -0.0888751, 0.149277, 4.78114, -0.117562 )
 bone_name = "LeftShoulderBone"
 
 [node name="LeftArmController_offset" type="Position3D" parent="Body/Armature/Skeleton/LeftShoulderBone"]

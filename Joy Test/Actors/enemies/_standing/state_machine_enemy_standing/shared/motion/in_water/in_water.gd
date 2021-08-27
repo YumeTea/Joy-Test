@@ -1,32 +1,24 @@
-extends Node
-
-
-signal state_switch(next_state_name)
-
-
-#func initialize_values(init_values_dic):
-#	for value in init_values_dic:
-#		self[value] = init_values_dic[value]
+extends "res://Actors/enemies/_standing/state_machine_enemy_standing/shared/motion/motion.gd"
 
 
 #Initializes state, changes animation, etc
 func enter():
-	return
+	.exit()
 
 
 #Cleans up state, reinitializes values like timers
 func exit():
-	return
+	.exit()
 
 
 #Creates output based on the input event passed in
-func handle_input(_event):
-	return
+func handle_input(event):
+	.handle_input(event)
 
 
 #Acts as the _process method would
-func update(_delta):
-	return
+func update(delta):
+	.update(delta)
 
 
 func _on_animation_finished(_anim_name):

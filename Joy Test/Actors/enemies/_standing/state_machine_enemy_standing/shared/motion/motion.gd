@@ -1,0 +1,241 @@
+extends "res://Actors/enemies/_standing/state_machine_enemy_standing/shared/shared.gd"
+
+
+signal velocity_changed(velocity)
+signal position_changed(position)
+
+
+#Initialized values storage
+var initialized_values : Dictionary
+
+##AI Variables
+var move_dir : Vector3 = Vector3()
+
+##Movement Variables
+#Limits
+var run_speed_full = 24.0
+var run_full_time = 0.875
+var air_speed_full = 8.0
+var speed_thresh_lower = 0.1
+
+#Values
+var weight = 5.0
+var gravity = -9.8
+var walk_accel = 16
+var walk_deaccel = 16
+var air_accel = 1.375
+var air_deaccel = 1.375
+
+##Motion Variables##
+#Motion Constants
+const floor_angle_max_default = deg2rad(50.0)
+var floor_angle_max = floor_angle_max_default
+const snap_vector_default = Vector3(0, -1, 0)
+const RayCast_Floor_offset_def = Vector3(0,0,-2.95)
+var snap_vector = snap_vector_default
+
+var velocity : Vector3
+var velocity_ext : Vector3 #used for adding velocity applied from out of state machine scripts
+
+#Floor Fasten variables
+var attached_pos = null #attached point local to object player is standing on
+var attached_dir = null
+var attached_dir_prev = null
+var attached_floor = null
+var velocity_fasten : Vector3
+
+#Node Storage
+onready var Collision = owner.get_node("CollisionShape")
+
+onready var RayCast_Floor = owner.get_node("CollisionShape/RayCast_Floor")
+
+onready var Timer_Move = owner.get_node("State_Machines/State_Machine_Move/Timer_Move")
+
+onready var AnimStateMachineMotion = owner.get_node("AnimationTree").get("parameters/BlendTreeMotion/StateMachineMotion/playback")
+
+#Motion Flags
+var stop_on_slope = true
+var fasten_to_floor = true
+
+
+#Initializes state, changes animation, etc
+func enter():
+	connect_local_signals()
+
+
+#Cleans up state, reinitializes values like timers
+func exit():
+	#Reset motion anim time scale on every state switch
+	AnimTree.set("parameters/BlendTreeMotion/TimeScaleMotion/scale", 1.0)
+	
+	disconnect_local_signals()
+
+
+#Creates output based on the input event passed in
+func handle_input(event):
+	.handle_input(event)
+
+
+#Acts as the _process method would
+func update(delta):
+	#Add external velocities (from outside this state machine)
+	if velocity_ext != Vector3(0,0,0):
+		velocity = add_velocity_ext(velocity, velocity_ext)
+	
+	#Add gravity
+	velocity.y += (gravity * weight * delta)
+	
+	#Move player
+	velocity = owner.move_and_slide_with_snap(velocity, snap_vector, Vector3(0, 1, 0), stop_on_slope, 4, floor_angle_max)
+	
+	velocity += velocity_fasten
+	
+	#Get new ground fasten point and dir
+	set_fasten_vectors()
+	
+	#DEBUG FOR UI
+	emit_signal("position_changed", owner.get_global_transform().origin)
+	emit_signal("velocity_changed", velocity)
+
+
+func _on_animation_finished(_anim_name):
+	return
+
+
+###MOTION FUNCTIONS###
+func rotate_to_direction(direction): #Direction should be normalized
+	if direction is Vector3:
+		direction = Vector2(direction.x, direction.z)
+	
+	if direction.length() > 0:
+		var angle_y = Vector2(0, 1).angle_to(-direction) #calc degree of player rotation on y axis
+		
+		var rot_final = Body.get_rotation()
+		rot_final.y = -angle_y
+		
+		Body.set_rotation(rot_final)
+		return angle_y
+	else:
+		return null
+
+
+#Used for adding jab recoil velocity
+func add_velocity_ext(velocity, velocity_ext):
+	var v_dot_ext : float
+	var v_ext : Vector3
+	var v_current : Vector3
+	var v_new : Vector3
+	
+	v_ext = velocity_ext.normalized()
+	v_current = velocity.normalized()
+	
+	v_dot_ext = max(0, v_ext.dot(v_current))
+	
+	v_new = velocity_ext + (velocity * v_dot_ext)
+	
+	clear_velocity_ext()
+	
+	return v_new
+
+
+func clear_velocity_ext():
+	velocity_ext = Vector3(0,0,0)
+
+
+###MOTION FLAG FUNCTIONS###
+func set_stop_on_slope(value : bool):
+	State_Machine_Move.current_state.stop_on_slope = value
+
+
+func set_fasten_to_floor(value : bool):
+	State_Machine_Move.current_state.fasten_to_floor = value
+
+
+###MOTION VAR SETTER FUNCTIONS###
+func set_snap_vector(value : Vector3):
+	State_Machine_Move.current_state.snap_vector = value
+	RayCast_Floor.cast_to.y = value.y - (owner.get_node("CollisionShape").translation.y + RayCast_Floor.translation.z)
+
+
+func set_floor_angle_max(value : float):
+	State_Machine_Move.current_state.floor_angle_max = value
+
+
+func set_fasten_vectors():
+	attached_pos = null
+	attached_dir = null
+	attached_floor = null
+	
+	RayCast_Floor.force_raycast_update()
+	
+	if RayCast_Floor.is_colliding() and owner.is_on_floor():
+		var collision : KinematicCollision
+		
+		for col_idx in owner.get_slide_count():
+			collision = owner.get_slide_collision(col_idx)
+			
+			if collision.collider == RayCast_Floor.get_collider():
+				attached_floor = collision.collider
+				attached_pos = attached_floor.to_local(RayCast_Floor.get_collision_point())
+				attached_dir = attached_floor.to_local(get_facing_direction_horizontal(Body))
+				attached_dir_prev = attached_floor.to_global(attached_dir) - attached_floor.get_global_transform().origin
+				return
+
+
+#Stores values of the current state in the top level state machine's dict, for transfer to another state
+#Called from main state machine
+func store_initialized_values(init_values_dic):
+	for value in init_values_dic:
+		init_values_dic[value] = self[value]
+
+
+func connect_local_signals():
+	owner.get_node("State_Machines/State_Machine_AI").connect("ai_state_changed", self, "_on_ai_state_changed")
+	owner.get_node("State_Machines/State_Machine_AI").connect("move_dir_changed", self, "_on_move_dir_changed")
+	owner.get_node("State_Machines/State_Machine_Action_L").connect("action_l_state_changed", self, "_on_State_Machine_Action_L_state_changed")
+	owner.get_node("State_Machines/State_Machine_Action_R").connect("action_r_state_changed", self, "_on_State_Machine_Action_R_state_changed")
+	
+	owner.get_node("State_Machines/State_Machine_Move/Timer_Aim").connect("timeout", self, "_on_Timer_Aim_timeout")
+	owner.get_node("State_Machines/State_Machine_Move/Timer_Move").connect("timeout", self, "_on_Timer_Move_timeout")
+	
+	owner.get_node("AnimationPlayer").connect("animation_finished", self, "_on_animation_finished")
+
+
+func disconnect_local_signals():
+	owner.get_node("State_Machines/State_Machine_AI").disconnect("ai_state_changed", self, "_on_ai_state_changed")
+	owner.get_node("State_Machines/State_Machine_AI").disconnect("move_dir_changed", self, "_on_move_dir_changed")
+	owner.get_node("State_Machines/State_Machine_Action_L").disconnect("action_l_state_changed", self, "_on_State_Machine_Action_L_state_changed")
+	owner.get_node("State_Machines/State_Machine_Action_R").disconnect("action_r_state_changed", self, "_on_State_Machine_Action_R_state_changed")
+	
+	owner.get_node("State_Machines/State_Machine_Move/Timer_Aim").disconnect("timeout", self, "_on_Timer_Aim_timeout")
+	owner.get_node("State_Machines/State_Machine_Move/Timer_Move").disconnect("timeout", self, "_on_Timer_Move_timeout")
+	
+	owner.get_node("AnimationPlayer").disconnect("animation_finished", self, "_on_animation_finished")
+
+
+###LOCAL SIGNAL COMMS###
+func _on_ai_state_changed(state_name):
+	pass
+
+
+func _on_move_dir_changed(dir : Vector3):
+	move_dir = dir
+
+
+func _on_State_Machine_Action_L_state_changed(action_l_state):
+	pass
+
+
+func _on_State_Machine_Action_R_state_changed(action_r_state):
+	pass
+
+
+func _on_Timer_Move_timeout():
+	pass
+
+
+func _on_Timer_Aim_timeout():
+	set_aiming(false)
+
+
+
