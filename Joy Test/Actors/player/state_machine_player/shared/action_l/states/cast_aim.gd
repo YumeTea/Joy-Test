@@ -18,8 +18,8 @@ func initialize_values(init_values_dic):
 func enter():
 	if !is_charging:
 		#Load spell assets if entering cast state
-		charge_anim_scene = load(current_spell.charging_anim_scene)
-		spell_projectile = load(current_spell.projectile_scene)
+		spell_projectile = load(current_spell.object_scene)
+		charge_anim_scene = load(current_spell.object_charging_scene)
 		
 		#Spell charging initialization
 		set_charging(true)
@@ -109,15 +109,16 @@ func cast_abort():
 func start_charging_anim(anim_scene):
 	set_charging(true)
 	
-	var charge_anim_scene = load(current_spell.charging_anim_scene)
+	var charge_anim_scene = load(current_spell.object_charging_scene)
 	var charge_anim = charge_anim_scene.instance()
-	owner.get_node("Body/Armature/Skeleton/LeftHandBone/Spell_Origin").add_child(charge_anim)
-	charging_spell_instance = owner.get_node("Body/Armature/Skeleton/LeftHandBone/Spell_Origin" + "/" + charge_anim.get_name())
+	Spell_Origin.add_child(charge_anim)
+	charging_spell_instance = Spell_Origin.get_node(charge_anim.get_name())
 
 
 func end_charging_anim():
 	charging_spell_instance.get_node("AnimationPlayer").disconnect("animation_finished", self, "_on_animation_finished")
 	charging_spell_instance.queue_free()
+	charging_spell_instance = null
 
 
 func reverse_charging_anim():
@@ -142,7 +143,7 @@ func cast_projectile():
 	var facing_direction = Vector3(0,0,-1).rotated(Vector3(0,1,0), Body.get_rotation().y)
 	
 	#Initialize and spawn projectile
-	var position_init = owner.get_node("Body/Armature/Skeleton/LeftHandBone/Spell_Origin").get_global_transform()
+	var position_init = Spell_Origin.get_global_transform()
 	var direction_init = position_init.origin.direction_to(camera_look_at_point)
 	#Set projectile starting position, direction, and target. Add to scene tree
 	projectile.start(position_init, direction_init)

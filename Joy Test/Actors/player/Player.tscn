@@ -459,7 +459,7 @@ nodes/StateMachineMotion/node = SubResource( 98 )
 nodes/StateMachineMotion/position = Vector2( -460, 140 )
 nodes/TimeScaleMotion/node = SubResource( 99 )
 nodes/TimeScaleMotion/position = Vector2( 20, 140 )
-node_connections = [ "output", 0, "TimeScaleMotion", "SeekMotion", 0, "StateMachineMotion", "TimeScaleMotion", 0, "SeekMotion" ]
+node_connections = [ "output", 0, "TimeScaleMotion", "TimeScaleMotion", 0, "SeekMotion", "SeekMotion", 0, "StateMachineMotion" ]
 
 [sub_resource type="AnimationNodeBlend2" id=101]
 filter_enabled = true
@@ -482,7 +482,7 @@ nodes/MotionActionLBlend/position = Vector2( 500, 140 )
 nodes/MotionActionRBlend/node = SubResource( 102 )
 nodes/MotionActionRBlend/position = Vector2( 240, 40 )
 nodes/output/position = Vector2( 760, 140 )
-node_connections = [ "output", 0, "MotionActionLBlend", "MotionActionRBlend", 0, "BlendTreeMotion", "MotionActionRBlend", 1, "BlendTreeActionR", "MotionActionLBlend", 0, "MotionActionRBlend", "MotionActionLBlend", 1, "BlendTreeActionL" ]
+node_connections = [ "output", 0, "MotionActionLBlend", "MotionActionLBlend", 0, "MotionActionRBlend", "MotionActionLBlend", 1, "BlendTreeActionL", "MotionActionRBlend", 0, "BlendTreeMotion", "MotionActionRBlend", 1, "BlendTreeActionR" ]
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=104]
 
@@ -517,12 +517,19 @@ emission_on_uv2 = false
 [node name="Player" type="KinematicBody"]
 process_priority = -1
 collision_layer = 2
+collision_mask = 5
 script = ExtResource( 2 )
 
 [node name="Body" parent="." instance=ExtResource( 3 )]
 
 [node name="Skeleton" parent="Body/Armature" index="0"]
 transform = Transform( -1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 0, 0 )
+bones/1/bound_children = [ NodePath("TorsoController") ]
+bones/13/bound_children = [ NodePath("UpperChestBone") ]
+bones/16/bound_children = [ NodePath("LeftShoulderBone") ]
+bones/18/bound_children = [ NodePath("LeftArmController") ]
+bones/20/bound_children = [ NodePath("LeftHandBone") ]
+bones/42/bound_children = [ NodePath("RightArmController") ]
 
 [node name="Body" parent="Body/Armature/Skeleton" index="0"]
 skin = null
@@ -561,7 +568,7 @@ mesh = SubResource( 7 )
 material/0 = SubResource( 6 )
 
 [node name="LeftHandBone" type="BoneAttachment" parent="Body/Armature/Skeleton" index="3"]
-transform = Transform( -0.740517, 0.384396, -0.551245, -0.360177, -0.919517, -0.157353, -0.567366, 0.0820245, 0.819371, 0.878881, 3.98796, -0.0650747 )
+transform = Transform( 0.476991, 0.384396, -0.79039, 0.121757, -0.919517, -0.373715, -0.870434, 0.0820244, -0.485405, 0.878881, 3.98796, -0.0650747 )
 bone_name = "LeftLowerArmBone"
 
 [node name="Spell_Origin" type="Position3D" parent="Body/Armature/Skeleton/LeftHandBone"]
@@ -596,6 +603,9 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 0 )
 
 [node name="Ledge_Grab_Position" type="Position3D" parent="Body/Position_Nodes"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.85, -0.45 )
+
+[node name="Barrier_Origin" type="Position3D" parent="Body"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.35, -0.75 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 3, 0 )

@@ -105,7 +105,6 @@ func _process(delta):
 		#Check if headspace is clear above grab point
 		var offset : Vector3 = RayCast_Ledge.to_local(grab_data["grab_point"])
 		offset.y = 0.0
-		print(offset)
 		offset = offset - (offset.normalized() * raycast_ledge_trans_def.z)
 		RayCast_Ceiling.translation.x = offset.x
 		RayCast_Ceiling.translation.z = offset.z

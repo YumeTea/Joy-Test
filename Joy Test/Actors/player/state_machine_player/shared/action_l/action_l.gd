@@ -16,8 +16,12 @@ var spell_projectile : Resource
 
 #Pose Variables
 onready var LeftArmController_idx = Skel.find_bone("LeftArmController")
+var pose_blend_l : Transform
+var blend_motionactionl : float
 
 #Node Storage
+onready var Spell_Origin = owner.get_node("Body/Armature/Skeleton/LeftHandBone/Spell_Origin")
+onready var Barrier_Origin = owner.get_node("Body/Barrier_Origin")
 onready var Timer_Action_L = owner.get_node("State_Machines/State_Machine_Action_L/Timer_Action_L")
 
 onready var AnimSeekActionL = "parameters/BlendTreeActionL/SeekActionL/seek_position"
@@ -106,6 +110,7 @@ func reset_custom_pose_arm_l():
 	Skel.set_bone_custom_pose(LeftArmController_idx, transform)
 
 
+#Keeps arm bones attached to shoulder during move animations
 func anchor_arm_l_transform():
 	var pose : Transform
 	

@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Levels/Test_Cell/Test_Cell.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Actors/player/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Actors/enemies/testturret/TestTurret.tscn" type="PackedScene" id=3]
 
 [node name="Main" type="Node"]
 
@@ -12,4 +13,6 @@
 [node name="Actors" type="Node" parent="."]
 
 [node name="Player" parent="Actors" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00320816, 283.93, 55.6207 )
+
+[node name="TestTurret" parent="Actors" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 50, 0, -44 )

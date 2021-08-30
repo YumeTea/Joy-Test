@@ -13,6 +13,11 @@ func ideas_targetting():
 	'attacking while targetting (not aiming) should be robust to give it some reason to use over aiming'
 
 
+func ideas_projectiles():
+	'have projectile group'
+	'check for collision with projectile on player when moving'
+	'if collision with projectile, call projectile impact() method with player as argument'
+	'move player rest of way'
 
 
 ###QUIRKS###

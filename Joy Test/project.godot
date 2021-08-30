@@ -138,6 +138,10 @@ attack_right={
  ]
 }
 
+[layer_names]
+
+3d_physics/layer_4="barrier_player"
+
 [physics]
 
 common/enable_pause_aware_picking=true

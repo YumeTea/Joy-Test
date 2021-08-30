@@ -20,6 +20,13 @@ func _ready():
 	self.inventory.debug_initialize_inventory()
 
 
+#func _physics_process(delta):
+#	if get_slide_count() > 1:
+#		for col_idx in get_slide_count():
+#			var collision = get_slide_collision(col_idx)
+#			print(collision.collider_velocity)
+
+
 func connect_motion_signals():
 	var motion_state = $State_Machines/State_Machine_Move/Shared/Motion
 	

@@ -124,8 +124,10 @@ func set_b_sliding(value : bool):
 ###ANIMATION FUNCTIONS###
 func anim_tree_play_anim(anim_name, anim_tree_node_playback):
 	if !anim_tree_node_playback.is_playing():
+#		print("starting " + str(anim_name))
 		anim_tree_node_playback.start(anim_name)
 	else:
+#		print("travelling to " + str(anim_name))
 		anim_tree_node_playback.travel(anim_name)
 
 

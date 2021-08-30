@@ -1,10 +1,6 @@
 extends "res://Actors/player/state_machine_player/shared/action_l/action_l.gd"
 
 
-var pose_blend : Transform
-var blend_motionactionl : float
-
-
 func initialize_values(init_values_dic):
 	for value in init_values_dic:
 		self[value] = init_values_dic[value]
@@ -17,11 +13,11 @@ func enter():
 	anim_tree_play_anim("none_l", AnimStateMachineActionL)
 	
 	#Blend values to none state
-	pose_blend = Skel.get_bone_custom_pose(LeftArmController_idx)
+	pose_blend_l = Skel.get_bone_custom_pose(LeftArmController_idx)
 	
 	blend_motionactionl = AnimTree.get("parameters/MotionActionLBlend/blend_amount")
 	
-	Tween_Player.interpolate_property(self, "pose_blend", pose_blend, Transform(Vector3(1,0,0), Vector3(0,1,0), Vector3(0,0,1), Vector3(0,0,0)), 0.25, 4)
+	Tween_Player.interpolate_property(self, "pose_blend_l", pose_blend_l, Transform(Vector3(1,0,0), Vector3(0,1,0), Vector3(0,0,1), Vector3(0,0,0)), 0.25, 4)
 	Tween_Player.interpolate_property(self, "blend_motionactionl", blend_motionactionl, 0.0, 0.25, 4)
 	Tween_Player.start()
 	
@@ -32,6 +28,8 @@ func enter():
 func exit():
 	set_arm_l_occupied(true)
 	
+	Tween_Player.stop(self, "pose_blend_l")
+	Tween_Player.stop(self, "blend_motionactionl")
 	AnimTree.set("parameters/MotionActionLBlend/blend_amount", 0.01)
 	
 	.exit()
@@ -48,7 +46,7 @@ func update(delta):
 		emit_signal("state_switch", "occupied_l")
 		return
 	
-	Skel.set_bone_custom_pose(LeftArmController_idx, pose_blend)
+	Skel.set_bone_custom_pose(LeftArmController_idx, pose_blend_l)
 	AnimTree.set("parameters/MotionActionLBlend/blend_amount", blend_motionactionl)
 	
 	.update(delta)
@@ -73,12 +71,14 @@ func handle_held_input():
 					emit_signal("state_switch", "cast_aim")
 					return
 			"barrier":
-				if !is_aiming:
-					emit_signal("state_switch", "barrier")
-					return
-				elif is_aiming:
-					emit_signal("state_switch", "barrier_aim")
-					return
+				emit_signal("state_switch", "barrier")
+				return
+#				if !is_aiming:
+#					emit_signal("state_switch", "barrier")
+#					return
+#				elif is_aiming:
+#					emit_signal("state_switch", "barrier_aim")
+#					return
 			"held_affect":
 				pass
 	
