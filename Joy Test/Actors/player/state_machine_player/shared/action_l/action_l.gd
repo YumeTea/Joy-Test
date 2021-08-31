@@ -21,7 +21,8 @@ var blend_motionactionl : float
 
 #Node Storage
 onready var Spell_Origin = owner.get_node("Body/Armature/Skeleton/LeftHandBone/Spell_Origin")
-onready var Barrier_Origin = owner.get_node("Body/Barrier_Origin")
+onready var Barrier_Pivot = owner.get_node("Body/Barrier_Pivot")
+onready var Barrier_Origin = owner.get_node("Body/Barrier_Pivot/Barrier_Origin")
 onready var Timer_Action_L = owner.get_node("State_Machines/State_Machine_Action_L/Timer_Action_L")
 
 onready var AnimSeekActionL = "parameters/BlendTreeActionL/SeekActionL/seek_position"
@@ -105,6 +106,15 @@ func reset_custom_pose_arm_l():
 	var transform : Transform
 	
 	transform.origin = Vector3(0,0,0)
+	transform.basis = Basis(Vector3(1,0,0), Vector3(0,1,0), Vector3(0,0,1))
+	
+	Skel.set_bone_custom_pose(LeftArmController_idx, transform)
+
+
+func reset_custom_pose_rotation_arm_l():
+	var transform : Transform
+	
+	transform.origin = Skel.get_bone_custom_pose(LeftArmController_idx).origin
 	transform.basis = Basis(Vector3(1,0,0), Vector3(0,1,0), Vector3(0,0,1))
 	
 	Skel.set_bone_custom_pose(LeftArmController_idx, transform)

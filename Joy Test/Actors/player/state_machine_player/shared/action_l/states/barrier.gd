@@ -42,17 +42,55 @@ func update(delta):
 	anchor_arm_l_transform()
 	
 	#Change arm anim blend values if they have changed
-	Skel.set_bone_custom_pose(LeftArmController_idx, pose_blend_l)
+#	Skel.set_bone_custom_pose(LeftArmController_idx, pose_blend_l)
 	AnimTree.set("parameters/MotionActionLBlend/blend_amount", blend_motionactionl)
 	
 	#Wait until arm anim blending has been set back to 0 to exit barrier state
 	if is_equal_approx(AnimTree.get("parameters/MotionActionLBlend/blend_amount"), 0.0):
 		emit_signal("state_switch", "none")
 		return
+	
+	#Handle arm transform if aiming
+	if is_aiming:
+		rotate_arm_l()
+		rotate_barrier()
+	else:
+		reset_custom_pose_rotation_arm_l()
+		reset_barrier_rotation()
 
 
 func _on_animation_finished(anim_name):
 	._on_animation_finished(anim_name)
+
+
+func rotate_arm_l():
+	var look_at_point : Vector3
+	var pose : Transform
+	
+	#Orient look at point
+	look_at_point = Vector3(0,0,-1).rotated(Vector3(1,0,0), camera_angles.x)
+	look_at_point = look_at_point.rotated(Vector3(0,1,0), camera_angles.y - Body.get_rotation().y)
+	
+	#Create custom pose
+	pose.origin = Vector3(0,0,0)
+	pose.basis = Basis(Vector3(1,0,0), Vector3(0,1,0), Vector3(0,0,1))
+	
+	pose = pose.looking_at(look_at_point, Vector3(0,1,0))
+	
+	#Put controller bone origin back where it was
+	pose.origin = Skel.get_bone_custom_pose(LeftArmController_idx).origin
+	
+	#Apply custom pose
+	Skel.set_bone_custom_pose(LeftArmController_idx, pose)
+
+
+func rotate_barrier():
+	Barrier_Pivot.rotation.x = camera_angles.x
+	Barrier_Pivot.rotation.y = camera_angles.y - Body.get_rotation().y
+
+
+func reset_barrier_rotation():
+	Barrier_Pivot.set_rotation(Vector3(0,0,0))
 
 
 ###ANIMATION FUNCTIONS###

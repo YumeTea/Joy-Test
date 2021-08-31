@@ -17,17 +17,18 @@ onready var projectile_scene = load(projectile_scene_path)
 
 #Firing Vars
 var can_fire : bool = true
-const fire_delay = 0.25
+const fire_delay = 0.166
 
 
 func _physics_process(delta):
 	if is_targetting:
-		aim(target)
+		rotate_body(target)
+		aim(target.get_node("TargetPoint"))
 		if can_fire:
 			fire_projectile()
 
 
-func aim(target_node):
+func rotate_body(target_node):
 	#Calc how much to rotate body to face target (2D for now)
 	var dir_facing = Body.to_global(Vector3(0,0,-1)) - Body.get_global_transform().origin
 	var dir_target = (target_node.get_global_transform().origin - Body.get_global_transform().origin).normalized()
@@ -35,6 +36,18 @@ func aim(target_node):
 	
 	#Rotate Body
 	Body.rotate_y(angle_to_target)
+
+
+func aim(target_node):
+	var trans : Transform
+	var direction : Vector3
+	
+	trans = ProjectileOrigin.get_global_transform()
+	direction = (target_node.get_global_transform().origin - ProjectileOrigin.get_global_transform().origin).normalized()
+	
+	trans = trans.looking_at(trans.origin + direction, Vector3(0,1,0))
+	
+	ProjectileOrigin.set_global_transform(trans)
 
 
 func fire_projectile():

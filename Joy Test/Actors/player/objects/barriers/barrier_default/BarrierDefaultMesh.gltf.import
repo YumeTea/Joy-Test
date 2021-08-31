@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/BarrierDefault.gltf-30ff530a54599af2417e0c1f155d56cd.scn"
+path="res://.import/BarrierDefaultMesh.gltf-b60b0751411be71871f219f87b91df11.scn"
 
 [deps]
 
-source_file="res://Actors/player/objects/barriers/barrier_default/BarrierDefault.gltf"
-dest_files=[ "res://.import/BarrierDefault.gltf-30ff530a54599af2417e0c1f155d56cd.scn" ]
+source_file="res://Actors/player/objects/barriers/barrier_default/BarrierDefaultMesh.gltf"
+dest_files=[ "res://.import/BarrierDefaultMesh.gltf-b60b0751411be71871f219f87b91df11.scn" ]
 
 [params]
 
