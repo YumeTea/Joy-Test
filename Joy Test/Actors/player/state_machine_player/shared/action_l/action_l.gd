@@ -13,6 +13,8 @@ var current_spell : Resource
 #Spell Variables
 var charge_anim_scene : Resource
 var spell_projectile : Resource
+var barrier_object : Resource
+var barrier_instance : Node
 
 #Pose Variables
 onready var LeftArmController_idx = Skel.find_bone("LeftArmController")
@@ -101,7 +103,45 @@ func set_b_sliding(value : bool):
 	current_actionl_state.is_b_sliding = value
 
 
+#BARRIER FUNCTIONS#
+func rotate_barrier(rotation : Vector3):
+	var body_rotation : Vector3
+	
+	body_rotation = Body.get_rotation()
+	
+	Barrier_Pivot.rotation.x = rotation.x - body_rotation.x
+	Barrier_Pivot.rotation.y = rotation.y - body_rotation.y
+
+
+func reset_barrier_rotation():
+	Barrier_Pivot.set_rotation(Vector3(0,0,0))
+
+
 #POSE FUNCTIONS#
+func rotate_arm_l(rotation : Vector3):
+	var look_at_point : Vector3
+	var body_rotation : Vector3
+	var pose : Transform
+	
+	body_rotation = Body.get_rotation()
+	
+	#Orient look at point
+	look_at_point = Vector3(0,0,-1).rotated(Vector3(1,0,0), rotation.x - body_rotation.x)
+	look_at_point = look_at_point.rotated(Vector3(0,1,0), rotation.y - body_rotation.y)
+	
+	#Create custom pose
+	pose.origin = Vector3(0,0,0)
+	pose.basis = Basis(Vector3(1,0,0), Vector3(0,1,0), Vector3(0,0,1))
+	
+	pose = pose.looking_at(look_at_point, Vector3(0,1,0))
+	
+	#Put controller bone origin back where it was
+	pose.origin = Skel.get_bone_custom_pose(LeftArmController_idx).origin
+	
+	#Apply custom pose
+	Skel.set_bone_custom_pose(LeftArmController_idx, pose)
+
+
 func reset_custom_pose_arm_l():
 	var transform : Transform
 	

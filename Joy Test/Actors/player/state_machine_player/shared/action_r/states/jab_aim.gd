@@ -12,7 +12,6 @@ var aim_interp_radius_inner = 7
 var aim_interp_radius_outer = 12
 
 #Node Storage
-
 var Needle_Arm_Raycast : Node
 
 

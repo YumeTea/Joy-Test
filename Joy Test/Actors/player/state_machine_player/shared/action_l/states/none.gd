@@ -64,21 +64,11 @@ func handle_held_input():
 		#Branch to correct state based on equipped spell type
 		match current_spell.spell_type:
 			"projectile":
-				if !is_aiming:
-					emit_signal("state_switch", "cast")
-					return
-				elif is_aiming:
-					emit_signal("state_switch", "cast_aim")
-					return
+				emit_signal("state_switch", "cast")
+				return
 			"barrier":
 				emit_signal("state_switch", "barrier")
 				return
-#				if !is_aiming:
-#					emit_signal("state_switch", "barrier")
-#					return
-#				elif is_aiming:
-#					emit_signal("state_switch", "barrier_aim")
-#					return
 			"held_affect":
 				pass
 	

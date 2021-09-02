@@ -43,12 +43,8 @@ func handle_input(event):
 		set_aiming(true)
 	
 	if Input.is_action_just_pressed("attack_right"):
-		if !is_aiming:
-			emit_signal("state_switch", "jab")
-			return
-		elif is_aiming:
-			emit_signal("state_switch", "jab_aim")
-			return
+		emit_signal("state_switch", "jab")
+		return
 
 
 #Acts as the _process method would

@@ -7,6 +7,10 @@ extends "res://Actors/player/state_machine_player/shared/action_r/action_r.gd"
 #Jab Variables
 var jab_strength = 56
 
+#Jab Aim Variables
+var aim_interp_radius_inner = 7
+var aim_interp_radius_outer = 12
+
 #Node Storage
 var Needle_Arm_Raycast : Node
 
@@ -23,6 +27,9 @@ func enter():
 	
 	Needle_Arm_Raycast = owner.get_node("Body/Armature/Skeleton/RightArmController/RayCast")
 	Needle_Arm_Raycast.connect("raycast_collided", self, "_on_jab_collision")
+	
+	if is_aiming:
+		aim_arm_transform(camera_look_at_point)
 	
 	anim_tree_play_anim("jab", AnimStateMachineActionR)
 	
@@ -48,8 +55,50 @@ func update(delta):
 
 func _on_animation_finished(anim_name):
 	if anim_name == "jab":
+		reset_custom_pose_arm_r()
 		emit_signal("state_switch", "none")
 		return
+
+
+func aim_arm_transform(look_at_point):
+	var aim_point : Vector3
+	var look_vec : Vector3
+	var interp_point : Vector3
+	var interp_factor : float
+	
+	var pose : Transform
+	
+	#Set arm custom pose back to default
+#	reset_custom_pose_arm_r()
+	
+	aim_point = look_at_point #This point is global
+	#Get look direction vector and center it at aim controller point
+	look_vec = Vector3(0,0,-1).rotated(Vector3(1,0,0), camera_angles.x)
+	interp_point = RightArmController.to_global(look_vec)
+	
+	#Interpolation factor for aim point
+	var radius = (aim_point - Body.get_global_transform().origin).length()
+	
+	if radius > aim_interp_radius_outer:
+		interp_factor = 0
+	elif radius < aim_interp_radius_inner:
+		interp_factor = 1
+	else:
+		interp_factor = (aim_interp_radius_outer - radius) / (aim_interp_radius_outer - aim_interp_radius_inner)
+	
+	#Aim Point Interpolation
+	aim_point = aim_point.linear_interpolate(interp_point, interp_factor)
+	
+	#Create custom pose
+	pose.origin = RightArmController.get_global_transform().origin
+	pose.basis = Basis(Vector3(1,0,0), Vector3(0,1,0), Vector3(0,0,1))
+	
+	pose = pose.looking_at(aim_point, Vector3(0,1,0))
+	
+	pose.origin = Vector3(0,0,0)
+	pose = pose.rotated(Vector3(0,1,0), -Body.get_rotation().y)
+	
+	Skel.set_bone_custom_pose(RightArmController_idx, pose)
 
 
 func _on_jab_collision(collision):

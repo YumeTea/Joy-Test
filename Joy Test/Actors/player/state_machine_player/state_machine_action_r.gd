@@ -32,7 +32,6 @@ func _ready():
 	states_map = {
 		"none": $Shared/Action_R/None,
 		"jab": $Shared/Action_R/Jab,
-		"jab_aim": $Shared/Action_R/Jab_Aim,
 		"jab_stick": $Shared/Action_R/Jab_Stick,
 		"jab_stick_jump": $Shared/Action_R/Jab_Stick_Jump,
 		

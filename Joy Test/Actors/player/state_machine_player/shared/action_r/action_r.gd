@@ -67,6 +67,30 @@ func set_hit(value : bool):
 
 
 ###POSE FUNCTIONIS###
+func rotate_arm_r(rotation : Vector3):
+	var look_at_point : Vector3
+	var body_rotation : Vector3
+	var pose : Transform
+	
+	body_rotation = Body.get_rotation()
+	
+	#Orient look at point
+	look_at_point = Vector3(0,0,-1).rotated(Vector3(1,0,0), rotation.x - body_rotation.x)
+	look_at_point = look_at_point.rotated(Vector3(0,1,0), rotation.y - body_rotation.y)
+	
+	#Create custom pose
+	pose.origin = Vector3(0,0,0)
+	pose.basis = Basis(Vector3(1,0,0), Vector3(0,1,0), Vector3(0,0,1))
+	
+	pose = pose.looking_at(look_at_point, Vector3(0,1,0))
+	
+	#Put controller bone origin back where it was
+	pose.origin = Skel.get_bone_custom_pose(RightArmController_idx).origin
+	
+	#Apply custom pose
+	Skel.set_bone_custom_pose(RightArmController_idx, pose)
+
+
 func reset_custom_pose_arm_r():
 	var transform : Transform
 	

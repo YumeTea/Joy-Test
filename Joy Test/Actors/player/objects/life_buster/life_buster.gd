@@ -58,6 +58,8 @@ func start(start_loc_init, direction_init):
 
 
 func projectile_path(delta, _time):
+	$CollisionShape.disabled = false
+	
 	location = transform.origin
 	
 	###Projectile Velocity
@@ -72,6 +74,8 @@ func projectile_path(delta, _time):
 		impact(collision)
 	else:
 		velocity = move_and_collide(velocity, false, false)
+	
+	$CollisionShape.disabled = true
 
 
 func impact(collision):

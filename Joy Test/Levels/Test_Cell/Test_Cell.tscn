@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://Levels/Test_Cell/level_geometry/Test_Cell_Geometry.tscn" type="PackedScene" id=1]
 [ext_resource path="res://default_env.tres" type="Environment" id=2]
@@ -19,6 +19,7 @@
 [ext_resource path="res://Levels/Test_Cell/objects/target/Target_Large.tscn" type="PackedScene" id=17]
 [ext_resource path="res://Levels/Test_Cell/objects/slope/Slope_Huge.tscn" type="PackedScene" id=18]
 [ext_resource path="res://Levels/Test_Cell/objects/slide_tower_objects/slide_tower/Slides_Tower.tscn" type="PackedScene" id=19]
+[ext_resource path="res://Levels/Test_Cell/objects/wheel_wood/Wheel_Wood.tscn" type="PackedScene" id=20]
 [ext_resource path="res://Levels/Test_Cell/objects/gate/Gate_Strafe.tscn" type="PackedScene" id=21]
 [ext_resource path="res://Levels/Test_Cell/objects/slide_tower_objects/elevator/Slides_Tower_Elevator.tscn" type="PackedScene" id=22]
 
@@ -71,10 +72,14 @@ move_dir = Vector3( -1, 1, 0 )
 speed_peak = 24.0
 
 [node name="gate_strafe(kinematic)" parent="Objects/Jab Objects" instance=ExtResource( 10 )]
-transform = Transform( -1, 8.74228e-08, 0, 3.82137e-15, 4.37114e-08, -1, -8.74228e-08, -1, -4.37114e-08, 84, 10, 69 )
+transform = Transform( -1, 8.74228e-08, 0, 3.82137e-15, 4.37114e-08, -1, -8.74228e-08, -1, -4.37114e-08, 92, 10, 69 )
 
 [node name="gate" parent="Objects/Jab Objects" instance=ExtResource( 9 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 84, 0, -24 )
+
+[node name="Wheel_Wood" parent="Objects/Jab Objects" instance=ExtResource( 20 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 19.5, 32, -10 )
+speed = 360.0
 
 [node name="Statues" type="Spatial" parent="Objects"]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -24, 0, -20 )

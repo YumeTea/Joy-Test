@@ -28,8 +28,6 @@
 [ext_resource path="res://Actors/player/state_machine_player/shared/action_l/states/barrier_ground.gd" type="Script" id=26]
 [ext_resource path="res://Actors/player/state_machine_player/shared/move/in_air/states/fall.gd" type="Script" id=27]
 [ext_resource path="res://Actors/player/state_machine_player/shared/move/on_ground/states/barrier_slide.gd" type="Script" id=28]
-[ext_resource path="res://Actors/player/state_machine_player/shared/action_r/states/jab_aim.gd" type="Script" id=29]
-[ext_resource path="res://Actors/player/state_machine_player/shared/action_l/states/cast_aim.gd" type="Script" id=30]
 [ext_resource path="res://Actors/player/state_machine_player/shared/move/in_air/states/stick_wall.gd" type="Script" id=31]
 [ext_resource path="res://Actors/player/state_machine_player/shared/action_r/states/jab_stick.gd" type="Script" id=32]
 [ext_resource path="res://Actors/player/jab_stick_jump.gd" type="Script" id=33]
@@ -60,7 +58,6 @@
 [ext_resource path="res://Actors/player/model/anim/anim_boneform/idle.anim" type="Animation" id=58]
 [ext_resource path="res://Actors/player/model/anim/anim_boneform/default.anim" type="Animation" id=59]
 [ext_resource path="res://Actors/player/model/anim/anim_boneform/barrier_slide.anim" type="Animation" id=60]
-[ext_resource path="res://Actors/player/state_machine_player/shared/action_l/states/barrier_aim.gd" type="Script" id=61]
 [ext_resource path="res://Actors/player/model/anim/anim_boneform/barrier_up.anim" type="Animation" id=62]
 [ext_resource path="res://Actors/player/state_machine_player/shared/move/in_air/states/wall_jump.gd" type="Script" id=63]
 [ext_resource path="res://Actors/player/state_machine_player/shared/action_l/states/occupied_l.gd" type="Script" id=64]
@@ -123,6 +120,9 @@ height = 5.2
 
 [sub_resource type="AnimationNodeTimeSeek" id=9]
 
+[sub_resource type="AnimationNodeAnimation" id=112]
+animation = "none_l"
+
 [sub_resource type="AnimationNodeAnimation" id=10]
 animation = "barrier_up"
 
@@ -142,14 +142,21 @@ xfade_time = 0.5
 [sub_resource type="AnimationNodeStateMachineTransition" id=16]
 xfade_time = 0.25
 
+[sub_resource type="AnimationNodeStateMachineTransition" id=113]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=114]
+
 [sub_resource type="AnimationNodeStateMachine" id=17]
+states/barrier_ground/node = SubResource( 112 )
+states/barrier_ground/position = Vector2( 488, 10 )
 states/barrier_up/node = SubResource( 10 )
 states/barrier_up/position = Vector2( 545, 98 )
 states/cast/node = SubResource( 11 )
 states/cast/position = Vector2( 545, 213 )
 states/none_l/node = SubResource( 12 )
 states/none_l/position = Vector2( 368, 213 )
-transitions = [ "none_l", "cast", SubResource( 13 ), "cast", "none_l", SubResource( 14 ), "none_l", "barrier_up", SubResource( 15 ), "barrier_up", "none_l", SubResource( 16 ) ]
+transitions = [ "none_l", "cast", SubResource( 13 ), "cast", "none_l", SubResource( 14 ), "none_l", "barrier_up", SubResource( 15 ), "barrier_up", "none_l", SubResource( 16 ), "none_l", "barrier_ground", SubResource( 113 ), "barrier_ground", "none_l", SubResource( 114 ) ]
+graph_offset = Vector2( -23, -58 )
 
 [sub_resource type="AnimationNodeTimeScale" id=18]
 
@@ -470,7 +477,7 @@ filter_enabled = true
 filters = [ "AnimationPlayer", "Body/Armature/Skeleton/RightArmController/RayCast:enabled", "Body/Armature/Skeleton:ChestBone", "Body/Armature/Skeleton:HeadBone", "Body/Armature/Skeleton:LeftArmController", "Body/Armature/Skeleton:LeftArmTarget", "Body/Armature/Skeleton:LeftHandBone", "Body/Armature/Skeleton:LeftHandController", "Body/Armature/Skeleton:LeftIndexController", "Body/Armature/Skeleton:LeftIndexDistalBone", "Body/Armature/Skeleton:LeftIndexIntermediateBone", "Body/Armature/Skeleton:LeftIndexProximalBone", "Body/Armature/Skeleton:LeftLittleController", "Body/Armature/Skeleton:LeftLittleDistalBone", "Body/Armature/Skeleton:LeftLittleIntermediateBone", "Body/Armature/Skeleton:LeftLittleProximalBone", "Body/Armature/Skeleton:LeftLowerArmBone", "Body/Armature/Skeleton:LeftMiddleController", "Body/Armature/Skeleton:LeftMiddleDistalBone", "Body/Armature/Skeleton:LeftMiddleIntermediateBone", "Body/Armature/Skeleton:LeftMiddleProximalBone", "Body/Armature/Skeleton:LeftRingController", "Body/Armature/Skeleton:LeftRingDistalBone", "Body/Armature/Skeleton:LeftRingIntermediateBone", "Body/Armature/Skeleton:LeftRingProximalBone", "Body/Armature/Skeleton:LeftShoulderBone", "Body/Armature/Skeleton:LeftThumbController", "Body/Armature/Skeleton:LeftThumbDistalBone", "Body/Armature/Skeleton:LeftThumbIntermediateBone", "Body/Armature/Skeleton:LeftThumbProximalBone", "Body/Armature/Skeleton:LeftUpperArmBone", "Body/Armature/Skeleton:NeckBone", "Body/Armature/Skeleton:RightArmController", "Body/Armature/Skeleton:RightArmTarget", "Body/Armature/Skeleton:RightArmTip", "Body/Armature/Skeleton:RightHandBone", "Body/Armature/Skeleton:RightHandController", "Body/Armature/Skeleton:RightIndexController", "Body/Armature/Skeleton:RightIndexDistalBone", "Body/Armature/Skeleton:RightIndexIntermediateBone", "Body/Armature/Skeleton:RightIndexProximalBone", "Body/Armature/Skeleton:RightLittleController", "Body/Armature/Skeleton:RightLittleDistalBone", "Body/Armature/Skeleton:RightLittleIntermediateBone", "Body/Armature/Skeleton:RightLittleProximalBone", "Body/Armature/Skeleton:RightLowerArmBone", "Body/Armature/Skeleton:RightMiddleController", "Body/Armature/Skeleton:RightMiddleDistalBone", "Body/Armature/Skeleton:RightMiddleIntermediateBone", "Body/Armature/Skeleton:RightMiddleProximalBone", "Body/Armature/Skeleton:RightRingController", "Body/Armature/Skeleton:RightRingDistalBone", "Body/Armature/Skeleton:RightRingIntermediateBone", "Body/Armature/Skeleton:RightRingProximalBone", "Body/Armature/Skeleton:RightShoulderBone", "Body/Armature/Skeleton:RightThumbController", "Body/Armature/Skeleton:RightThumbDistalBone", "Body/Armature/Skeleton:RightThumbIntermediateBone", "Body/Armature/Skeleton:RightThumbProximalBone", "Body/Armature/Skeleton:RightUpperArmBone", "Body/Armature/Skeleton:SpineBone", "Body/Armature/Skeleton:UpperChestBone", "State_Machines/State_Machine_Action_R/Shared/Action_R" ]
 
 [sub_resource type="AnimationNodeBlendTree" id=103]
-graph_offset = Vector2( -252, -54 )
+graph_offset = Vector2( -144, -24 )
 nodes/BlendTreeActionL/node = SubResource( 19 )
 nodes/BlendTreeActionL/position = Vector2( -20, 220 )
 nodes/BlendTreeActionR/node = SubResource( 27 )
@@ -524,12 +531,6 @@ script = ExtResource( 2 )
 
 [node name="Skeleton" parent="Body/Armature" index="0"]
 transform = Transform( -1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 0, 0 )
-bones/1/bound_children = [ NodePath("TorsoController") ]
-bones/13/bound_children = [ NodePath("UpperChestBone") ]
-bones/16/bound_children = [ NodePath("LeftShoulderBone") ]
-bones/18/bound_children = [ NodePath("LeftArmController") ]
-bones/20/bound_children = [ NodePath("LeftHandBone") ]
-bones/42/bound_children = [ NodePath("RightArmController") ]
 
 [node name="Body" parent="Body/Armature/Skeleton" index="0"]
 skin = null
@@ -710,14 +711,8 @@ script = ExtResource( 19 )
 [node name="Cast" type="Node" parent="State_Machines/State_Machine_Action_L/Shared/Action_L"]
 script = ExtResource( 20 )
 
-[node name="Cast_Aim" type="Node" parent="State_Machines/State_Machine_Action_L/Shared/Action_L"]
-script = ExtResource( 30 )
-
 [node name="Barrier" type="Node" parent="State_Machines/State_Machine_Action_L/Shared/Action_L"]
 script = ExtResource( 25 )
-
-[node name="Barrier_Aim" type="Node" parent="State_Machines/State_Machine_Action_L/Shared/Action_L"]
-script = ExtResource( 61 )
 
 [node name="Barrier_Ground" type="Node" parent="State_Machines/State_Machine_Action_L/Shared/Action_L"]
 script = ExtResource( 26 )
@@ -742,9 +737,6 @@ script = ExtResource( 4 )
 
 [node name="Jab" type="Node" parent="State_Machines/State_Machine_Action_R/Shared/Action_R"]
 script = ExtResource( 15 )
-
-[node name="Jab_Aim" type="Node" parent="State_Machines/State_Machine_Action_R/Shared/Action_R"]
-script = ExtResource( 29 )
 
 [node name="Jab_Stick" type="Node" parent="State_Machines/State_Machine_Action_R/Shared/Action_R"]
 script = ExtResource( 32 )
