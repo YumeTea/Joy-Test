@@ -528,9 +528,16 @@ collision_mask = 5
 script = ExtResource( 2 )
 
 [node name="Body" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 0.999747, -0.0224779, 0, 0.0224779, 0.999747, 0, 0, 0 )
 
 [node name="Skeleton" parent="Body/Armature" index="0"]
 transform = Transform( -1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 0, 0 )
+bones/1/bound_children = [ NodePath("TorsoController") ]
+bones/13/bound_children = [ NodePath("UpperChestBone") ]
+bones/16/bound_children = [ NodePath("LeftShoulderBone") ]
+bones/18/bound_children = [ NodePath("LeftArmController") ]
+bones/20/bound_children = [ NodePath("LeftHandBone") ]
+bones/42/bound_children = [ NodePath("RightArmController") ]
 
 [node name="Body" parent="Body/Armature/Skeleton" index="0"]
 skin = null

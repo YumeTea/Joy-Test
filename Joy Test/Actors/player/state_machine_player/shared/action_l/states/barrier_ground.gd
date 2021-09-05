@@ -16,7 +16,7 @@ func enter():
 	barrier_object = load(current_spell.object_scene)
 	
 	start_barrier_anim()
-	rotate_barrier(Vector3(deg2rad(-90), 0.0, 0.0))
+	rotate_barrier(Vector3(deg2rad(-90), 0.0, 0.0), false)
 	
 	.enter()
 
@@ -25,7 +25,7 @@ func enter():
 func exit():
 	set_b_sliding(false)
 	
-	rotate_barrier(Body.get_rotation())
+	rotate_barrier(Body.get_rotation(), false)
 	barrier_instance.queue_free()
 	
 	.exit()

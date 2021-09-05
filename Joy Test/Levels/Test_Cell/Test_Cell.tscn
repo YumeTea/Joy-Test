@@ -67,7 +67,7 @@ move_dir = Vector3( -1, 0, 0 )
 speed_peak = 8.0
 
 [node name="gate_strafe(updown)" parent="Objects/Jab Objects" instance=ExtResource( 21 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 4, 37 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 8, 37 )
 move_dir = Vector3( -1, 1, 0 )
 speed_peak = 24.0
 
@@ -78,8 +78,8 @@ transform = Transform( -1, 8.74228e-08, 0, 3.82137e-15, 4.37114e-08, -1, -8.7422
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 84, 0, -24 )
 
 [node name="Wheel_Wood" parent="Objects/Jab Objects" instance=ExtResource( 20 )]
-transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 19.5, 32, -10 )
-speed = 360.0
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 19.5, 40, -10 )
+speed = 250.0
 
 [node name="Statues" type="Spatial" parent="Objects"]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -24, 0, -20 )

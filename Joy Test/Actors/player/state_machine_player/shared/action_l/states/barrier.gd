@@ -46,10 +46,10 @@ func update(delta):
 	#Handle arm transform if aiming
 	if is_aiming:
 		rotate_arm_l(camera_angles)
-		rotate_barrier(camera_angles)
+		rotate_barrier(camera_angles, true)
 	else:
 		rotate_arm_l(Body.get_rotation())
-		rotate_barrier(Body.get_rotation())
+		rotate_barrier(Body.get_rotation(), true)
 
 
 func _on_animation_finished(anim_name):

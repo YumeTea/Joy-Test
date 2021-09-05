@@ -75,7 +75,6 @@ func _on_Default_camera_angle_changed(camera_angles):
 
 
 func _on_Aim_camera_angle_changed(angles):
-	camera_angles = angles
 	emit_signal("camera_angle_changed", angles)
 
 

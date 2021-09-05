@@ -19,7 +19,7 @@ var air_speed_full = 8.0
 var speed_thresh_lower = 0.1
 
 #Values
-var weight = 5.0
+var weight = 4.75
 var gravity = -9.8
 var walk_accel = 16
 var walk_deaccel = 16

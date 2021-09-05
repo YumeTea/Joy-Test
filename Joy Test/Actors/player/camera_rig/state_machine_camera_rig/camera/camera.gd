@@ -115,6 +115,8 @@ func camera_angle_update():
 	camera_angle.y = rot_rig.y
 	camera_angle.z = rot_pivot.z
 	
+	camera_angle = bound_angles(camera_angle)
+	
 	emit_signal("camera_angle_changed", camera_angle)
 	
 	return camera_angle
@@ -135,6 +137,24 @@ func set_camera_offset(pos_node_name):
 	Tween_Camera.interpolate_property(Camera_Controller, "translation", camera_translation_current, camera_translation_final,  0.5, 5, 1, 0)
 	
 	Tween_Camera.start()
+
+
+###UTILITY FUNCTIONS###
+#Bounds rotation angles to between -pi and pi
+func bound_angles(angles_bound):
+	var angles = angles_bound
+	
+	if angles.x > PI or angles.x < -PI:
+		var co = ceil(floor(abs(angles.x) / PI) / 2.0) * 2.0
+		angles.x = angles.x - ((co * PI) * sign(angles.x))
+	if angles.y > PI or angles.y < -PI:
+		var co = ceil(floor(abs(angles.y) / PI) / 2.0) * 2.0
+		angles.y = angles.y - ((co * PI) * sign(angles.y))
+	if angles.z > PI or angles.z < -PI:
+		var co = ceil(floor(abs(angles.z) / PI) / 2.0) * 2.0
+		angles.z = angles.z - ((co * PI) * sign(angles.z))
+	
+	return angles
 
 
 ###UI FUNCTIONS###

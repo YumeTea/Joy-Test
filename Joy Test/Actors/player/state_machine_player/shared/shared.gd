@@ -8,6 +8,10 @@ signal restrict_aiming(value)
 var camera_angles : Vector3
 var camera_look_at_point : Vector3 #stores point that camera raycast is hitting
 
+#Arm Transform Constants
+const arm_r_rot_max = deg2rad(90)
+const arm_l_rot_max = deg2rad(70)
+
 #Node Storage
 var attached_obj : Node
 

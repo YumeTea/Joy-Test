@@ -74,9 +74,16 @@ func rotate_arm_r(rotation : Vector3):
 	
 	body_rotation = Body.get_rotation()
 	
+	#Calc arm rotation amount and clamp to limit
+	var rot : Vector3 = Vector3()
+	rot.x = rotation.x - body_rotation.x
+	rot.y = rotation.y - body_rotation.y
+	rot.x = clamp(rot.x, -arm_r_rot_max, arm_r_rot_max)
+	rot.y = clamp(rot.y, -arm_r_rot_max, arm_r_rot_max)
+	
 	#Orient look at point
-	look_at_point = Vector3(0,0,-1).rotated(Vector3(1,0,0), rotation.x - body_rotation.x)
-	look_at_point = look_at_point.rotated(Vector3(0,1,0), rotation.y - body_rotation.y)
+	look_at_point = Vector3(0,0,-1).rotated(Vector3(1,0,0), rot.x)
+	look_at_point = look_at_point.rotated(Vector3(0,1,0), rot.y)
 	
 	#Create custom pose
 	pose.origin = Vector3(0,0,0)
