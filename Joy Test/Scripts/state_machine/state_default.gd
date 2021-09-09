@@ -4,7 +4,7 @@ extends Node
 signal state_switch(next_state_name)
 
 
-#func initialize_values(init_values_dic):
+#func initialize(init_values_dic):
 #	for value in init_values_dic:
 #		self[value] = init_values_dic[value]
 
@@ -21,6 +21,10 @@ func exit():
 
 #Creates output based on the input event passed in
 func handle_input(_event):
+	return
+
+
+func handle_ai_input():
 	return
 
 
