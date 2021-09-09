@@ -13,6 +13,8 @@ var collision = null
 var deflection = {
 	"direction": Vector3(),
 	"velocity": Vector3(),
+	"axis": Vector3(),
+	"angle": 0.0,
 }
 
 #Projectile Flags
