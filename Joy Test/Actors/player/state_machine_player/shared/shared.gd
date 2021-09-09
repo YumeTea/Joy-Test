@@ -15,6 +15,8 @@ const arm_l_rot_max = deg2rad(70)
 #Node Storage
 var attached_obj : Node
 
+#var camera_main : Spatial = null
+
 onready var world = get_tree().current_scene
 onready var Body = owner.get_node("Body")
 onready var Skel = owner.get_node("Body/Armature/Skeleton")
@@ -79,6 +81,7 @@ func handle_input(event):
 #Acts as the _process method would
 func update(_delta):
 	return
+	
 
 
 func _on_animation_finished(_anim_name):

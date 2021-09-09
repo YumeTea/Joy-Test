@@ -149,6 +149,7 @@ func calc_fasten_velocity(delta):
 	if hang_obj != null:
 		#Calc fasten vel
 		new_vel = (hang_obj.to_global(hang_point) - Ledge_Grab_Position.get_global_transform().origin) / delta
+#		print((hang_obj.to_global(hang_point) - Ledge_Grab_Position.get_global_transform().origin))
 		
 		#Rotate player
 		var dir = hang_obj.to_global(hang_dir) - hang_obj.get_global_transform().origin

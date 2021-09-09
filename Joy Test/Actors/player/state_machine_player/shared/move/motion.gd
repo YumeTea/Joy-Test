@@ -85,6 +85,7 @@ var can_ledge_grab = true
 #Initializes state, changes animation, etc
 func enter():
 	connect_local_signals()
+	
 
 
 #Cleans up state, reinitializes values like timers

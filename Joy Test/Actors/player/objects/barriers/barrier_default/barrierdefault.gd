@@ -8,8 +8,6 @@ const barrier_radius = 3.38
 var deflection = {
 	"direction": Vector3(),
 	"velocity": Vector3(),
-	"axis": Vector3(),
-	"angle": 0.0,
 }
 
 #rotation axis is cross of travel v and collision normal(vector from sphere center to collision point)
@@ -27,7 +25,7 @@ func deflect_projectile(col_projectile : KinematicCollision):
 	if col_projectile.remainder != Vector3(0,0,0):
 		vel_remainder = col_projectile.remainder
 		
-		#Calc angle to rotate around barrier
+		#Calc angle to rotate around barrier (for next position on barrier)
 		angle = calc_rot_angle(vel_remainder)
 		
 		#Calc rotation axis
@@ -63,44 +61,8 @@ func deflect_projectile(col_projectile : KinematicCollision):
 	
 	deflection["direction"] = dir_deflection
 	deflection["velocity"] = vel_deflection
-	deflection["axis"] = axis
-	deflection["angle"] = angle
 	
 	return deflection
-
-
-
-#func deflect_projectile(col_projectile : KinematicCollision):
-#	var angle : float
-#	var axis : Vector3
-#	var start_pt : Vector3
-#	var end_pt : Vector3
-#	var vel_deflection : Vector3
-#
-#	#Calc angle to rotate around barrier
-#	angle = calc_rot_angle(col_projectile.remainder)
-#
-#	#Calc rotation axis
-#	var normal_surface = (col_projectile.position - self.get_global_transform().origin).normalized()
-#	axis = -col_projectile.remainder.cross(normal_surface).normalized()
-#
-##	if is_equal_approx(axis.length(), 0.0):
-##		print(col_projectile.travel)
-##		print(col_projectile.remainder)
-##		print(normal_surface)
-##		print(col_projectile.remainder.cross(normal_surface))
-#
-#	#Calc vector from collision point to next point
-#	start_pt = col_projectile.position
-#	end_pt = col_projectile.position.rotated(axis, angle)
-#
-#	vel_deflection = end_pt - start_pt
-#
-#	return vel_deflection
-
-
-func route_projectile(pos_proj : Vector3, vel_proj : Vector3, speed_proj : float):
-	pass
 
 
 func calc_rot_angle(vel_remainder):

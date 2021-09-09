@@ -34,6 +34,7 @@ run/main_scene="res://Levels/main/Main.tscn"
 Global="*res://Scripts/autoload/Global.gd"
 GlobalValues="*res://Scripts/autoload/GlobalValues.gd"
 ControllerValues="*res://Scripts/autoload/ControllerValues.gd"
+SceneManager="*res://Scripts/autoload/SceneManager.gd"
 PlayerManager="*res://Scripts/autoload/PlayerManager.gd"
 SpellDatabase="*res://Scripts/autoload/SpellDatabase.gd"
 

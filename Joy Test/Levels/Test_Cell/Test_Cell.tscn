@@ -67,7 +67,7 @@ move_dir = Vector3( -1, 0, 0 )
 speed_peak = 8.0
 
 [node name="gate_strafe(updown)" parent="Objects/Jab Objects" instance=ExtResource( 21 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 8, 37 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 12, 37 )
 move_dir = Vector3( -1, 1, 0 )
 speed_peak = 24.0
 

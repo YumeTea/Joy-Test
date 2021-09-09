@@ -35,14 +35,13 @@ func update(delta):
 	anchor_arm_l_transform()
 	
 	#Change arm anim blend values if they have changed
-	Skel.set_bone_custom_pose(LeftArmController_idx, pose_blend_l)
+#	Skel.set_bone_custom_pose(LeftArmController_idx, pose_blend_l)
 	AnimTree.set("parameters/MotionActionLBlend/blend_amount", blend_motionactionl)
 	
 	#Wait until arm anim blending has been set back to 0 to exit barrier state
 	if is_equal_approx(AnimTree.get("parameters/MotionActionLBlend/blend_amount"), 0.0):
 		emit_signal("state_switch", "none")
 		return
-<<<<<<< HEAD
 	
 	#Handle arm transform if aiming
 	if is_aiming:
@@ -51,8 +50,6 @@ func update(delta):
 	else:
 		rotate_arm_l(Body.get_rotation())
 		rotate_barrier(Body.get_rotation(), true)
-=======
->>>>>>> parent of ca028a4 (-added visual for default barrier)
 
 
 func _on_animation_finished(anim_name):

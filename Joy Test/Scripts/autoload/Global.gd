@@ -1,7 +1,8 @@
 extends Node
 
 
-var Player : Node
+var Player : KinematicBody
+var Camera_Main : Spatial
 
 
 func _ready():
@@ -29,6 +30,15 @@ func get_player():
 	return Player
 
 
-func set_player(node : Node):
+func set_player(node : KinematicBody):
 	Player = node
+
+
+func get_camera_main():
+	return Camera_Main
+
+
+func set_camera_main(node : Spatial):
+	Camera_Main = node
+
 

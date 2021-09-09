@@ -23,7 +23,8 @@ var blend_motionactionl : float
 
 #Node Storage
 onready var Spell_Origin = owner.get_node("Body/Armature/Skeleton/LeftHandBone/Spell_Origin")
-onready var Barrier_Origin = owner.get_node("Body/Barrier_Origin")
+onready var Barrier_Pivot = owner.get_node("Body/Barrier_Pivot")
+onready var Barrier_Origin = owner.get_node("Body/Barrier_Pivot/Barrier_Origin")
 onready var Timer_Action_L = owner.get_node("State_Machines/State_Machine_Action_L/Timer_Action_L")
 
 onready var AnimSeekActionL = "parameters/BlendTreeActionL/SeekActionL/seek_position"
@@ -46,11 +47,12 @@ var charging_spell_instance : Node
 #Initializes state, changes animation, etc
 func enter():
 	connect_local_signals()
-
+	connect_external_signals()
 
 #Cleans up state, reinitializes values like timers
 func exit():
 	disconnect_local_signals()
+	disconnect_external_signals()
 
 
 #Creates output based on the input event passed in
@@ -167,6 +169,15 @@ func reset_custom_pose_arm_l():
 	Skel.set_bone_custom_pose(LeftArmController_idx, transform)
 
 
+func reset_custom_pose_rotation_arm_l():
+	var transform : Transform
+	
+	transform.origin = Skel.get_bone_custom_pose(LeftArmController_idx).origin
+	transform.basis = Basis(Vector3(1,0,0), Vector3(0,1,0), Vector3(0,0,1))
+	
+	Skel.set_bone_custom_pose(LeftArmController_idx, transform)
+
+
 #Keeps arm bones attached to shoulder during move animations
 func anchor_arm_l_transform():
 	var pose : Transform
@@ -181,27 +192,27 @@ func anchor_arm_l_transform():
 
 ###LOCAL SIGNAL COMMS###
 func connect_local_signals():
-	owner.inventory.connect("equipped_items_changed", self, "_on_Player_equipped_items_changed")
+#	owner.inventory.connect("equipped_items_changed", self, "_on_Player_equipped_items_changed")
 	owner.get_node("AnimationPlayer").connect("animation_finished", self, "_on_animation_finished")
 	owner.get_node("Camera_Rig").connect("camera_angle_changed", self, "_on_Camera_Rig_camera_angle_changed")
-	owner.get_node("Camera_Rig").connect("camera_raycast_collision_changed", self, "_on_camera_raycast_collision_changed")
+#	owner.get_node("Camera_Rig").connect("camera_raycast_collision_changed", self, "_on_camera_raycast_collision_changed")
 	
 	owner.get_node("State_Machines/State_Machine_Move/Timer_Aim").connect("timeout", self, "_on_Timer_Aim_timeout")
 	owner.get_node("State_Machines/State_Machine_Action_L/Timer_Action_L").connect("timeout", self, "_on_Timer_Action_L_timeout")
 
 
 func disconnect_local_signals():
-	owner.inventory.disconnect("equipped_items_changed", self, "_on_Player_equipped_items_changed")
+#	owner.inventory.disconnect("equipped_items_changed", self, "_on_Player_equipped_items_changed")
 	owner.get_node("AnimationPlayer").disconnect("animation_finished", self, "_on_animation_finished")
 	owner.get_node("Camera_Rig").disconnect("camera_angle_changed", self, "_on_Camera_Rig_camera_angle_changed")
-	owner.get_node("Camera_Rig").disconnect("camera_raycast_collision_changed", self, "_on_camera_raycast_collision_changed")
+#	owner.get_node("Camera_Rig").disconnect("camera_raycast_collision_changed", self, "_on_camera_raycast_collision_changed")
 	
 	owner.get_node("State_Machines/State_Machine_Move/Timer_Aim").disconnect("timeout", self, "_on_Timer_Aim_timeout")
 	owner.get_node("State_Machines/State_Machine_Action_L/Timer_Action_L").disconnect("timeout", self, "_on_Timer_Action_L_timeout")
 
 
 func _on_Player_equipped_items_changed(equipped_items):
-	current_spell = equipped_items["Spell"]
+	State_Machine_Action_L.current_state.current_spell = equipped_items["Spell"]
 
 
 func _on_Camera_Rig_camera_angle_changed(angles):
@@ -218,5 +229,18 @@ func _on_Timer_Aim_timeout():
 
 func _on_Timer_Action_L_timeout():
 	pass
+
+
+###EXTERNAL SIGNAL COMMS###
+func connect_external_signals():
+	Global.get_camera_main().connect("camera_raycast_collision_changed", self, "_on_camera_raycast_collision_changed")
+
+
+func disconnect_external_signals():
+	Global.get_camera_main().disconnect("camera_raycast_collision_changed", self, "_on_camera_raycast_collision_changed")
+
+
+
+
 
 

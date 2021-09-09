@@ -34,11 +34,13 @@ var has_hit : bool
 #Initializes state, changes animation, etc
 func enter():
 	connect_local_signals()
+	connect_external_signals()
 
 
 #Cleans up state, reinitializes values like timers
 func exit():
 	disconnect_local_signals()
+	disconnect_external_signals()
 
 
 #Creates output based on the input event passed in
@@ -130,7 +132,7 @@ func store_initialized_values(init_values_dic):
 func connect_local_signals():
 	owner.get_node("AnimationPlayer").connect("animation_finished", self, "_on_animation_finished")
 	owner.get_node("Camera_Rig").connect("camera_angle_changed", self, "_on_Camera_Rig_camera_angle_changed")
-	owner.get_node("Camera_Rig").connect("camera_raycast_collision_changed", self, "_on_camera_raycast_collision_changed")
+#	owner.get_node("Camera_Rig").connect("camera_raycast_collision_changed", self, "_on_camera_raycast_collision_changed")
 	
 	owner.get_node("State_Machines/State_Machine_Move/Timer_Aim").connect("timeout", self, "_on_Timer_Aim_timeout")
 	owner.get_node("State_Machines/State_Machine_Action_R/Timer_Action_R").connect("timeout", self, "_on_Timer_Action_R_timeout")
@@ -139,7 +141,7 @@ func connect_local_signals():
 func disconnect_local_signals():
 	owner.get_node("AnimationPlayer").disconnect("animation_finished", self, "_on_animation_finished")
 	owner.get_node("Camera_Rig").disconnect("camera_angle_changed", self, "_on_Camera_Rig_camera_angle_changed")
-	owner.get_node("Camera_Rig").disconnect("camera_raycast_collision_changed", self, "_on_camera_raycast_collision_changed")
+#	owner.get_node("Camera_Rig").disconnect("camera_raycast_collision_changed", self, "_on_camera_raycast_collision_changed")
 	
 	owner.get_node("State_Machines/State_Machine_Move/Timer_Aim").disconnect("timeout", self, "_on_Timer_Aim_timeout")
 	owner.get_node("State_Machines/State_Machine_Action_R/Timer_Action_R").disconnect("timeout", self, "_on_Timer_Action_R_timeout")
@@ -159,4 +161,19 @@ func _on_Timer_Aim_timeout():
 
 func _on_Timer_Action_R_timeout():
 	pass
+
+
+###EXTERNAL SIGNAL COMMS###
+func connect_external_signals():
+	Global.get_camera_main().connect("camera_raycast_collision_changed", self, "_on_camera_raycast_collision_changed")
+
+
+func disconnect_external_signals():
+	Global.get_camera_main().disconnect("camera_raycast_collision_changed", self, "_on_camera_raycast_collision_changed")
+
+
+
+
+
+
 

@@ -39,13 +39,6 @@ collision_layer = 0
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.82 )
 shape = SubResource( 1 )
 
-[node name="Camera" type="Camera" parent="Pivot/Camera_Controller/Camera_Pos"]
-far = 1024.0
-
-[node name="RayCast_Camera" type="RayCast" parent="Pivot/Camera_Controller/Camera_Pos/Camera"]
-enabled = true
-cast_to = Vector3( 0, 0, -256 )
-
 [node name="Camera_Points" type="Spatial" parent="Pivot"]
 
 [node name="Default" type="Position3D" parent="Pivot/Camera_Points"]

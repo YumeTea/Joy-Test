@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Actors/camera_main/state_machine_camera_main/shared/states/player_follow.gd" type="Script" id=1]
+[ext_resource path="res://Actors/camera_main/state_machine_camera_main/shared/shared.gd" type="Script" id=2]
+[ext_resource path="res://Actors/camera_main/state_machine_camera_main/state_machine_camera_main.gd" type="Script" id=3]
+[ext_resource path="res://Actors/camera_main/camera_main.gd" type="Script" id=4]
+
+[node name="Camera" type="Spatial"]
+script = ExtResource( 4 )
+
+[node name="Camera" type="Camera" parent="."]
+far = 1024.0
+
+[node name="RayCast_Camera" type="RayCast" parent="Camera"]
+enabled = true
+cast_to = Vector3( 0, 0, -256 )
+
+[node name="State_Machines" type="Node" parent="."]
+
+[node name="State_Machine_Camera_Main" type="Node" parent="State_Machines"]
+script = ExtResource( 3 )
+START_STATE = NodePath("Shared/Player_Follow")
+
+[node name="Shared" type="Node" parent="State_Machines/State_Machine_Camera_Main"]
+script = ExtResource( 2 )
+
+[node name="Player_Follow" type="Node" parent="State_Machines/State_Machine_Camera_Main/Shared"]
+script = ExtResource( 1 )

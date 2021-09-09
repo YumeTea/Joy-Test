@@ -11,8 +11,9 @@ var _active = false setget set_active
 
 
 func _ready():
-	connect_state_signals()
-	initialize(START_STATE)
+	SceneManager.connect("set_scene_active", self, "_on_SceneManager_set_scene_active")
+	states_stack.push_front(get_node(START_STATE))
+	current_state = states_stack[0]
 
 
 #Finds the lowest tier nodes of the state machine and connects to their state switch signals
@@ -41,7 +42,7 @@ func connect_state_signals():
 #Called in ready, state_machine is only active if called by a script
 func initialize(start_state):
 	set_active(true)
-	states_stack.push_front(get_node(start_state))
+	states_stack[0] = (get_node(start_state))
 	current_state = states_stack[0]
 	current_state.enter()
 
@@ -57,10 +58,16 @@ func set_active(value):
 
 
 func _input(event):
+	if not _active:
+		return
+	
 	current_state.handle_input(event)
 
 
 func _physics_process(delta):
+	if not _active:
+		return
+	
 	current_state.update(delta)
 
 
@@ -89,4 +96,18 @@ func _change_state(state_name): #changes state, with handling for replacing, sta
 	
 	#New State Initialization
 	current_state.enter() #always reinitialize a new state
+
+
+func _on_SceneManager_set_scene_active(is_active):
+	if is_active:
+		connect_state_signals()
+		initialize(START_STATE)
+
+
+
+
+
+
+
+
 

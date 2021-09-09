@@ -1,0 +1,412 @@
+[gd_scene load_steps=89 format=2]
+
+[ext_resource path="res://Actors/enemies/_standing/Enemy_StandingModel.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Actors/enemies/_standing/state_machine_enemy_standing/shared/shared.gd" type="Script" id=2]
+[ext_resource path="res://Actors/enemies/_standing/state_machine_enemy_standing/shared/motion/motion.gd" type="Script" id=3]
+[ext_resource path="res://Actors/enemies/_standing/Enemy_Standing.gd" type="Script" id=4]
+[ext_resource path="res://Actors/enemies/_standing/state_machine_enemy_standing/shared/motion/on_ground/on_ground.gd" type="Script" id=5]
+[ext_resource path="res://Actors/enemies/_standing/state_machine_enemy_standing/shared/motion/in_water/in_water.gd" type="Script" id=6]
+[ext_resource path="res://Actors/enemies/_standing/state_machine_enemy_standing/shared/motion/on_ground/states/idle.gd" type="Script" id=7]
+[ext_resource path="res://Actors/enemies/_standing/state_machine_enemy_standing/shared/motion/on_ground/states/walk.gd" type="Script" id=8]
+[ext_resource path="res://Actors/enemies/_standing/state_machine_enemy_standing/shared/motion/in_air/in_air.gd" type="Script" id=9]
+[ext_resource path="res://Actors/enemies/_standing/state_machine_enemy_standing/state_machine_action_r.gd" type="Script" id=10]
+[ext_resource path="res://Actors/enemies/_standing/state_machine_enemy_standing/shared/motion/in_air/states/fall.gd" type="Script" id=11]
+[ext_resource path="res://Actors/enemies/_standing/state_machine_enemy_standing/shared/motion/in_air/states/jump.gd" type="Script" id=12]
+[ext_resource path="res://Actors/enemies/_standing/state_machine_enemy_standing/state_machine_action_l.gd" type="Script" id=13]
+[ext_resource path="res://Actors/enemies/_standing/state_machine_enemy_standing/state_machine_move.gd" type="Script" id=14]
+[ext_resource path="res://Actors/enemies/_standing/state_machine_enemy_standing/shared/action_l/action_l.gd" type="Script" id=15]
+[ext_resource path="res://Actors/enemies/_standing/state_machine_enemy_standing/shared/action_r/action_r.gd" type="Script" id=16]
+[ext_resource path="res://Actors/enemies/_standing/state_machine_enemy_standing/shared/action_l/states/none.gd" type="Script" id=17]
+[ext_resource path="res://Actors/enemies/_standing/state_machine_enemy_standing/shared/action_r/states/none.gd" type="Script" id=18]
+[ext_resource path="res://Actors/enemies/_standing/state_machine_enemy_standing/shared/action_r/states/occupied_r.gd" type="Script" id=19]
+[ext_resource path="res://Actors/enemies/_standing/state_machine_enemy_standing/shared/action_l/states/occupied_l.gd" type="Script" id=20]
+[ext_resource path="res://Scripts/animplayer/animationplayer.gd" type="Script" id=21]
+[ext_resource path="res://Actors/enemies/_standing/state_machine_enemy_standing/state_machine_ai.gd" type="Script" id=22]
+[ext_resource path="res://Actors/enemies/_standing/state_machine_enemy_standing/ai/ai.gd" type="Script" id=23]
+[ext_resource path="res://Actors/enemies/_standing/state_machine_enemy_standing/ai/ai_states/idle.gd" type="Script" id=24]
+
+[sub_resource type="CapsuleShape" id=1]
+radius = 0.4
+height = 5.2
+
+[sub_resource type="AnimationNodeTimeSeek" id=2]
+
+[sub_resource type="AnimationNodeAnimation" id=3]
+animation = "barrier_up"
+
+[sub_resource type="AnimationNodeAnimation" id=4]
+animation = "cast"
+
+[sub_resource type="AnimationNodeAnimation" id=5]
+animation = "none_l"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=6]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=7]
+xfade_time = 0.5
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=8]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=9]
+xfade_time = 0.25
+
+[sub_resource type="AnimationNodeStateMachine" id=10]
+states/barrier_up/node = SubResource( 3 )
+states/barrier_up/position = Vector2( 545, 98 )
+states/cast/node = SubResource( 4 )
+states/cast/position = Vector2( 545, 213 )
+states/none_l/node = SubResource( 5 )
+states/none_l/position = Vector2( 368, 213 )
+transitions = [ "none_l", "cast", SubResource( 6 ), "cast", "none_l", SubResource( 7 ), "none_l", "barrier_up", SubResource( 8 ), "barrier_up", "none_l", SubResource( 9 ) ]
+
+[sub_resource type="AnimationNodeTimeScale" id=11]
+
+[sub_resource type="AnimationNodeBlendTree" id=12]
+graph_offset = Vector2( 43, 121 )
+nodes/SeekActionL/node = SubResource( 2 )
+nodes/SeekActionL/position = Vector2( 480, 200 )
+nodes/StateMachineActionL/node = SubResource( 10 )
+nodes/StateMachineActionL/position = Vector2( 240, 200 )
+nodes/TimeScaleActionL/node = SubResource( 11 )
+nodes/TimeScaleActionL/position = Vector2( 660, 200 )
+nodes/output/position = Vector2( 900, 200 )
+node_connections = [ "output", 0, "TimeScaleActionL", "TimeScaleActionL", 0, "SeekActionL", "SeekActionL", 0, "StateMachineActionL" ]
+
+[sub_resource type="AnimationNodeTimeSeek" id=13]
+
+[sub_resource type="AnimationNodeAnimation" id=14]
+animation = "jab"
+
+[sub_resource type="AnimationNodeAnimation" id=15]
+animation = "none"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=16]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=17]
+
+[sub_resource type="AnimationNodeStateMachine" id=18]
+states/jab/node = SubResource( 14 )
+states/jab/position = Vector2( 568, 228 )
+states/none/node = SubResource( 15 )
+states/none/position = Vector2( 413, 228 )
+transitions = [ "jab", "none", SubResource( 16 ), "none", "jab", SubResource( 17 ) ]
+
+[sub_resource type="AnimationNodeTimeScale" id=19]
+
+[sub_resource type="AnimationNodeBlendTree" id=20]
+graph_offset = Vector2( -763, -3 )
+nodes/SeekActionR/node = SubResource( 13 )
+nodes/SeekActionR/position = Vector2( -220, 120 )
+nodes/StateMachineActionR/node = SubResource( 18 )
+nodes/StateMachineActionR/position = Vector2( -460, 120 )
+nodes/TimeScaleActionR/node = SubResource( 19 )
+nodes/TimeScaleActionR/position = Vector2( -40, 120 )
+node_connections = [ "output", 0, "TimeScaleActionR", "SeekActionR", 0, "StateMachineActionR", "TimeScaleActionR", 0, "SeekActionR" ]
+
+[sub_resource type="AnimationNodeTimeSeek" id=21]
+
+[sub_resource type="AnimationNodeAnimation" id=22]
+animation = "fall"
+
+[sub_resource type="AnimationNodeAnimation" id=23]
+animation = "idle"
+
+[sub_resource type="AnimationNodeAnimation" id=24]
+animation = "jump"
+
+[sub_resource type="AnimationNodeAnimation" id=25]
+animation = "land"
+
+[sub_resource type="AnimationNodeAnimation" id=26]
+animation = "walk_forward"
+
+[sub_resource type="AnimationNodeAnimation" id=27]
+animation = "walk_l"
+
+[sub_resource type="AnimationNodeAnimation" id=28]
+animation = "walk_r"
+
+[sub_resource type="AnimationNodeAnimation" id=29]
+animation = "walk_back"
+
+[sub_resource type="AnimationNodeAnimation" id=30]
+animation = "walk_bl"
+
+[sub_resource type="AnimationNodeAnimation" id=31]
+animation = "walk_br"
+
+[sub_resource type="AnimationNodeAnimation" id=32]
+animation = "walk_fl"
+
+[sub_resource type="AnimationNodeAnimation" id=33]
+animation = "walk_fr"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id=34]
+blend_point_0/node = SubResource( 26 )
+blend_point_0/pos = Vector2( 0, 1 )
+blend_point_1/node = SubResource( 27 )
+blend_point_1/pos = Vector2( -1, 0 )
+blend_point_2/node = SubResource( 28 )
+blend_point_2/pos = Vector2( 1, 0 )
+blend_point_3/node = SubResource( 29 )
+blend_point_3/pos = Vector2( 0, -1 )
+blend_point_4/node = SubResource( 30 )
+blend_point_4/pos = Vector2( -0.71, -0.71 )
+blend_point_5/node = SubResource( 31 )
+blend_point_5/pos = Vector2( 0.71, -0.71 )
+blend_point_6/node = SubResource( 32 )
+blend_point_6/pos = Vector2( -0.71, 0.71 )
+blend_point_7/node = SubResource( 33 )
+blend_point_7/pos = Vector2( 0.71, 0.71 )
+
+[sub_resource type="AnimationNodeAnimation" id=35]
+animation = "run_back"
+
+[sub_resource type="AnimationNodeAnimation" id=36]
+animation = "run_forward"
+
+[sub_resource type="AnimationNodeAnimation" id=37]
+animation = "run_l"
+
+[sub_resource type="AnimationNodeAnimation" id=38]
+animation = "run_r"
+
+[sub_resource type="AnimationNodeAnimation" id=39]
+animation = "run_fr"
+
+[sub_resource type="AnimationNodeAnimation" id=40]
+animation = "run_fl"
+
+[sub_resource type="AnimationNodeAnimation" id=41]
+animation = "run_br"
+
+[sub_resource type="AnimationNodeAnimation" id=42]
+animation = "run_bl"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id=43]
+blend_point_0/node = SubResource( 35 )
+blend_point_0/pos = Vector2( 0, -1 )
+blend_point_1/node = SubResource( 36 )
+blend_point_1/pos = Vector2( 0, 1 )
+blend_point_2/node = SubResource( 37 )
+blend_point_2/pos = Vector2( -1, 0 )
+blend_point_3/node = SubResource( 38 )
+blend_point_3/pos = Vector2( 1, 0 )
+blend_point_4/node = SubResource( 39 )
+blend_point_4/pos = Vector2( 0.71, 0.71 )
+blend_point_5/node = SubResource( 40 )
+blend_point_5/pos = Vector2( -0.71, 0.71 )
+blend_point_6/node = SubResource( 41 )
+blend_point_6/pos = Vector2( 0.71, -0.71 )
+blend_point_7/node = SubResource( 42 )
+blend_point_7/pos = Vector2( -0.71, -0.71 )
+
+[sub_resource type="AnimationNodeBlendSpace1D" id=44]
+blend_point_0/node = SubResource( 34 )
+blend_point_0/pos = 0.0
+blend_point_1/node = SubResource( 43 )
+blend_point_1/pos = 1.0
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=45]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=46]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=47]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=48]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=49]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=50]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=51]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=52]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=53]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=54]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=55]
+
+[sub_resource type="AnimationNodeStateMachine" id=56]
+states/fall/node = SubResource( 22 )
+states/fall/position = Vector2( 365, 111 )
+states/idle/node = SubResource( 23 )
+states/idle/position = Vector2( 89, 270 )
+states/jump/node = SubResource( 24 )
+states/jump/position = Vector2( 365, -30 )
+states/land/node = SubResource( 25 )
+states/land/position = Vector2( 365, 190 )
+states/walkrun/node = SubResource( 44 )
+states/walkrun/position = Vector2( 628, 270 )
+transitions = [ "idle", "walkrun", SubResource( 45 ), "walkrun", "idle", SubResource( 46 ), "idle", "jump", SubResource( 47 ), "walkrun", "jump", SubResource( 48 ), "jump", "fall", SubResource( 49 ), "walkrun", "fall", SubResource( 50 ), "idle", "fall", SubResource( 51 ), "fall", "land", SubResource( 52 ), "land", "idle", SubResource( 53 ), "land", "walkrun", SubResource( 54 ), "jump", "land", SubResource( 55 ) ]
+graph_offset = Vector2( -178, -113 )
+
+[sub_resource type="AnimationNodeTimeScale" id=57]
+
+[sub_resource type="AnimationNodeBlendTree" id=58]
+graph_offset = Vector2( -581, 18 )
+nodes/SeekMotion/node = SubResource( 21 )
+nodes/SeekMotion/position = Vector2( -200, 140 )
+nodes/StateMachineMotion/node = SubResource( 56 )
+nodes/StateMachineMotion/position = Vector2( -460, 140 )
+nodes/TimeScaleMotion/node = SubResource( 57 )
+nodes/TimeScaleMotion/position = Vector2( 20, 140 )
+node_connections = [ "output", 0, "TimeScaleMotion", "SeekMotion", 0, "StateMachineMotion", "TimeScaleMotion", 0, "SeekMotion" ]
+
+[sub_resource type="AnimationNodeBlend2" id=59]
+filter_enabled = true
+filters = [ "AnimationPlayer", "Body/Armature/Skeleton:LeftArmController", "Body/Armature/Skeleton:LeftArmTarget", "Body/Armature/Skeleton:LeftHandBone", "Body/Armature/Skeleton:LeftHandController", "Body/Armature/Skeleton:LeftIndexController", "Body/Armature/Skeleton:LeftIndexDistalBone", "Body/Armature/Skeleton:LeftIndexIntermediateBone", "Body/Armature/Skeleton:LeftIndexProximalBone", "Body/Armature/Skeleton:LeftLittleController", "Body/Armature/Skeleton:LeftLittleDistalBone", "Body/Armature/Skeleton:LeftLittleIntermediateBone", "Body/Armature/Skeleton:LeftLittleProximalBone", "Body/Armature/Skeleton:LeftLowerArmBone", "Body/Armature/Skeleton:LeftMiddleController", "Body/Armature/Skeleton:LeftMiddleDistalBone", "Body/Armature/Skeleton:LeftMiddleIntermediateBone", "Body/Armature/Skeleton:LeftMiddleProximalBone", "Body/Armature/Skeleton:LeftRingController", "Body/Armature/Skeleton:LeftRingDistalBone", "Body/Armature/Skeleton:LeftRingIntermediateBone", "Body/Armature/Skeleton:LeftRingProximalBone", "Body/Armature/Skeleton:LeftShoulderBone", "Body/Armature/Skeleton:LeftThumbController", "Body/Armature/Skeleton:LeftThumbDistalBone", "Body/Armature/Skeleton:LeftThumbIntermediateBone", "Body/Armature/Skeleton:LeftThumbProximalBone", "Body/Armature/Skeleton:LeftUpperArmBone", "State_Machines/State_Machine_Action_L/Shared/Action_L" ]
+
+[sub_resource type="AnimationNodeBlend2" id=60]
+filter_enabled = true
+filters = [ "AnimationPlayer", "Body/Armature/Skeleton/RightArmController/RayCast:enabled", "Body/Armature/Skeleton:ChestBone", "Body/Armature/Skeleton:HeadBone", "Body/Armature/Skeleton:LeftArmController", "Body/Armature/Skeleton:LeftArmTarget", "Body/Armature/Skeleton:LeftHandBone", "Body/Armature/Skeleton:LeftHandController", "Body/Armature/Skeleton:LeftIndexController", "Body/Armature/Skeleton:LeftIndexDistalBone", "Body/Armature/Skeleton:LeftIndexIntermediateBone", "Body/Armature/Skeleton:LeftIndexProximalBone", "Body/Armature/Skeleton:LeftLittleController", "Body/Armature/Skeleton:LeftLittleDistalBone", "Body/Armature/Skeleton:LeftLittleIntermediateBone", "Body/Armature/Skeleton:LeftLittleProximalBone", "Body/Armature/Skeleton:LeftLowerArmBone", "Body/Armature/Skeleton:LeftMiddleController", "Body/Armature/Skeleton:LeftMiddleDistalBone", "Body/Armature/Skeleton:LeftMiddleIntermediateBone", "Body/Armature/Skeleton:LeftMiddleProximalBone", "Body/Armature/Skeleton:LeftRingController", "Body/Armature/Skeleton:LeftRingDistalBone", "Body/Armature/Skeleton:LeftRingIntermediateBone", "Body/Armature/Skeleton:LeftRingProximalBone", "Body/Armature/Skeleton:LeftShoulderBone", "Body/Armature/Skeleton:LeftThumbController", "Body/Armature/Skeleton:LeftThumbDistalBone", "Body/Armature/Skeleton:LeftThumbIntermediateBone", "Body/Armature/Skeleton:LeftThumbProximalBone", "Body/Armature/Skeleton:LeftUpperArmBone", "Body/Armature/Skeleton:NeckBone", "Body/Armature/Skeleton:RightArmController", "Body/Armature/Skeleton:RightArmTarget", "Body/Armature/Skeleton:RightArmTip", "Body/Armature/Skeleton:RightHandBone", "Body/Armature/Skeleton:RightHandController", "Body/Armature/Skeleton:RightIndexController", "Body/Armature/Skeleton:RightIndexDistalBone", "Body/Armature/Skeleton:RightIndexIntermediateBone", "Body/Armature/Skeleton:RightIndexProximalBone", "Body/Armature/Skeleton:RightLittleController", "Body/Armature/Skeleton:RightLittleDistalBone", "Body/Armature/Skeleton:RightLittleIntermediateBone", "Body/Armature/Skeleton:RightLittleProximalBone", "Body/Armature/Skeleton:RightLowerArmBone", "Body/Armature/Skeleton:RightMiddleController", "Body/Armature/Skeleton:RightMiddleDistalBone", "Body/Armature/Skeleton:RightMiddleIntermediateBone", "Body/Armature/Skeleton:RightMiddleProximalBone", "Body/Armature/Skeleton:RightRingController", "Body/Armature/Skeleton:RightRingDistalBone", "Body/Armature/Skeleton:RightRingIntermediateBone", "Body/Armature/Skeleton:RightRingProximalBone", "Body/Armature/Skeleton:RightShoulderBone", "Body/Armature/Skeleton:RightThumbController", "Body/Armature/Skeleton:RightThumbDistalBone", "Body/Armature/Skeleton:RightThumbIntermediateBone", "Body/Armature/Skeleton:RightThumbProximalBone", "Body/Armature/Skeleton:RightUpperArmBone", "Body/Armature/Skeleton:SpineBone", "Body/Armature/Skeleton:UpperChestBone", "State_Machines/State_Machine_Action_R/Shared/Action_R" ]
+
+[sub_resource type="AnimationNodeBlendTree" id=61]
+graph_offset = Vector2( -252, -54 )
+nodes/BlendTreeActionL/node = SubResource( 12 )
+nodes/BlendTreeActionL/position = Vector2( -20, 220 )
+nodes/BlendTreeActionR/node = SubResource( 20 )
+nodes/BlendTreeActionR/position = Vector2( -20, 120 )
+nodes/BlendTreeMotion/node = SubResource( 58 )
+nodes/BlendTreeMotion/position = Vector2( -20, 20 )
+nodes/MotionActionLBlend/node = SubResource( 59 )
+nodes/MotionActionLBlend/position = Vector2( 500, 140 )
+nodes/MotionActionRBlend/node = SubResource( 60 )
+nodes/MotionActionRBlend/position = Vector2( 240, 40 )
+nodes/output/position = Vector2( 760, 140 )
+node_connections = [ "output", 0, "MotionActionLBlend", "MotionActionRBlend", 0, "BlendTreeMotion", "MotionActionRBlend", 1, "BlendTreeActionR", "MotionActionLBlend", 0, "MotionActionRBlend", "MotionActionLBlend", 1, "BlendTreeActionL" ]
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=62]
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=63]
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=64]
+
+[node name="Enemy_Standing" type="KinematicBody"]
+process_priority = -1
+collision_layer = 2
+script = ExtResource( 4 )
+
+[node name="Body" parent="." instance=ExtResource( 1 )]
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 3, 0 )
+shape = SubResource( 1 )
+
+[node name="RayCast_Floor" type="RayCast" parent="CollisionShape"]
+process_priority = -1
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -2.95 )
+enabled = true
+cast_to = Vector3( 0, -1.05, 0 )
+
+[node name="State_Machines" type="Node" parent="."]
+
+[node name="State_Machine_AI" type="Node" parent="State_Machines"]
+script = ExtResource( 22 )
+
+[node name="AI" type="Node" parent="State_Machines/State_Machine_AI"]
+script = ExtResource( 23 )
+
+[node name="Idle" type="Node" parent="State_Machines/State_Machine_AI/AI"]
+script = ExtResource( 24 )
+
+[node name="State_Machine_Move" type="Node" parent="State_Machines"]
+script = ExtResource( 14 )
+
+[node name="Shared" type="Node" parent="State_Machines/State_Machine_Move"]
+script = ExtResource( 2 )
+
+[node name="Motion" type="Node" parent="State_Machines/State_Machine_Move/Shared"]
+script = ExtResource( 3 )
+
+[node name="On_Ground" type="Node" parent="State_Machines/State_Machine_Move/Shared/Motion"]
+script = ExtResource( 5 )
+
+[node name="Idle" type="Node" parent="State_Machines/State_Machine_Move/Shared/Motion/On_Ground"]
+script = ExtResource( 7 )
+
+[node name="Walk" type="Node" parent="State_Machines/State_Machine_Move/Shared/Motion/On_Ground"]
+script = ExtResource( 8 )
+
+[node name="In_Air" type="Node" parent="State_Machines/State_Machine_Move/Shared/Motion"]
+script = ExtResource( 9 )
+
+[node name="Jump" type="Node" parent="State_Machines/State_Machine_Move/Shared/Motion/In_Air"]
+script = ExtResource( 12 )
+
+[node name="Fall" type="Node" parent="State_Machines/State_Machine_Move/Shared/Motion/In_Air"]
+script = ExtResource( 11 )
+
+[node name="In_Water" type="Node" parent="State_Machines/State_Machine_Move/Shared/Motion"]
+script = ExtResource( 6 )
+
+[node name="Timer_Move" type="Timer" parent="State_Machines/State_Machine_Move"]
+one_shot = true
+
+[node name="Timer_Aim" type="Timer" parent="State_Machines/State_Machine_Move"]
+one_shot = true
+
+[node name="State_Machine_Action_L" type="Node" parent="State_Machines"]
+script = ExtResource( 13 )
+
+[node name="Shared" type="Node" parent="State_Machines/State_Machine_Action_L"]
+script = ExtResource( 2 )
+
+[node name="Action_L" type="Node" parent="State_Machines/State_Machine_Action_L/Shared"]
+script = ExtResource( 15 )
+
+[node name="None" type="Node" parent="State_Machines/State_Machine_Action_L/Shared/Action_L"]
+script = ExtResource( 17 )
+
+[node name="Occupied_L" type="Node" parent="State_Machines/State_Machine_Action_L/Shared/Action_L"]
+script = ExtResource( 20 )
+
+[node name="Timer_Action_L" type="Timer" parent="State_Machines/State_Machine_Action_L"]
+
+[node name="State_Machine_Action_R" type="Node" parent="State_Machines"]
+script = ExtResource( 10 )
+
+[node name="Shared" type="Node" parent="State_Machines/State_Machine_Action_R"]
+script = ExtResource( 2 )
+
+[node name="Action_R" type="Node" parent="State_Machines/State_Machine_Action_R/Shared"]
+script = ExtResource( 16 )
+
+[node name="None" type="Node" parent="State_Machines/State_Machine_Action_R/Shared/Action_R"]
+script = ExtResource( 18 )
+
+[node name="Occupied_R" type="Node" parent="State_Machines/State_Machine_Action_R/Shared/Action_R"]
+script = ExtResource( 19 )
+
+[node name="Timer_Action_R" type="Timer" parent="State_Machines/State_Machine_Action_R"]
+one_shot = true
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource( 61 )
+anim_player = NodePath("../AnimationPlayer")
+parameters/BlendTreeActionL/SeekActionL/seek_position = -1.0
+parameters/BlendTreeActionL/StateMachineActionL/playback = SubResource( 62 )
+parameters/BlendTreeActionL/TimeScaleActionL/scale = 1.0
+parameters/BlendTreeActionR/SeekActionR/seek_position = -1.0
+parameters/BlendTreeActionR/StateMachineActionR/playback = SubResource( 63 )
+parameters/BlendTreeActionR/TimeScaleActionR/scale = 1.0
+parameters/BlendTreeMotion/SeekMotion/seek_position = -1.0
+parameters/BlendTreeMotion/StateMachineMotion/playback = SubResource( 64 )
+parameters/BlendTreeMotion/StateMachineMotion/walkrun/blend_position = -0.000766277
+parameters/BlendTreeMotion/StateMachineMotion/walkrun/0/blend_position = Vector2( 0, 0 )
+parameters/BlendTreeMotion/StateMachineMotion/walkrun/1/blend_position = Vector2( -0.103673, -0.00862074 )
+parameters/BlendTreeMotion/TimeScaleMotion/scale = 1.0
+parameters/MotionActionLBlend/blend_amount = 0.0
+parameters/MotionActionRBlend/blend_amount = 1.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+script = ExtResource( 21 )
+
+[node name="Tween_Player" type="Tween" parent="."]
+
+[connection signal="move_dir_changed" from="State_Machines/State_Machine_AI/AI/Idle" to="State_Machines/State_Machine_AI" method="_on_Idle_move_dir_changed"]

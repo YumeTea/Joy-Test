@@ -3,6 +3,7 @@ extends KinematicBody
 
 signal velocity_changed(velocity)
 signal position_changed(position)
+signal equipped_items_changed(equipped_items)
 
 
 #Inventory Variables
@@ -11,6 +12,9 @@ var inventory = inventory_resource.new()
 
 
 func _ready():
+	SceneManager.connect("set_scene_active", self, "_on_SceneManager_set_scene_active")
+	inventory.connect("equipped_items_changed", self, "_on_inventory_equipped_items_changed")
+	
 	###DEBUG?###
 	Global.set_player(self)
 	
@@ -44,3 +48,12 @@ func _on_velocity_changed(velocity):
 
 func _on_position_changed(position):
 	emit_signal("position_changed", position)
+
+
+func _on_SceneManager_set_scene_active(scene_active_flag):
+	inventory._on_SceneManager_set_scene_active(scene_active_flag)
+
+
+func _on_inventory_equipped_items_changed(equipped_items):
+	emit_signal("equipped_items_changed", equipped_items)
+
