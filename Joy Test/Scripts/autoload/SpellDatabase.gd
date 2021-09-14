@@ -6,17 +6,24 @@ var spells : Array #A list of dicts for each spell
 
 
 func _ready():
-	var directory = Directory.new()
-	directory.open(spells_folder)
-	directory.list_dir_begin()
+	spells = get_database_resources([spells_folder])
+
+func get_database_resources(resource_folders : Array):
+	var resources : Array
 	
-	var file = directory.get_next()
-	while(file):
-		if not directory.current_is_dir():
-			spells.append(load(spells_folder + "/%s" % file))
+	for folder in resource_folders:
+		var directory = Directory.new()
+		directory.open(folder)
+		directory.list_dir_begin()
+		
+		var file = directory.get_next()
+		while(file):
+			if not directory.current_is_dir():
+				resources.append(load(folder + "/%s" % file))
+		
+			file = directory.get_next()
 	
-		file = directory.get_next()
-	
+	return resources
 
 
 func get_spell(spell_name):

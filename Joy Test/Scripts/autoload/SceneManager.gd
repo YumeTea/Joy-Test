@@ -16,3 +16,4 @@ func _process(delta):
 		if Global.get_player() != null and Global.get_camera_main() != null:
 			emit_signal("set_scene_active", true)
 			scene_is_active = true
+

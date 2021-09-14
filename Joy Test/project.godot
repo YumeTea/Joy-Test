@@ -15,12 +15,18 @@ _global_script_classes=[ {
 "path": "res://Resources/CustomResources/inventory_resource.gd"
 }, {
 "base": "Resource",
+"class": "Scene_Main",
+"language": "GDScript",
+"path": "res://Resources/CustomResources/scene_main_resource.gd"
+}, {
+"base": "Resource",
 "class": "Spell",
 "language": "GDScript",
 "path": "res://Resources/CustomResources/spell_resource.gd"
 } ]
 _global_script_class_icons={
 "Inventory": "",
+"Scene_Main": "",
 "Spell": ""
 }
 
@@ -34,14 +40,21 @@ run/main_scene="res://Levels/main/Main.tscn"
 Global="*res://Scripts/autoload/Global.gd"
 GlobalValues="*res://Scripts/autoload/GlobalValues.gd"
 ControllerValues="*res://Scripts/autoload/ControllerValues.gd"
+SceneBackgroundLoader="*res://Scripts/autoload/SceneBackgroundLoader.gd"
+SceneDatabase="*res://Scripts/autoload/SceneDatabase.gd"
 SceneManager="*res://Scripts/autoload/SceneManager.gd"
-PlayerManager="*res://Scripts/autoload/PlayerManager.gd"
+GameManager="*res://Scripts/autoload/GameManager.gd"
 SpellDatabase="*res://Scripts/autoload/SpellDatabase.gd"
+PlayerManager="*res://Scripts/autoload/PlayerManager.gd"
 
 [display]
 
 window/size/width=1920
 window/size/height=1080
+
+[global]
+
+scene=false
 
 [input]
 

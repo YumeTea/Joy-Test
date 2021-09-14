@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Resources/Objects/gates/gate_walkin/gate.gd" type="Script" id=2]
+
+[sub_resource type="BoxShape" id=1]
+extents = Vector3( 8, 10, 1 )
+
+[sub_resource type="CubeMesh" id=2]
+size = Vector3( 16, 20, 2 )
+
+[sub_resource type="SpatialMaterial" id=3]
+flags_transparent = true
+params_blend_mode = 1
+albedo_color = Color( 0, 1, 0.623529, 1 )
+
+[node name="Gate" type="Area" groups=[
+"gate",
+]]
+script = ExtResource( 2 )
+gate_type = "walkin"
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0 )
+shape = SubResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="CollisionShape"]
+mesh = SubResource( 2 )
+material/0 = SubResource( 3 )
+
+[node name="Waypoint_Enter" type="Position3D" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -16 )
+
+[connection signal="body_entered" from="." to="." method="_on_Gate_body_entered"]

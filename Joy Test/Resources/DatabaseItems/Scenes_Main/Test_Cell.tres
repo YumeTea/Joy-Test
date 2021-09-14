@@ -1,0 +1,10 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://Resources/CustomResources/scene_main_resource.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+scene_idx = 0
+scene_name = "Test_Cell"
+scene_path = "res://Levels/Test_Cell/Test_Cell.tscn"
+scene_type = "level"

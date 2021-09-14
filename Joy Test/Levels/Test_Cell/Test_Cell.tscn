@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://Levels/Test_Cell/level_geometry/Test_Cell_Geometry.tscn" type="PackedScene" id=1]
 [ext_resource path="res://default_env.tres" type="Environment" id=2]
@@ -22,6 +22,7 @@
 [ext_resource path="res://Levels/Test_Cell/objects/wheel_wood/Wheel_Wood.tscn" type="PackedScene" id=20]
 [ext_resource path="res://Levels/Test_Cell/objects/gate/Gate_Strafe.tscn" type="PackedScene" id=21]
 [ext_resource path="res://Levels/Test_Cell/objects/slide_tower_objects/elevator/Slides_Tower_Elevator.tscn" type="PackedScene" id=22]
+[ext_resource path="res://Resources/Objects/gates/gate_walkin/Gate_Walkin.tscn" type="PackedScene" id=23]
 
 [node name="Level" type="Spatial"]
 
@@ -82,7 +83,7 @@ transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 19.5, 4
 speed = 250.0
 
 [node name="Statues" type="Spatial" parent="Objects"]
-transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -24, 0, -20 )
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -24, 0, -52 )
 
 [node name="Target_Small" parent="Objects/Statues" instance=ExtResource( 6 )]
 transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -7, 0, -3 )
@@ -117,6 +118,10 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 216 )
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -36, 0, -164 )
 start_pos = Vector3( -36, 0, -164 )
 stop_pos = Vector3( -36, 283.5, -164 )
+
+[node name="Gate" parent="Objects" instance=ExtResource( 23 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -24, 0, -20 )
+target_scene = "Gate_Cell"
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( 0.707107, -0.541675, 0.454519, 0, 0.642788, 0.766044, -0.707107, -0.541675, 0.454519, 0, 45, 0 )
