@@ -24,6 +24,11 @@ var initialized_values = {
 	"can_aim": true,
 	"is_aiming": false,
 	
+	#Input Override Vars
+	"override_input" : false,
+	"override_input_value_l" : 0.0,
+	"override_waypoint" : Node,
+	
 	#ActionR Flags
 	"hit_active": false,
 }

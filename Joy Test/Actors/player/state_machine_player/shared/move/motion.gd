@@ -85,7 +85,7 @@ var can_ledge_grab = true
 #Initializes state, changes animation, etc
 func enter():
 	connect_local_signals()
-	
+	connect_external_signals()
 
 
 #Cleans up state, reinitializes values like timers
@@ -94,6 +94,7 @@ func exit():
 	AnimTree.set("parameters/BlendTreeMotion/TimeScaleMotion/scale", 1.0)
 	
 	disconnect_local_signals()
+	disconnect_external_signals()
 
 
 #Creates output based on the input event passed in
@@ -187,11 +188,14 @@ func set_can_wall_jump(value):
 		Timer_Wall_Jump.start()
 	elif value == false:
 		Timer_Wall_Jump.stop()
-		
 
 
 func set_can_ledge_grab(value):
 	State_Machine_Move.current_state.can_ledge_grab = value
+
+
+func set_override_input(value : bool):
+	State_Machine_Move.current_state.override_input = value
 
 
 ###MOTION VAR SETTER FUNCTIONS###
@@ -206,6 +210,19 @@ func set_floor_angle_max(value : float):
 
 func set_wall_col(collision):
 	State_Machine_Move.current_state.wall_col = collision
+
+
+func set_override_input_value_l(velocity : Vector3):
+	var input_mag = get_joystick_input_l().length()
+	
+	if input_mag == 0.0:
+		input_mag = 1.0
+	
+	State_Machine_Move.current_state.override_input_value_l = input_mag
+
+
+func set_override_waypoint(node : Node):
+	State_Machine_Move.current_state.override_waypoint = node
 
 
 func set_fasten_vectors():
@@ -236,6 +253,7 @@ func store_initialized_values(init_values_dic):
 		init_values_dic[value] = self[value]
 
 
+###LOCAL SIGNAL COMMS###
 func connect_local_signals():
 	owner.get_node("Body/Ledge_Detector").connect("ledge_detected", self, "_on_ledge_detected")
 	owner.get_node("Camera_Rig").connect("camera_angle_changed", self, "_on_Camera_Rig_camera_angle_changed")
@@ -266,7 +284,6 @@ func disconnect_local_signals():
 	owner.get_node("AnimationPlayer").disconnect("animation_finished", self, "_on_animation_finished")
 
 
-###LOCAL SIGNAL COMMS###
 func _on_ledge_detected(grab_dict):
 	grab_data = grab_dict
 
@@ -311,6 +328,24 @@ func _on_jab_collision(collision):
 
 func _on_Camera_Rig_camera_angle_changed(angles):
 	camera_angles = angles
+
+
+###EXTERNAL SIGNAL COMMS###
+func connect_external_signals():
+	GameManager.connect("transit_player_to_point", self, "_on_GameManager_transit_player_to_point")
+
+
+func disconnect_external_signals():
+	GameManager.disconnect("transit_player_to_point", self, "_on_GameManager_transit_player_to_point")
+
+
+func _on_GameManager_transit_player_to_point(override, position_node):
+	if override:
+		set_override_input_value_l(velocity - velocity_fasten)
+		set_override_waypoint(position_node)
+		set_override_input(override) #Set override flag AFTER setting vars
+	else:
+		set_override_input(override)
 
 
 

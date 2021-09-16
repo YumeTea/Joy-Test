@@ -12,6 +12,10 @@ var input_stick_r : Vector2
 var input_gyro_r : Vector2
 var camera_input : Vector2
 
+#Input Override Vars
+var override_input : bool = false
+var override_waypoint : Node
+
 ##Camera View Constants
 var camera_angle_max = Vector3(deg2rad(90), deg2rad(360), deg2rad(360))
 
@@ -235,6 +239,14 @@ func set_can_aim(value : bool):
 func set_aiming(value : bool):
 	State_Machine_Camera.current_state.is_aiming = value
 
+func set_override_input(value : bool):
+	State_Machine_Camera.current_state.override_input = value
+
+
+###CAMERA VAR SETTER FUNCS###
+func set_override_waypoint(node : Node):
+	State_Machine_Camera.current_state.override_waypoint = node
+
 
 ###STATE MACHINE FUNCTIONS###
 #Stores values of the current state in the top level state machine's dict, for transfer to another state
@@ -253,21 +265,23 @@ func disconnect_local_signals():
 	owner.get_node("State_Machine_Camera/Camera/Timer_Aim").disconnect("timeout", self, "_on_Timer_Aim_timeout")
 
 
-###EXTERNAL SIGNAL COMMS###
-func connect_external_signals():
-	owner.owner.get_node("State_Machines/State_Machine_Move/Shared/Motion/In_Air/Wall_Jump").connect("restrict_aiming", self, "_on_restrict_aiming")
-
-
-func disconnect_external_signals():
-	owner.owner.get_node("State_Machines/State_Machine_Move/Shared/Motion/In_Air/Wall_Jump").disconnect("restrict_aiming", self, "_on_restrict_aiming")
-
-
-###LOCAL SIGNAL FUNCTIONS###
 func _on_Timer_Aim_timeout():
 	set_aiming(false)
 
 
-###EXTERNAL SIGNAL FUNCTIONS###
+###EXTERNAL SIGNAL COMMS###
+func connect_external_signals():
+	owner.owner.get_node("State_Machines/State_Machine_Move/Shared/Motion/In_Air/Wall_Jump").connect("restrict_aiming", self, "_on_restrict_aiming")
+	GameManager.connect("transit_player_to_point", self, "_on_GameManager_transit_player_to_point")
+	GameManager.connect("set_camera_follow_on_input", self, "_on_GameManager_set_camera_follow_on_input")
+
+
+func disconnect_external_signals():
+	owner.owner.get_node("State_Machines/State_Machine_Move/Shared/Motion/In_Air/Wall_Jump").disconnect("restrict_aiming", self, "_on_restrict_aiming")
+	GameManager.disconnect("transit_player_to_point", self, "_on_GameManager_transit_player_to_point")
+	GameManager.disconnect("set_camera_follow_on_input", self, "_on_GameManager_set_camera_follow_on_input")
+
+
 func _on_restrict_aiming(value : bool):
 	State_Machine_Camera.current_state.set_can_aim(value)
 	
@@ -277,4 +291,22 @@ func _on_restrict_aiming(value : bool):
 		if State_Machine_Camera.current_state.name == "Aim":
 			emit_signal("state_switch", "default")
 			return
+
+
+func _on_GameManager_transit_player_to_point(override, position_node):
+	if override:
+		set_override_input(override) #Set override flag AFTER setting vars
+	else:
+		set_override_input(override)
+
+
+func _on_GameManager_set_camera_follow_on_input(flag):
+	if flag == true:
+		Camera_Rig.rotation.y = Global.get_camera_main().rotation.y
+		Pivot.rotation.x = Global.get_camera_main().rotation.x
+
+
+
+
+
 

@@ -18,6 +18,7 @@ albedo_color = Color( 0, 1, 0.623529, 1 )
 ]]
 script = ExtResource( 2 )
 gate_type = "walkin"
+exit_camera_type = "fixed_track_player"
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0 )
@@ -28,6 +29,14 @@ mesh = SubResource( 2 )
 material/0 = SubResource( 3 )
 
 [node name="Waypoint_Enter" type="Position3D" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -16 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -56 )
+
+[node name="Waypoint_Spawn" type="Position3D" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8 )
+
+[node name="Waypoint_Exit" type="Position3D" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 56 )
+
+[node name="Camera_Pos" type="Position3D" parent="."]
 
 [connection signal="body_entered" from="." to="." method="_on_Gate_body_entered"]

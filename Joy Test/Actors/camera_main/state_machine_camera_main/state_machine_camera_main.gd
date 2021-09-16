@@ -12,7 +12,10 @@ var initialized_values = {
 
 func _ready():
 	states_map = { #populate state map on initialization
-		"player_follow": $Shared/Player_Follow
+		"player_follow": $Shared/Player_Follow,
+		"fixed_track_player": $Shared/Fixed_Track_Player,
+		"fixed_static": $Shared/Fixed_Static,
+		"sleep": $Shared/Sleep,
 	}
 	
 	stack_states = [

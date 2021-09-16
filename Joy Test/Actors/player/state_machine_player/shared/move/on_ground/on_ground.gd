@@ -102,6 +102,7 @@ func calc_fasten_velocity(delta):
 		if attached_floor is StaticBody:
 			#Calc fasten vel
 			new_vel = ((attached_floor.to_global(attached_pos) - owner.get_global_transform().origin)) / delta
+#			print(attached_pos)
 #			new_vel.y += 0.000015 / delta
 			
 			#Rotate player

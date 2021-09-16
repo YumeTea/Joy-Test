@@ -11,7 +11,8 @@ var _active = false setget set_active
 
 
 func _ready():
-	SceneManager.connect("set_scene_active", self, "_on_SceneManager_set_scene_active")
+	GameManager.connect("set_state_machines_active", self, "_on_SceneManager_set_state_machines_active")
+	connect_state_signals()
 	states_stack.push_front(get_node(START_STATE))
 	current_state = states_stack[0]
 
@@ -98,9 +99,8 @@ func _change_state(state_name): #changes state, with handling for replacing, sta
 	current_state.enter() #always reinitialize a new state
 
 
-func _on_SceneManager_set_scene_active(is_active):
+func _on_SceneManager_set_state_machines_active(is_active):
 	if is_active:
-		connect_state_signals()
 		initialize(START_STATE)
 
 

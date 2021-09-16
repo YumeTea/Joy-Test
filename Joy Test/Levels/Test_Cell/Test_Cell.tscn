@@ -83,7 +83,7 @@ transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 19.5, 4
 speed = 250.0
 
 [node name="Statues" type="Spatial" parent="Objects"]
-transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -24, 0, -52 )
+transform = Transform( 7.54979e-08, 0, -1, 0, 1, 0, 1, 0, 7.54979e-08, -176, 0, 0 )
 
 [node name="Target_Small" parent="Objects/Statues" instance=ExtResource( 6 )]
 transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -7, 0, -3 )
@@ -120,8 +120,9 @@ start_pos = Vector3( -36, 0, -164 )
 stop_pos = Vector3( -36, 283.5, -164 )
 
 [node name="Gate" parent="Objects" instance=ExtResource( 23 )]
-transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -24, 0, -20 )
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -24, 0, -56 )
 target_scene = "Gate_Cell"
+exit_camera_type = "player_follow"
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( 0.707107, -0.541675, 0.454519, 0, 0.642788, 0.766044, -0.707107, -0.541675, 0.454519, 0, 45, 0 )
@@ -132,3 +133,5 @@ directional_shadow_normal_bias = 0.2
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource( 2 )
+
+[editable path="Objects/Gate"]

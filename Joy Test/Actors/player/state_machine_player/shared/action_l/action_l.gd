@@ -76,7 +76,7 @@ func store_initialized_values(init_values_dic):
 		init_values_dic[value] = self[value]
 
 
-#ACTION FLAG FUNCTIONS
+#ACTION L FLAG FUNCTIONS
 func set_casting(value : bool):
 	var current_state = State_Machine_Action_L.current_state
 	current_state.is_casting = value
@@ -102,6 +102,15 @@ func set_b_sliding(value : bool):
 	var current_actionl_state = State_Machine_Action_L.current_state
 	current_move_state.is_b_sliding = value
 	current_actionl_state.is_b_sliding = value
+
+
+func set_override_input(value : bool):
+	State_Machine_Action_L.current_state.override_input = value
+
+
+###ACTION L VAR SETTER FUNCS###
+func set_override_waypoint(node : Node):
+	State_Machine_Action_L.current_state.override_waypoint = node
 
 
 #BARRIER FUNCTIONS#
@@ -219,10 +228,6 @@ func _on_Camera_Rig_camera_angle_changed(angles):
 	camera_angles = angles
 
 
-func _on_camera_raycast_collision_changed(collision_point):
-	camera_look_at_point = collision_point
-
-
 func _on_Timer_Aim_timeout():
 	set_aiming(false)
 
@@ -234,13 +239,23 @@ func _on_Timer_Action_L_timeout():
 ###EXTERNAL SIGNAL COMMS###
 func connect_external_signals():
 	Global.get_camera_main().connect("camera_raycast_collision_changed", self, "_on_camera_raycast_collision_changed")
+	GameManager.connect("transit_player_to_point", self, "_on_GameManager_transit_player_to_point")
 
 
 func disconnect_external_signals():
 	Global.get_camera_main().disconnect("camera_raycast_collision_changed", self, "_on_camera_raycast_collision_changed")
+	GameManager.disconnect("transit_player_to_point", self, "_on_GameManager_transit_player_to_point")
 
 
+func _on_camera_raycast_collision_changed(collision_point):
+	camera_look_at_point = collision_point
 
+
+func _on_GameManager_transit_player_to_point(override, position_node):
+	if override:
+		set_override_input(override) #Set override flag AFTER setting vars
+	else:
+		set_override_input(override)
 
 
 

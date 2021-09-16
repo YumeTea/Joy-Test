@@ -80,12 +80,11 @@ func debug_initialize_inventory():
 	equip_item("Spell", "Barrier")
 
 
-func _on_SceneManager_set_scene_active(is_active):
-	if is_active:
-		###DEBUG###
-		debug_initialize_inventory()
-		
-		emit_signal("equipped_items_changed", equipped_items)
+func initialize_inventory():
+	###DEBUG###
+	debug_initialize_inventory()
+	
+	emit_signal("equipped_items_changed", equipped_items)
 
 
 

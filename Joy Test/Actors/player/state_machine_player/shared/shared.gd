@@ -42,6 +42,11 @@ onready var Skel_rotation_init = Skel.get_rotation()
 onready var Debug_Point = owner.get_node("Debug_Point")
 onready var Debug_Point2 = owner.get_node("Debug_Point2")
 
+#Input Override Vars
+var override_input : bool = false
+var override_input_value_l : float
+var override_waypoint : Node
+
 #Player Flags
 var arm_l_occupied : bool
 var arm_r_occupied : bool
@@ -141,6 +146,16 @@ func anim_tree_play_anim(anim_name, anim_tree_node_playback):
 ###INPUT FUNCTIONS###
 #Normalizes input
 func get_joystick_input_l():
+	if override_input:
+		var input : Vector2
+		
+		var dir = (override_waypoint.get_global_transform().origin - owner.get_global_transform().origin).normalized()
+		dir = Vector2(dir.x, dir.z).rotated(camera_angles.y)
+		
+		input = dir * override_input_value_l
+		
+		return input
+	
 	var input : Vector2
 	
 	input.x = Input.get_joy_axis(0, 0)

@@ -10,6 +10,11 @@ var initialized_values = {
 	#Shared Nodes
 	"attached_obj": Node,
 	
+	#Input Override Vars
+	"override_input" : false,
+	"override_input_value_l" : 0.0,
+	"override_waypoint" : Node,
+	
 	#Motion Variables
 	"grab_data": {},
 	

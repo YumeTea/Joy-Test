@@ -13,5 +13,11 @@
 [node name="Gate" parent="Objects" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 48 )
 target_scene = "Test_Cell"
+camera_pos_offset = Vector3( -6, 5, -23 )
+
+[node name="Camera_Pos" parent="Objects/Gate" index="4"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 5, -23 )
 
 [node name="DirectionalLight" parent="." instance=ExtResource( 3 )]
+
+[editable path="Objects/Gate"]

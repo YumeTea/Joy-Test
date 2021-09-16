@@ -22,6 +22,11 @@ var initialized_values = {
 	"is_aiming": false,
 	"is_b_sliding":false,
 	
+	#Input Override Vars
+	"override_input" : false,
+	"override_input_value_l" : 0.0,
+	"override_waypoint" : Node,
+	
 	#Action L Flags
 	"is_casting": false,
 	"is_charging": false,
